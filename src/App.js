@@ -1,16 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
 import Navbar from './Navbar';
 import Home from './Home';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Cart from './Cart';
+import ProductPage from './ProductPage';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <div className="content">
-        <Home />
-      </div>  
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="content">
+          <Switch>
+          <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            <Route path="/products/:id">
+              <ProductPage />
+            </Route>
+          </Switch>
+        </div>  
+      </div>
+    </Router>
   );
 }
 

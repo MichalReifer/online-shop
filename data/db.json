@@ -1,0 +1,43 @@
+{
+    "products": [
+        {   "title": "Click Cake",
+            "category": "Chocolate Cakes",
+            "features": [],
+            "description": "Click chocolate cake, a ton of nutella chocolate, crumbs, cream and a lot of click chocolate balls.",
+            "price": 200,
+            "image": "./images/click.jpg",
+            "id": 1},
+
+        {   "title": "Cookie Cake",
+            "category": "Cookies Cakes",
+            "features": [],
+            "description": "Delicious creamy and crunchy chocolate chip cookies cake",
+            "price": 220,
+            "image": "./images/cookie.jpg",
+            "id": 2},
+
+        {   "title": "Ombre Cake",
+            "category": "Cream Cakes",
+            "features": [],
+            "description": "Ombré is the gradual blending of one shade to another, and in this impressive layer cake, we chose pink-berry hues to construct a showstopping dessert.",
+            "price": 190,
+            "image": "./images/ombre.jpg",
+            "id": 3},
+
+        {   "title": "Unicorn Cake",
+            "category": "Crazy Cakes",
+            "features": [],
+            "description": "",
+            "price": 250,
+            "image": "./images/unicorn.jpg",
+            "id": 4},
+            
+        {   "title": "Oreo Cake",
+            "category": "Cookies cake",
+            "features": [],
+            "description": "Ok, Oreo cookie lovers. This one’s for you! moist, decadent chocolate cake that’s packed with flavor and crunchy Oreo cookies. YUM!",
+            "price": 250,
+            "image": "./images/oreo.jpg",
+            "id": 5}
+        ]
+}
