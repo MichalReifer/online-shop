@@ -1,15 +1,11 @@
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import useFetch from './useFetch';
 
-const ProductPage = () => {
+const ProductPage = ({addToCart}) => {
     const { id } = useParams();
     const uri = 'http://localhost:8000/products/'+id;
     const { data: product, isLoading, error } = useFetch(uri);
-    const history = useHistory();
 
-
-    const addToCart = () => {
-    }
     
     return (  
         <div className="product-details">
@@ -23,9 +19,9 @@ const ProductPage = () => {
                             <h4>{product.category}</h4>
                             <p>{product.description}</p>
                             <p>price: {product.price} ₪</p>
-                            <button onClick={addToCart}>Add To Cart</button>
+                            <button onClick={()=>addToCart(id)}>Add To Cart</button>
                         </div>
-                        <img src={require(`${product.image}`).default} />
+                        <img src={require(`${product.image}`).default} alt="cake" />
                     </div>
                 </div>
             )}

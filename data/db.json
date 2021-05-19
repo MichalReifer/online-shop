@@ -1,43 +1,228 @@
 {
-    "products": [
-        {   "title": "Click Cake",
-            "category": "Chocolate Cakes",
-            "features": [],
-            "description": "Click chocolate cake, a ton of nutella chocolate, crumbs, cream and a lot of click chocolate balls.",
-            "price": 200,
-            "image": "./images/click.jpg",
-            "id": 1},
-
-        {   "title": "Cookie Cake",
-            "category": "Cookies Cakes",
-            "features": [],
-            "description": "Delicious creamy and crunchy chocolate chip cookies cake",
-            "price": 220,
-            "image": "./images/cookie.jpg",
-            "id": 2},
-
-        {   "title": "Ombre Cake",
-            "category": "Cream Cakes",
-            "features": [],
-            "description": "Ombré is the gradual blending of one shade to another, and in this impressive layer cake, we chose pink-berry hues to construct a showstopping dessert.",
-            "price": 190,
-            "image": "./images/ombre.jpg",
-            "id": 3},
-
-        {   "title": "Unicorn Cake",
-            "category": "Crazy Cakes",
-            "features": [],
-            "description": "",
-            "price": 250,
-            "image": "./images/unicorn.jpg",
-            "id": 4},
-            
-        {   "title": "Oreo Cake",
-            "category": "Cookies cake",
-            "features": [],
-            "description": "Ok, Oreo cookie lovers. This one’s for you! moist, decadent chocolate cake that’s packed with flavor and crunchy Oreo cookies. YUM!",
-            "price": 250,
-            "image": "./images/oreo.jpg",
-            "id": 5}
-        ]
+  "products": [
+    {
+      "title": "Click Cake",
+      "category": "Chocolate Cakes",
+      "features": [],
+      "description": "Click chocolate cake, a ton of nutella chocolate, crumbs, cream and a lot of click chocolate balls.",
+      "price": 200,
+      "image": "./images/click.jpg",
+      "id": 1
+    },
+    {
+      "title": "Cookie Cake",
+      "category": "Cookies Cakes",
+      "features": [],
+      "description": "Delicious creamy and crunchy chocolate chip cookies cake",
+      "price": 220,
+      "image": "./images/cookie.jpg",
+      "id": 2
+    },
+    {
+      "title": "Ombre Cake",
+      "category": "Cream Cakes",
+      "features": [],
+      "description": "Ombré is the gradual blending of one shade to another, and in this impressive layer cake, we chose pink-berry hues to construct a showstopping dessert.",
+      "price": 190,
+      "image": "./images/ombre.jpg",
+      "id": 3
+    },
+    {
+      "title": "Unicorn Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/unicorn.jpg",
+      "id": 4
+    },
+    {
+      "title": "Oreo Cake",
+      "category": "Cookies Cakes",
+      "features": [],
+      "description": "Ok, Oreo cookie lovers. This one’s for you! moist, decadent chocolate cake that’s packed with flavor and crunchy Oreo cookies. YUM!",
+      "price": 250,
+      "image": "./images/oreo2.jpg",
+      "id": 5
+    },
+    {
+      "title": "Bubble Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/bubble.png",
+      "id": 6
+    },
+    {
+      "title": "Creamy Cheesecake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/creamy_cheese.jpg",
+      "id": 7
+    },
+    {
+      "title": "German Chocolate Cake",
+      "category": "Chocolate Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/german_chocolate.jpg",
+      "id": 8
+    },
+    {
+      "title": "Mint Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/mint.jpg",
+      "id": 9
+    },
+    {
+      "title": "Pink Champagne Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/pink_champagne.jpg",
+      "id": 10
+    },
+    {
+      "title": "Tiramisu Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/tiramisu.jpg",
+      "id": 11
+    },
+    {
+      "title": "Reb Velvet Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/red_velvet.jpg",
+      "id": 12
+    },
+    {
+      "title": "Strawberry Sponge Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/strawberry_sponge.jpg",
+      "id": 13
+    },
+    {
+      "title": "Chocolate Brownie Cake",
+      "category": "Chocolate Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/chocolate_brownie.jpg",
+      "id": 14
+    },
+    {
+      "title": "Chocolate Banana Cake",
+      "category": "Cookies Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/chocolate_banana.jpg",
+      "id": 15
+    },
+    {
+      "title": "Chocolate Strawberry Cake",
+      "category": "Chocolate Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/chocolate_strawberry.jpg",
+      "id": 16
+    },
+    {
+      "title": "Rainbow Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/rainbow.jpg",
+      "id": 17
+    },
+    {
+      "title": "Ice Cream Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/ice_cream.jpg",
+      "id": 18
+    },
+    {
+      "title": "Galaxy Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/galaxy.jpg",
+      "id": 19
+    },
+    {
+      "title": "Wedding Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/wedding.jpg",
+      "id": 20
+    },
+    {
+      "title": "Pink Roses Cake",
+      "category": "Classic Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/pink_roses.png",
+      "id": 21
+    },
+    {
+      "title": "Murmade Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/murmade.png",
+      "id": 22
+    },
+    {
+      "title": "Doughnut Cake",
+      "category": "Crazy Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/doughnut.png",
+      "id": 23
+    }
+  ],
+  "users": [
+    {
+      "name": "Lili",
+      "email": "lala@gmail.com",
+      "address": "25 cake street lala land",
+      "cart-items": [],
+      "id": 1
+    },
+    {
+      "cart-items": [],
+      "id": 2
+    },
+    {
+      "cart-items": [],
+      "id": 3
+    }
+  ]
 }

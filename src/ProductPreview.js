@@ -10,7 +10,6 @@ const ProductPreview = ({products, title, addToCart}) => {
                     <div className="product-preview" key={product.id}>
                         <Link className='link' to={`/products/${product.id}`}>
                             <img src={require(`${product.image}`).default} alt="" />
-                            {console.log(product.image)}
                             <h2>{product.title}</h2>
                             <p>{product.price} ₪</p>                    
                         </Link>

@@ -1,6 +1,8 @@
 const Cart = () => {
-    
-    // const handleDelete = () => {
+
+
+    // const handleDelete = (id) => {
+    // const uri = 'http://localhost:8000/products/'+id;
     //     fetch(uri, {
     //         method: 'DELETE'
     //     }).then(()=>{
