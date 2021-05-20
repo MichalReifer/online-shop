@@ -119,6 +119,7 @@ h1 {
 .product-details h1 {
   font-size: 50px;
   color: #9b0048;
+  margin-left: 0;
 }
 
 .product-details div {

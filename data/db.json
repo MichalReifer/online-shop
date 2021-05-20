@@ -92,7 +92,7 @@
     },
     {
       "title": "Tiramisu Cake",
-      "category": "Classic Cakes",
+      "category": "Cream Cakes",
       "features": [],
       "description": "",
       "price": 250,
@@ -128,7 +128,7 @@
     },
     {
       "title": "Chocolate Banana Cake",
-      "category": "Cookies Cakes",
+      "category": "Cream Cakes",
       "features": [],
       "description": "",
       "price": 250,
@@ -136,12 +136,12 @@
       "id": 15
     },
     {
-      "title": "Chocolate Strawberry Cake",
+      "title": "Chocolate Berry Cake",
       "category": "Chocolate Cakes",
       "features": [],
       "description": "",
       "price": 250,
-      "image": "./images/chocolate_strawberry.jpg",
+      "image": "./images/chocolate_berry.jpg",
       "id": 16
     },
     {
@@ -164,7 +164,7 @@
     },
     {
       "title": "Galaxy Cake",
-      "category": "Crazy Cakes",
+      "category": "Cookies Cakes",
       "features": [],
       "description": "",
       "price": 250,
@@ -206,6 +206,15 @@
       "price": 250,
       "image": "./images/doughnut.png",
       "id": 23
+    },
+    {
+      "title": "Macaroon Party Cake",
+      "category": "Cookies Cakes",
+      "features": [],
+      "description": "",
+      "price": 250,
+      "image": "./images/doughnut.png",
+      "id": 24
     }
   ],
   "users": [
@@ -213,16 +222,8 @@
       "name": "Lili",
       "email": "lala@gmail.com",
       "address": "25 cake street lala land",
-      "cart-items": [],
+      "items": [4, 5, 20],
       "id": 1
-    },
-    {
-      "cart-items": [],
-      "id": 2
-    },
-    {
-      "cart-items": [],
-      "id": 3
     }
   ]
 }
