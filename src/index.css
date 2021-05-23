@@ -143,3 +143,12 @@ h1 {
   width: 350px;
   height: 500px;
 }
+
+/* search */
+.search form {
+  margin: 26px;
+}
+
+.search label {
+  margin-right:15px;
+}

@@ -23,9 +23,8 @@ const Cart = () => {
             { error && <div>{ error }</div>}
             { user && (
                 <div>
-                    <h1>{user.name}</h1>
-                    <p>{user.items}</p>
-
+                    {/* <h1>{user.name}</h1> */}
+                    {/* <p>{user.items}</p> */}
                 </div>
             )}
 
