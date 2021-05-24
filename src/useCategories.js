@@ -30,7 +30,7 @@ const useCategories = () => {
     //     allErrors.push(error);
     // }) 
 
-    const { data: products0, isLoading: isLoading0, error: error0 } = useFetch(productsUrl+'?category='+categories[0]);
+    const { data: products0, isLoading: isLoading0, error: error0 } = useFetch(productsUrl+'lala?category='+categories[0]);
     const { data: products1, isLoading: isLoading1, error: error1 } = useFetch(productsUrl+'?category='+categories[1]);
     const { data: products2, isLoading: isLoading2, error: error2 } = useFetch(productsUrl+'?category='+categories[2]);
     const { data: products3, isLoading: isLoading3, error: error3 } = useFetch(productsUrl+'?category='+categories[3]);
