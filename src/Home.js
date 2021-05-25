@@ -3,17 +3,19 @@ import useCategories from "./useCategories";
 
 const Home = () => {
 
-    const { categories, allProducts, allLoadings, allErrors } = useCategories();
+    // const { categories, allProducts, allLoadings, allErrors } = useCategories();
+    const { categories, allProducts, isLoading, error } = useCategories();
 
-    allErrors.map((error, i)=>{
-        if (error){
-            console.log(error, i);
-        }
-    })
+    // allErrors.map((error, i)=>{
+    //     if (error){
+    //         console.log(error, i);
+    //     }
+    // })
 
     return (
         <div className="home">
-            {allLoadings[0] && <div>Loading...</div>}    
+            {/* {allLoadings[0] && <div>Loading...</div>}     */}
+            { isLoading && <div>Loading...</div>}    
             { categories.map(function(category, i){
                 // console.log(category, allErrors[i], allLoadings[i], allProducts[i]);
                return( 
