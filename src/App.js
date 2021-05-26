@@ -4,19 +4,30 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cart from './Cart';
 import ProductPage from './ProductPage';
 import Search from './Search';
-
+import firebase from './config/firebase'; 
+import { useEffect, useState } from 'react';
 
 function App() {
 
-  // const cartList = new Set();
+  const [ products, setProducts ] = useState([]);
+  const ref = firebase.firestore().collection('products')
+  console.log(ref);
 
-  // const user = 'http://localhost:8000/users/' + 3;
+  function getProducts(){
+    ref.get().then(item=>{
+      const items = item.docs.map(doc=>doc.data());
+      setProducts(items);
+    })
+  }
+
+  useEffect(()=>{
+    getProducts();
+  }, [])
+
+  console.log(products);
+  // products.map(product=>console.log(product.title));
+
   const addToCart = (id) => {
-  //   fetch(user, {
-  //       method: 'PUT',
-  //       headers: { "Content-Type": "application/json"},
-  //       body: JSON.stringify({"items": [id]})
-  //   })
   }
 
   return (
