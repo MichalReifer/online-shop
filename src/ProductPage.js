@@ -2,10 +2,9 @@ import { useParams } from "react-router";
 import useFetch from './useFetch';
 
 const ProductPage = ({addToCart}) => {
+    
     const { id } = useParams();
-    const uri = 'http://localhost:8000/products/'+id;
-    const { data: product, isLoading, error } = useFetch(uri);
-
+    const { data: product, isLoading, error } = useFetch('http://localhost:8000/products/'+id);
     
     return (  
         <div className="product-details">

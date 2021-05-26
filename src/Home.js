@@ -2,13 +2,12 @@ import ProductPreview from "./ProductPreview";
 import useFetch from "./useFetch";
 
 const Home = () => {
-    
-    const productsUrl = 'http://localhost:8000/products';
+ 
+    const { data: products, isLoading, error } = useFetch('http://localhost:8000/products');
+
     let categories = [];
-    const productsByCategory = [];
-    const { data: products, isLoading, error } = useFetch(productsUrl);
-    
-    if (products){
+    const productsByCategory = [];    
+    if(products){
         categories = [...new Set(products.map(product=>product.category))];
         categories.map(category=>{
             return productsByCategory.push(products.filter(product=>product.category===category));

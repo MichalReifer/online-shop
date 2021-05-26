@@ -3,6 +3,7 @@ import ProductPreview from "./ProductPreview";
 import useFetch from "./useFetch";
 
 const Search = () => {
+    
     const originalUrl = 'http://localhost:8000/products';
     const [url, setUrl] = useState(originalUrl);
     const searchForm = document.querySelector('.search-form');
