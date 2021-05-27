@@ -3,10 +3,22 @@ import useFetch from "./useFetch";
 import useFirestore from "./useFirestore";
 
 
-const Home = () => {
- 
-    const { data: products, isLoading, error } = useFetch('http://localhost:8000/products');
-    // const { data: products , isLoading, error } = useFirestore('products');
+const Home = ({isJsonServer}) => {
+
+    console.log(isJsonServer);
+
+    ////// Fetch from Json Server:
+    const { data: Jproducts, JisLoading, Jerror } = useFetch('http://localhost:8000/products');
+
+    ////// Fetch from Firestore:
+    const { data: Fproducts, FisLoading, Ferror } = useFirestore('products');
+
+    //// Switching Firestore and Json server:
+    let products = [];
+    let isLoading, error = null;
+    if(isJsonServer){[products, isLoading, error] = [Jproducts, JisLoading, Jerror] }
+    else { [products, isLoading, error] = [Fproducts, FisLoading, Ferror]  };
+    
 
     let categories = [];
     const productsByCategory = [];    
@@ -23,7 +35,7 @@ const Home = () => {
             { isLoading && <div>Loading...</div>}    
             { categories.map(function(category, i){
             return( 
-                productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
+                productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category} isJsonServer={isJsonServer}/>
                 )})
             }
         </div>

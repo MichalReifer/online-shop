@@ -5,16 +5,19 @@ const useFirestore = (collection) => {
 
     const [ data, setData ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
-    const ref = firebase.firestore().collection(collection)
-  
+    const ref = firebase.firestore().collection(collection);
+
+    // // 1. get() method: not real time changing:
     // function getData(){
-    //     ref.get().then(item=>{
-    //     const items = item.docs.map(doc=>doc.data());
+    //     ref.get().then(rawItems=>{
+    //     // console.log(rawItems.docs[0].id);
+    //     const items = rawItems.docs.map(doc=>doc.data());
     //     setData(items);
     //     setIsLoading(false);
     //     })
     // }
-  
+    
+    // 2. onSnapshot() method: real time changing 
     function getData(){
       ref.onSnapshot(query=>{
         const items = [];
@@ -23,7 +26,7 @@ const useFirestore = (collection) => {
         setIsLoading(false);
       })
     }
-  
+
     useEffect(()=>{
         getData();
     }, [])

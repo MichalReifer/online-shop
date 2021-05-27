@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductPreview from "./ProductPreview";
 import useFetch from "./useFetch";
+import useFirestore from "./useFirestore";
 
-const Search = () => {
-    
+const Search = ({isJsonServer}) => {
+
+    console.log(isJsonServer);
+    const searchForm = document.querySelector('.search-form');
+
+    //// Fetching from Json Server:
     const originalUrl = 'http://localhost:8000/products';
     const [url, setUrl] = useState(originalUrl);
-    const searchForm = document.querySelector('.search-form');
+
     if (searchForm) {
         searchForm.addEventListener('submit', (e)=>{
             e.preventDefault();
@@ -16,9 +21,26 @@ const Search = () => {
             else {setUrl(originalUrl);}
         })
     }
-
-    const { data: products, isLoading, error } = useFetch(url);
+    const { data: Jproducts, JisLoading, Jerror } = useFetch(url);
     // console.log(url);
+    
+
+    ////// Fetching from Firestore:
+    const { data: allProducts, FisLoading, Ferror } = useFirestore('products');
+    const [ Fproducts, setProducts] = useState(null);
+    useEffect(()=>{
+        setProducts(allProducts);
+        if(searchForm){searchForm.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            const term = searchForm.term.value.trim();
+            if (term || term===''){ 
+                setProducts(allProducts.filter(product=>Object.values(product).join('').includes(term)));
+            }})}
+    }, [allProducts, searchForm])
+
+    let products, isLoading, error = [];
+    if(isJsonServer){[products, isLoading, error] = [Jproducts, JisLoading, Jerror] }
+    else { [products, isLoading, error] = [Fproducts, FisLoading, Ferror]  };
 
     return (
         <div className="search">
@@ -28,7 +50,7 @@ const Search = () => {
             </form>
             { error && <div>{ error }</div> }
             { isLoading && <div>Loading...</div> }
-            { products && <ProductPreview products={products}/>}
+            { products && <ProductPreview products={products} isJsonServer={isJsonServer}/>}
 
         </div>
     );

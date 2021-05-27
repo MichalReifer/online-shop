@@ -11,6 +11,8 @@ function App() {
   const addToCart = (id) => {
   }
 
+  const isJsonServer = true;
+
   return (
     <Router>
       <div className="App">
@@ -18,16 +20,16 @@ function App() {
         <div className="content">
           <Switch>
           <Route exact path="/">
-              <Home />
+              <Home isJsonServer={isJsonServer} />
             </Route>
             <Route path="/cart">
               <Cart />
             </Route>
             <Route path="/search">
-              <Search />
+              <Search isJsonServer={isJsonServer}/>
             </Route>
             <Route path="/products/:id">
-              <ProductPage addToCart={addToCart}/>
+              <ProductPage addToCart={addToCart} isJsonServer={isJsonServer}/>
             </Route>
           </Switch>
         </div>  
