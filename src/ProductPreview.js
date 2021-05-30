@@ -9,8 +9,8 @@ const ProductPreview = ({products, title, addToCart, isJsonServer}) => {
                 {products.map((product) => (
                     <div className="product-preview" key={product.id}>
                         <Link className='link' to={`/products/${product.id}`}>
-                        {isJsonServer && <img src={require(`${product.image}`).default} alt="" />}
-                        {!isJsonServer && <img src={product.image} alt="" />}
+                        <img src={require(`${product.image}`).default} alt="" />
+                        {/* {!isJsonServer && <img src={product.image} alt="" />} */}
                             <h2>{product.title}</h2>
                             <p>{product.price} ₪</p>                    
                         </Link>

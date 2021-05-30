@@ -21,12 +21,12 @@ const Search = ({isJsonServer}) => {
             else {setUrl(originalUrl);}
         })
     }
-    const { data: Jproducts, JisLoading, Jerror } = useFetch(url);
+    const { data: Jproducts, isLoading: JisLoading, Jerror } = useFetch(url);
     // console.log(url);
     
 
     ////// Fetching from Firestore:
-    const { data: allProducts, FisLoading, Ferror } = useFirestore('products');
+    const { data: allProducts, isLoading: FisLoading, Ferror } = useFirestore('products');
     const [ Fproducts, setProducts] = useState(null);
     useEffect(()=>{
         setProducts(allProducts);

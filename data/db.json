@@ -1,6 +1,15 @@
 {
   "products": [
     {
+      "title": "Strawberry Cream Cake",
+      "category": "Cream Cakes",
+      "features": [],
+      "description": "",
+      "price": 200,
+      "image": "./images/strawberry_cream.jpg",
+      "id": 0
+    },
+    {
       "title": "Click Cake",
       "category": "Chocolate Cakes",
       "features": [],

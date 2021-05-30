@@ -11,7 +11,7 @@ function App() {
   const addToCart = (id) => {
   }
 
-  const isJsonServer = true;
+  const isJsonServer = false;
 
   return (
     <Router>

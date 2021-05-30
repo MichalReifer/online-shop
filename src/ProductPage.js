@@ -35,8 +35,8 @@ const ProductPage = ({addToCart, isJsonServer}) => {
                             <p>price: {product.price} ₪</p>
                             <button onClick={()=>addToCart(id)}>Add To Cart</button>
                         </div>
-                        {isJsonServer && <img src={require(`${product.image}`).default} alt="cake" />}
-                        {!isJsonServer && <img src={product.image} alt="" />}
+                        <img src={require(`${product.image}`).default} alt="cake" />
+                        {/* {!isJsonServer && <img src={product.image} alt="" />} */}
                     </div>
                 </div>
             )}

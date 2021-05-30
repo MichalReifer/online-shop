@@ -5,20 +5,18 @@ import useFirestore from "./useFirestore";
 
 const Home = ({isJsonServer}) => {
 
-    console.log(isJsonServer);
-
     ////// Fetch from Json Server:
-    const { data: Jproducts, JisLoading, Jerror } = useFetch('http://localhost:8000/products');
+    const { data: Jproducts, isLoading: JisLoading, Jerror } = useFetch('http://localhost:8000/products');
 
     ////// Fetch from Firestore:
-    const { data: Fproducts, FisLoading, Ferror } = useFirestore('products');
+    const { data: Fproducts, isLoading: FisLoading, Ferror } = useFirestore('products');
 
     //// Switching Firestore and Json server:
     let products = [];
-    let isLoading, error = null;
+    let isLoading = true;
+    let error = null;
     if(isJsonServer){[products, isLoading, error] = [Jproducts, JisLoading, Jerror] }
     else { [products, isLoading, error] = [Fproducts, FisLoading, Ferror]  };
-    
 
     let categories = [];
     const productsByCategory = [];    
