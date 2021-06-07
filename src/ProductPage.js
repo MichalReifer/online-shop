@@ -1,11 +1,12 @@
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import useFetch from './useFetch';
 import useFirestore from "./useFirestore";
+import swal from 'sweetalert';
 
-const ProductPage = ({addToCart, isJsonServer}) => {
+const ProductPage = ({isJsonServer}) => {
       
-    console.log(isJsonServer);
-    const { id } = useParams();    
+    const { id } = useParams();  
+    const history = useHistory();
     
     ///// Fetch from Json Server:
     const { data: Jproduct, JisLoading, Jerror } = useFetch('http://localhost:8000/products/'+id);
@@ -20,6 +21,31 @@ const ProductPage = ({addToCart, isJsonServer}) => {
     let isLoading, error = null;
     if(isJsonServer){[product, isLoading, error] = [Jproduct, JisLoading, Jerror] }
     else { [product, isLoading, error] = [Fproduct, FisLoading, Ferror]  };
+
+
+    
+    const addToCart = (id) => {
+        let userProducts = localStorage.getItem('products');
+        if (localStorage.getItem('products')){
+            if (!userProducts.includes(','+id+',')) {
+                userProducts+=id+",";
+                localStorage.setItem('products', userProducts);
+                swal("Added To Cart!", { 
+                    icon: "success",
+                    buttons: ['Keep Shopping', 'Go To Cart']})
+                .then(cart=> {if (cart){history.push("/cart");}})
+            }
+            else{ swal('This item is already in cart.', {
+                icon: 'error',
+                buttons: ['Keep Shopping', 'Go To Cart']})
+                .then(cart=> {if (cart){history.push("/cart");}})
+            }
+        }
+        else{
+            localStorage.setItem('products', ','+id+',');
+            swal("Added To Cart!", { icon: "success",})
+        }
+    }
 
     return (  
         <div className="product-details">

@@ -8,9 +8,6 @@ import Search from './Search';
 
 function App() {
 
-  const addToCart = (id) => {
-  }
-
   const isJsonServer = false;
 
   return (
@@ -29,7 +26,7 @@ function App() {
               <Search isJsonServer={isJsonServer}/>
             </Route>
             <Route path="/products/:id">
-              <ProductPage addToCart={addToCart} isJsonServer={isJsonServer}/>
+              <ProductPage isJsonServer={isJsonServer}/>
             </Route>
           </Switch>
         </div>  
