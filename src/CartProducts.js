@@ -28,7 +28,6 @@ const CartProducts = ({products, isJsonServer}) => {
 
     return (
         <div>
-            <h1>Cart</h1>
             <div>
                 {products.map((product) => (
                     <div className="cart-preview" key={product.id}>

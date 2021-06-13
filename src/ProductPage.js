@@ -1,28 +1,23 @@
 import { useHistory, useParams } from "react-router";
-import useFetch from './useFetch';
-import useFirestore from "./useFirestore";
+import { useEffect, useState } from "react";
+import { withFirebase } from './firebase/index';
+import { compose } from 'recompose';
 import swal from 'sweetalert';
 
-const ProductPage = ({isJsonServer}) => {
+
+const ProductPage = (props) => {
       
     const { id } = useParams();  
     const history = useHistory();
     
-    ///// Fetch from Json Server:
-    const { data: Jproduct, JisLoading, Jerror } = useFetch('http://localhost:8000/products/'+id);
+    const [isLoading, setIsLoading] = useState(true);
+    const [product, setProduct] = useState(null);
 
-    //// Fetch from Firestore
-    const { data: products, FisLoading, Ferror  } = useFirestore('products');
-    let Fproduct = null;
-    if (products){ Fproduct = products.find(product=>product.id==id)};
-
-    //// Switching Firestore and Json server:
-    let product = [];
-    let isLoading, error = null;
-    if(isJsonServer){[product, isLoading, error] = [Jproduct, JisLoading, Jerror] }
-    else { [product, isLoading, error] = [Fproduct, FisLoading, Ferror]  };
-
-
+    useEffect( async ()=>{
+        let data = await props.firebase.getProduct(id)
+        setProduct(data);
+        setIsLoading(false);
+    }, [])
     
     const addToCart = (id) => {
         let userProducts = localStorage.getItem('products');
@@ -50,7 +45,7 @@ const ProductPage = ({isJsonServer}) => {
     return (  
         <div className="product-details">
             { isLoading && <div>Loading...</div>}
-            { error && <div>{ error }</div>}
+            {/* { error && <div>{ error }</div>} */}
             { product && (
                 <div>
                     <h1>{product.title}</h1>
@@ -62,7 +57,6 @@ const ProductPage = ({isJsonServer}) => {
                             <button onClick={()=>addToCart(id)}>Add To Cart</button>
                         </div>
                         <img src={require(`${product.image}`).default} alt="cake" />
-                        {/* {!isJsonServer && <img src={product.image} alt="" />} */}
                     </div>
                 </div>
             )}
@@ -70,4 +64,4 @@ const ProductPage = ({isJsonServer}) => {
     );
 }
  
-export default ProductPage;
+export default compose(withFirebase)(ProductPage);
