@@ -15,6 +15,7 @@ h1 {
 }
 
 .navbar {
+  background: #fff;
   padding: 20px;
   padding-bottom: 10px;
   display: flex;
@@ -22,6 +23,8 @@ h1 {
   max-width: 1010px;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
+  position: sticky;
+  top: 0;
 }
 
 .navbar img {
@@ -98,6 +101,17 @@ h1 {
 
 .product-preview a:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+
+/* cart */
+.cart-products {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.cart-bottom {
+  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 /* cart-previews / list */
@@ -210,9 +224,4 @@ button:active {
 
 .search label {
   margin-right:15px;
-}
-
-.cart-bottom {
-  margin-top: 100px;
-  margin-bottom: 200px;
 }
