@@ -1,6 +1,6 @@
 import { useHistory, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { withFirebase } from './firebase/index';
+import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import swal from 'sweetalert';
 

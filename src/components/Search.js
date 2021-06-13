@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductPreview from "./ProductPreview";
-import { withFirebase } from './firebase/index';
+import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 
 
