@@ -1,7 +1,7 @@
 import swal from 'sweetalert';
 
 
-const CartProducts = ({products, isJsonServer}) => {
+const CartProducts = ({products}) => {
 
     const removeFromCart = (id) => {
         swal({
@@ -32,7 +32,7 @@ const CartProducts = ({products, isJsonServer}) => {
                 {products.map((product) => (
                     <div className="cart-preview" key={product.id}>
                         <a href={`/products/${product.id}`}><img src={require(`${product.image}`).default} alt="" /></a>
-                        {/* {!isJsonServer && <img src={product.image} alt="" />} */}
+                        {/* { <img src={product.image} alt="" />} */}
                             <h2>{product.title}</h2>
                             <p>{product.price} ₪</p>
                             <input type="number" id="quantity" name="quantity" min="1" max="5" placeholder="1"></input>                    

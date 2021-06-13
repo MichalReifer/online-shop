@@ -8,7 +8,6 @@ import Search from './Search';
 
 function App() {
 
-  const isJsonServer = false;
 
   return (
     <Router>
@@ -17,16 +16,16 @@ function App() {
         <div className="content">
           <Switch>
           <Route exact path="/">
-              <Home isJsonServer={isJsonServer} />
+              <Home/>
             </Route>
             <Route path="/cart">
               <Cart />
             </Route>
             <Route path="/search">
-              <Search isJsonServer={isJsonServer}/>
+              <Search/>
             </Route>
             <Route path="/products/:id">
-              <ProductPage isJsonServer={isJsonServer}/>
+              <ProductPage/>
             </Route>
           </Switch>
         </div>  

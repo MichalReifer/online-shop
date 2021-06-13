@@ -31,7 +31,7 @@ const Cart = (props) => {
             { !cartEmpty && 
                 <div>
                     <h1>Cart</h1> 
-                    <CartProducts products={products} isJsonServer={props.isJsonServer}/>
+                    <CartProducts products={products}/>
                 </div>}
             { isLoading && <div>Loading...</div> }
             { totalPrice!=0 &&

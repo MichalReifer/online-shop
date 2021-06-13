@@ -33,7 +33,7 @@ const Search = (props) => {
             </form>
             {/* { error && <div>{ error }</div> } */}
             { isLoading && <div>Loading...</div> }
-            { products && <ProductPreview products={products} isJsonServer={props.isJsonServer}/>}
+            { products && <ProductPreview products={products}/>}
 
         </div>
     );

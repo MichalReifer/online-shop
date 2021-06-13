@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ProductPreview = ({products, title, addToCart, isJsonServer}) => {
+const ProductPreview = ({products, title}) => {
 
     return (
         <div className="product-list">
@@ -10,7 +10,7 @@ const ProductPreview = ({products, title, addToCart, isJsonServer}) => {
                     <div className="product-preview" key={product.id}>
                         <Link className='link' to={`/products/${product.id}`}>
                         <img src={require(`${product.image}`).default} alt="" />
-                        {/* {!isJsonServer && <img src={product.image} alt="" />} */}
+                        {/* {<img src={product.image} alt="" />} */}
                             <h2>{product.title}</h2>
                             <p>{product.price} ₪</p>                    
                         </Link>

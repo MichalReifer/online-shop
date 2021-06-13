@@ -30,7 +30,7 @@ const Home = (props) => {
             { isLoading && <div>Loading...</div>}    
             { categories.map(function(category, i){
             return( 
-                productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category} isJsonServer={props.isJsonServer}/>
+                productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
                 )})
             }
         </div>
