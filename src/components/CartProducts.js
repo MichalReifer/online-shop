@@ -1,4 +1,5 @@
 import swal from 'sweetalert';
+import { Link } from "react-router-dom";
 
 
 const CartProducts = ({products}) => {
@@ -30,7 +31,14 @@ const CartProducts = ({products}) => {
         <div className='cart-products'>
             {products.map((product) => (
                 <div className="cart-preview" key={product.id}>
-                    <a href={`/products/${product.id}`}><img src={require(`${product.image}`).default} alt="" /></a>
+                    <Link to={{
+                            pathname: `/products/${product.cakeId}`,
+                            state : {
+                                id: `${product.id}`
+                            }
+                            }}>
+                        <img src={require(`${product.image}`).default} alt="" />
+                    </Link>
                     {/* { <img src={product.image} alt="" />} */}
                         <h2>{product.title}</h2>
                         <p>{product.price} ₪</p>

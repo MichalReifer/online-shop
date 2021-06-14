@@ -6,8 +6,7 @@ import ProductPage from './ProductPage';
 import Search from './Search';
 
 
-function App() {
-
+function App(props) {
 
   return (
     <Router>
@@ -15,7 +14,7 @@ function App() {
         <Navbar />
         <div className="content">
           <Switch>
-          <Route exact path="/">
+            <Route exact path="/">
               <Home/>
             </Route>
             <Route path="/cart">
@@ -24,7 +23,7 @@ function App() {
             <Route path="/search">
               <Search/>
             </Route>
-            <Route path="/products/:id">
+            <Route path="/products/:cakeId" >
               <ProductPage/>
             </Route>
           </Switch>

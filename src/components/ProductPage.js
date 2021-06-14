@@ -1,4 +1,4 @@
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
@@ -7,9 +7,9 @@ import swal from 'sweetalert';
 
 const ProductPage = (props) => {
       
-    const { id } = useParams();  
+    const { id } = useLocation().state;
+
     const history = useHistory();
-    
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null);
 
