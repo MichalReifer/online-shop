@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CartProducts from "./CartProducts";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
@@ -10,6 +10,14 @@ const Cart = (props) => {
     const [ cartEmpty, setCartEmpty ] = useState(true);
     const [ products, setProducts] = useState([]);
     const [ totalPrice, setTotalPrice] = useState(0)
+    
+    const resetTotalPrice = (price)=>{
+        setTotalPrice(price);
+    }
+
+    const isCartEmpty = (ans)=>{
+        setCartEmpty(ans);
+    }
 
     useEffect(async ()=>{
         let storage = localStorage.getItem('order');
@@ -25,13 +33,14 @@ const Cart = (props) => {
         setIsLoading(false)
     }, [])
 
+
     return (
         <div className="cart">
             { cartEmpty && <h1>Your cart is empty.</h1>}
             { !cartEmpty && 
                 <div>
                     <h1>Cart</h1> 
-                    <CartProducts products={products}/>
+                    <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} cartEmpty={isCartEmpty}/>
                 </div>}
             { isLoading && <div>Loading...</div> }
             { totalPrice!=0 &&

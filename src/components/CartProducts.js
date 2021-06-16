@@ -3,13 +3,27 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from 'react';
 
 
-const CartProducts = ({products}) => {
+const CartProducts = ({cartProducts, resetTotalPrice, cartEmpty}) => {
 
     const [order, setOrder]  = useState(JSON.parse(localStorage.getItem('order')));
+    const [products, setProducts] = useState([]);
+
+    useEffect(()=>{
+        setProducts(cartProducts)
+    }, [cartProducts])
 
     useEffect(()=>{
         localStorage.setItem('order', JSON.stringify(order));
-    }, [order])
+        let totalPrice = 0;
+        products.map(product=>{
+            totalPrice+=product.price*order[product.cakeId];
+        })  
+        if(Object.keys(order).length===0){
+            cartEmpty(true)
+            resetTotalPrice(0)
+        } else{
+            resetTotalPrice(totalPrice)}
+    }, [order, products])
 
     const removeFromCart = (cakeId) => {
         swal({
@@ -21,12 +35,11 @@ const CartProducts = ({products}) => {
         .then((toDelete) => {
             if (toDelete) {
                 let order = JSON.parse(localStorage.getItem('order'));
-                console.log(order);
                 delete order[cakeId];
-                console.log(order);
+                setOrder(order)
                 localStorage.setItem('order', JSON.stringify(order));
+                setProducts(products.filter(product=>product.cakeId!=cakeId))
               swal("Poof!", { icon: "success",})
-              .then(value=>{window.location.reload();})
             }})
         .catch(e=> console.log('error occured: ', e))
     }
