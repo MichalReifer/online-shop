@@ -53,7 +53,6 @@ h1 {
   padding: 0 20px;
 }
 
-
 /* product-previews / list */
 
 .products {
@@ -104,20 +103,41 @@ h1 {
 }
 
 /* cart */
+
+.cart h1{
+  /* margin-bottom: 16px; */
+  /* margin-right: 16px; */
+  margin: 26px 0 16px 16px;
+}
+
 .cart-products {
   overflow: auto;
-  max-height: 500px;
+  max-height: 534px;
 }
 
 .cart-bottom {
-  margin-top: 50px;
-  margin-bottom: 100px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 44px;
+  margin-bottom: 80px;
+}
+
+.cart-bottom *{
+  align-self: center;
+}
+
+.cart-bottom button {
+  margin: 0 300px;
+  background-color:#a70040;
+  height: 50px;
+  width: 150px; 
+  font-size: large;
 }
 
 /* cart-previews / list */
 .cart-preview {
   padding: 10px 16px;
-  margin: 20px 0;
+  margin: 10px 0;
   border-bottom: 1px solid #fafafa;
 }
 
@@ -148,12 +168,12 @@ h1 {
 }
 
 .cart-preview img {
-  width: 82px;
-  height: 120px;
+  width: 68px;
+  height: 100px;
 }
 
 .cart-preview a {
-  height: 120px;
+  height: 100px;
 }
 
 input[type=number]::-webkit-inner-spin-button {
@@ -161,9 +181,6 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 /* product details page */
-.product-details  {
-  text-align: justify;
-}
 
 .details-container {
   display: flex;
@@ -173,6 +190,10 @@ input[type=number]::-webkit-inner-spin-button {
 
 .details {
   padding-right: 150px;
+}
+
+.product-details  {
+  text-align: justify;
 }
 
 .product-details h1 {
@@ -189,6 +210,11 @@ input[type=number]::-webkit-inner-spin-button {
   margin: 20px 0;
 }
 
+.product-details img {
+  width: 350px;
+  height: 500px;
+}
+
 button {
   background: #f1356d;
   color: #fff;
@@ -200,7 +226,7 @@ button {
   text-align: center;
 }
 
-.cart-preview button:hover, .product-preview button:hover {
+button:hover:not(.swal-button){
   background: #b12750;
   color: rgb(236, 232, 232);
   border: 0;
@@ -208,13 +234,8 @@ button {
   border-radius: 8px;
 }
 
-button:active {
-  background: #df3165;
-}
-
-.product-details img {
-  width: 350px;
-  height: 500px;
+button:active:not(.swal-button) {
+  background: #df3165 !important;
 }
 
 /* search */

@@ -45,7 +45,8 @@ const Cart = (props) => {
             { isLoading && <div>Loading...</div> }
             { totalPrice!=0 &&
             <div className="cart-bottom">
-                <h3>Total Price: {totalPrice}</h3>    
+                <h2><pre>Total Price:   {totalPrice}₪</pre></h2>    
+                <button>Checkout</button>
             </div>   }
         </div>
     );
