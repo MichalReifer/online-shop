@@ -4,27 +4,24 @@ import { Link } from "react-router-dom";
 
 const CartProducts = ({products}) => {
 
-    const removeFromCart = (id) => {
+    const removeFromCart = (cakeId) => {
         swal({
             title: "Are you sure?",
             text: "This cake looks yummy!",
             icon: "warning",
             buttons: true,
-            dangerMode: true,
-          }).then((willDelete) => {
-            if (willDelete) {
-              let cartProducts = localStorage.getItem('products');
-              cartProducts = cartProducts.replace(","+id, "");
-              if (cartProducts===','){ 
-                  cartProducts='';
-              }
-              localStorage.setItem('products', cartProducts);
+            dangerMode: true,})
+        .then((toDelete) => {
+            if (toDelete) {
+                let order = JSON.parse(localStorage.getItem('order'));
+                console.log(order);
+                delete order[cakeId];
+                console.log(order);
+                localStorage.setItem('order', JSON.stringify(order));
               swal("Poof!", { icon: "success",})
               .then(value=>{window.location.reload();})
             }})
-        .catch(e=>
-            console.log('error occured: ', e)
-        )
+        .catch(e=> console.log('error occured: ', e))
     }
 
     return (
@@ -43,7 +40,7 @@ const CartProducts = ({products}) => {
                         <h2>{product.title}</h2>
                         <p>{product.price} ₪</p>
                         <input type="number" id="quantity" name="quantity" min="1" max="5" placeholder="1"></input>                    
-                        <button onClick={()=>removeFromCart(product.id)}>Remove</button>
+                        <button onClick={()=>removeFromCart(product.cakeId)}>Remove</button>
                 </div>
             ))}
         </div>

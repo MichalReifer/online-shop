@@ -36,7 +36,6 @@ class Firebase {
     }).catch(error => {
         console.log(error)
         return error})
-    // console.log(data)
     return data;
   }
 
@@ -47,8 +46,18 @@ class Firebase {
     }).catch(error => {
         console.log(error)
         return error})
-    // console.log(data)
     return data;
+  }
+
+  getProductByName = async (cakeId) => {
+    const snapshots = await this.db.ref("/products").once('value')
+    let product = null;
+    snapshots.forEach(data=>{
+      if (data.val().cakeId === cakeId){
+        product = data.val();
+      }
+    })
+    return product;
   }
 
 }

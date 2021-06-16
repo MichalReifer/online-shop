@@ -6,18 +6,18 @@ import { compose } from 'recompose';
 
 const Cart = (props) => {
 
-    let selectedIds = null;
     const [ isLoading, setIsLoading ] = useState(true);
     const [ cartEmpty, setCartEmpty ] = useState(true);
-    const [products, setProducts] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0)
+    const [ products, setProducts] = useState([]);
+    const [ totalPrice, setTotalPrice] = useState(0)
 
     useEffect(async ()=>{
-        if (localStorage.getItem('products')){
+        let storage = localStorage.getItem('order');
+        if (storage && storage!='{}'){
             setCartEmpty(false);
-            selectedIds = localStorage.getItem('products').slice(1, -1).split(',');
-            for (let id =0; id<selectedIds.length; id++){
-                let data = await props.firebase.getProduct(selectedIds[id])
+            let order = JSON.parse(storage);
+            for (const cakeId in order){
+                let data = await props.firebase.getProductByName(cakeId).then(result=>result);
                 setProducts(prevArr => [...prevArr, data]);
                 setTotalPrice(prevPrice => prevPrice += data.price);
             }

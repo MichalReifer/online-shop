@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 
 const ProductPage = (props) => {
       
+    const { cakeId } = useParams()
     const { id } = useLocation().state;
 
     const history = useHistory();
@@ -14,17 +15,19 @@ const ProductPage = (props) => {
     const [product, setProduct] = useState(null);
 
     useEffect( async ()=>{
-        let data = await props.firebase.getProduct(id)
+        let data = await props.firebase.getProduct(id);
         setProduct(data);
         setIsLoading(false);
     }, [])
     
     const addToCart = (id) => {
-        let userProducts = localStorage.getItem('products');
-        if (localStorage.getItem('products')){
-            if (!userProducts.includes(','+id+',')) {
-                userProducts+=id+",";
-                localStorage.setItem('products', userProducts);
+        let storage = localStorage.getItem('order');
+        if (storage){
+            if (!storage.includes(cakeId)) {
+                let order = JSON.parse(storage);
+                order[cakeId] = 1;
+                storage = JSON.stringify(order);
+                localStorage.setItem('order', storage);
                 swal("Added To Cart!", { 
                     icon: "success",
                     buttons: ['Keep Shopping', 'Go To Cart']})
@@ -37,8 +40,8 @@ const ProductPage = (props) => {
             }
         }
         else{
-            localStorage.setItem('products', ','+id+',');
-            swal("Added To Cart!", { icon: "success",})
+            localStorage.setItem('order', `{"${cakeId}": 1}`);
+            swal("Added To Cart!", { icon: "success ",});
         }
     }
 
