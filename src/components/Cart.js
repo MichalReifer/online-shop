@@ -19,7 +19,7 @@ const Cart = (props) => {
             for (const cakeId in order){
                 let data = await props.firebase.getProductByName(cakeId).then(result=>result);
                 setProducts(prevArr => [...prevArr, data]);
-                setTotalPrice(prevPrice => prevPrice += data.price);
+                setTotalPrice(prevPrice => prevPrice += data.price*order[cakeId]);
             }
         }
         setIsLoading(false)

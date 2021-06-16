@@ -1,8 +1,15 @@
 import swal from 'sweetalert';
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
 
 
 const CartProducts = ({products}) => {
+
+    const [order, setOrder]  = useState(JSON.parse(localStorage.getItem('order')));
+
+    useEffect(()=>{
+        localStorage.setItem('order', JSON.stringify(order));
+    }, [order])
 
     const removeFromCart = (cakeId) => {
         swal({
@@ -39,7 +46,8 @@ const CartProducts = ({products}) => {
                     {/* { <img src={product.image} alt="" />} */}
                         <h2>{product.title}</h2>
                         <p>{product.price} ₪</p>
-                        <input type="number" id="quantity" name="quantity" min="1" max="5" placeholder="1"></input>                    
+                        <input type="number" id="quantity" name="quantity" min="1" max="5" value={order[product.cakeId]} 
+                            onChange={e=>setOrder({...order, [product.cakeId]: parseInt(e.target.value)})}></input>   
                         <button onClick={()=>removeFromCart(product.cakeId)}>Remove</button>
                 </div>
             ))}
