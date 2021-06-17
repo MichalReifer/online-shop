@@ -24,6 +24,8 @@ class Firebase {
       this.db = app.database();
   }
 
+  /* Products Database: */
+
   getAllProducts = async () => {
     let products = [];
     const data = await this.db.ref("/products").once('value')
@@ -58,6 +60,56 @@ class Firebase {
       }
     })
     return product;
+  }
+
+    /* Orders Database: */
+
+  getAllOrders = async () => {
+    let products = [];
+    const data = await this.db.ref("/orders").once('value')
+    .then(snapshots=>{
+      snapshots.forEach(snapshot=>{
+        const dataVal = snapshot.val()
+        products.push(dataVal)
+      })
+      return products;
+    }).catch(error => {
+        console.log(error)
+        return error})
+    return data;
+  }
+
+  getOrderByOrderId = async (orderID) => {
+    const snapshots = await this.db.ref("/orders").once('value')
+    let product = null;
+    snapshots.forEach(data=>{
+      if (data.val().orderID === orderID){
+        product = data.val();
+      }
+    })
+    return product;
+  }
+
+  setOrder = async (order) => {
+    this.db.ref("/orders/"+order.orderID).set(order);
+  }
+
+
+  /* Users Database: */
+
+  getUserByUserEmail = async (email) => {
+    const snapshots = await this.db.ref("/users").once('value')
+    let product = null;
+    snapshots.forEach(data=>{
+      if (data.val().email === email){
+        product = data.val();
+      }
+    })
+    return product;
+  }
+
+  setUser = async (user) => {
+    this.db.ref("/users/"+user.userID).set(user);
   }
 
 }

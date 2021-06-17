@@ -35,7 +35,7 @@ const Cart = (props) => {
               '<input id="address" class="swal2-input" type="address" placeholder="Delivary Address">',
             showCancelButton: true,
             focusConfirm: false,
-            preConfirm: () => {
+            preConfirm: async () => {
 
                 const name = document.getElementById('name');
                 const email = document.getElementById('email');
@@ -55,22 +55,35 @@ const Cart = (props) => {
                     email.classList.add("swal2-inputerror");
                 } else {
                     const orderID = Math.random().toString(36).substr(2, 9);
+                    let userExists = await props.firebase.getUserByUserEmail(email.value).then(result=>result);
+                    let user = null;
+                    if(userExists){
+                        user = userExists;
+                        user.orders.push(orderID);
+                        user.name = name.value;
+                        user.address = address.value;
+                    } else{
+                        const userID = Math.random().toString(36).substr(2, 9);
+                        user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value, 'orders': [orderID]};
+                    }
                     return [
-                        {'name': name.value, 'email': email.value, 'address': address.value, 'orders': [orderID]},
-                        {'orderID': orderID,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
-                         'time': new Date().toLocaleString()}
+                        user,
+                        {'orderID': orderID, 'made-by': email.value ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
+                            'time': new Date().toLocaleString()}
                     ]
                 }
             }
-          })          
+          })
           if (details) {
             const [user, order] = details;
-            console.log('user: ',user);
-            console.log('order: ', order);
+            props.firebase.setOrder(order);
+            props.firebase.setUser(user);
             Swal.fire({
                 title: 'order completed',
                 text: 'an email is sent to you with the order details and a link for payment',
                 icon: 'success'})
+            localStorage.removeItem('order');
+            history.push('/');
           }
     }
 
