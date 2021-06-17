@@ -226,7 +226,7 @@ button {
   text-align: center;
 }
 
-button:hover:not(.swal-button){
+button:hover:not(.swal-button, .swal2-styled){
   background: #b12750;
   color: rgb(236, 232, 232);
   border: 0;
@@ -234,7 +234,7 @@ button:hover:not(.swal-button){
   border-radius: 8px;
 }
 
-button:active:not(.swal-button) {
+button:active:not(.swal-button, .swal2-styled) {
   background: #df3165 !important;
 }
 
