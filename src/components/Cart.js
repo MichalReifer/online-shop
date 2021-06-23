@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CartProducts from "./CartProducts";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
+import { preConfirmFunction } from "./utils";
 
 
 const Cart = (props) => {
@@ -21,12 +22,9 @@ const Cart = (props) => {
     const isCartEmpty = (ans)=>{
         setCartEmpty(ans);
     }
-
-    const emailValidate = (string) => {
-        return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? 'valid' : 'invalid'
-    }
-
+    
     const checkout = async () => {
+
         const { value: details} = await Swal.fire({
             title: 'Enter Your Details',
             html:
@@ -35,60 +33,26 @@ const Cart = (props) => {
               '<input id="address" class="swal2-input" type="address" placeholder="Delivary Address">',
             showCancelButton: true,
             focusConfirm: false,
-            preConfirm: async () => {
-
-                const name = document.getElementById('name');
-                const email = document.getElementById('email');
-                const address = document.getElementById('address');
-                name.classList.remove("swal2-inputerror");
-                email.classList.remove("swal2-inputerror");
-                address.classList.remove("swal2-inputerror");
-
-                if (!name.value||!email.value||!address.value){
-                    Swal.showValidationMessage('please fill in all fields');
-                    if (!name.value){name.classList.add("swal2-inputerror");}
-                    if (!email.value){email.classList.add("swal2-inputerror");}
-                    if (!address.value){address.classList.add("swal2-inputerror");}
-                }
-                else if (email.value && emailValidate(email.value)==='invalid') {
-                    Swal.showValidationMessage('email address is invalid');
-                    email.classList.add("swal2-inputerror");
-                } else {
-                    const orderID = Math.random().toString(36).substr(2, 9);
-                    let userExists = await props.firebase.getUserByUserEmail(email.value).then(result=>result);
-                    let user = null;
-                    if(userExists){
-                        user = userExists;
-                        user.orders.push(orderID);
-                        user.name = name.value;
-                        user.address = address.value;
-                    } else{
-                        const userID = Math.random().toString(36).substr(2, 9);
-                        user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value, 'orders': [orderID]};
-                    }
-                    return [
-                        user,
-                        {'orderID': orderID, 'made-by': email.value ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
-                            'time': new Date().toLocaleString()}
-                    ]
-                }
+            preConfirm: async ()=> { 
+                return await preConfirmFunction(props.firebase.getUserByUserEmail, totalPrice);
             }
-          })
-          if (details) {
-            const [user, order] = details;
-            props.firebase.setOrder(order);
-            props.firebase.setUser(user);
-            Swal.fire({
-                title: 'order completed',
-                text: 'an email is sent to you with the order details and a link for payment',
-                icon: 'success'})
-            localStorage.removeItem('order');
-            history.push('/');
-          }
+        })
+        
+        if (details) {
+        const [user, order] = details;
+        props.firebase.setOrder(order);
+        props.firebase.setUser(user);
+        Swal.fire({
+            title: 'order completed',
+            text: 'an email is sent to you with the order details and a link for payment',
+            icon: 'success'})
+        localStorage.removeItem('order');
+        history.push('/');
+        }
     }
 
+    let storage = localStorage.getItem('order');
     useEffect(async ()=>{
-        let storage = localStorage.getItem('order');
         if (storage && storage!='{}'){
             setCartEmpty(false);
             let order = JSON.parse(storage);
@@ -99,7 +63,7 @@ const Cart = (props) => {
             }
         }
         setIsLoading(false)
-    }, [])
+    }, [localStorage])
 
 
     return (
