@@ -2,14 +2,13 @@ import { useHistory, useLocation, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
-import swal from 'sweetalert';
+import { addToCart } from './utils';
 
 
 const ProductPage = (props) => {
       
     const { cakeId } = useParams()
     const { id } = useLocation().state;
-
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null);
@@ -18,32 +17,7 @@ const ProductPage = (props) => {
         let data = await props.firebase.getProduct(id);
         setProduct(data);
         setIsLoading(false);
-    }, [])
-    
-    const addToCart = (id) => {
-        let storage = localStorage.getItem('order');
-        if (storage){
-            if (!storage.includes(cakeId)) {
-                let order = JSON.parse(storage);
-                order[cakeId] = 1;
-                storage = JSON.stringify(order);
-                localStorage.setItem('order', storage);
-                swal("Added To Cart!", { 
-                    icon: "success",
-                    buttons: ['Keep Shopping', 'Go To Cart']})
-                .then(cart=> {if (cart){history.push("/cart");}})
-            }
-            else{ swal('This item is already in cart.', {
-                icon: 'error',
-                buttons: ['Keep Shopping', 'Go To Cart']})
-                .then(cart=> {if (cart){history.push("/cart");}})
-            }
-        }
-        else{
-            localStorage.setItem('order', `{"${cakeId}": 1}`);
-            swal("Added To Cart!", { icon: "success ",});
-        }
-    }
+    }, [])     
 
     return (  
         <div className="product-details">
@@ -57,7 +31,7 @@ const ProductPage = (props) => {
                             <h4>{product.category}</h4>
                             <p>{product.description}</p>
                             <p>price: {product.price} ₪</p>
-                            <button onClick={()=>addToCart(id)}>Add To Cart</button>
+                            <button onClick={()=>addToCart(cakeId, history)}>Add To Cart</button>
                         </div>
                         <img src={require(`${product.image}`).default} alt="cake" />
                     </div>
