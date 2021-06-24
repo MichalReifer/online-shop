@@ -36,7 +36,7 @@ h1 {
   margin-left: auto;
 }
 
-.navbar a {
+.navbar .links a {
   margin-left: 30px;
   text-decoration: none;
   padding: 6px;
