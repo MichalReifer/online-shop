@@ -116,9 +116,9 @@ class Firebase {
     console.log(email);
     this.auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Signed in 
       var user = userCredential.user;
-      console.log(user);
+      console.log('sign up succeeded.');
+      console.log(user.email);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -128,9 +128,45 @@ class Firebase {
     });
   }
 
+  signIn = async (email, password) => {
+    const user = await this.auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        var user = userCredential.user;
+        console.log('sign in succeeded.');
+        console.log(user.email)
+        return user;
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        return null;
+      });
+    console.log(user)
+    return user;
+  }
+
+  signOut = async () => {
+    this.auth.signOut().then(() => {
+      console.log('sign out succeeded.');
+      this.printCurrentUser();
+    }).catch((error) => {
+      console.log(error);
+    });     
+  }
+
+  getCurrentUser = ()=> {
+    // console.log(this.auth.currentUser);
+    return this.auth.currentUser;
+
+  }
+
   printCurrentUser = () =>{
     console.log(this.auth.currentUser?.email);
+    // console.log(this.auth.currentUser?.displayName);
   }
+
 }
 
   export default Firebase;

@@ -62,7 +62,40 @@ const passwordValidate = (string) => {
     return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string) ? 'valid' : 'invalid'
 }
 
-const signIn = async (firebase) => {
+const preConfirmSignIn = async (firebase, user) => {
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+
+
+    email.classList.remove("swal2-inputerror");
+    password.classList.remove("swal2-inputerror");
+        
+    if (!email.value){
+        email.classList.add("swal2-inputerror");
+        Swal.showValidationMessage('please fill in your email address');
+    } else  if (!password.value){
+        password.classList.add("swal2-inputerror");
+        Swal.showValidationMessage('please enter your password');
+    } else if (emailValidate(email.value)==='invalid') {
+        Swal.showValidationMessage('email address is invalid');
+        email.classList.add("swal2-inputerror");
+    } else if (password.value && passwordValidate(password.value)==='invalid') {
+        Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
+        password.classList.add("swal2-inputerror");
+    } else {
+        user = await firebase.signIn(email.value, password.value);
+        console.log(user)
+        if(!user){
+            Swal.showValidationMessage('invalid email or password');
+            email.classList.add("swal2-inputerror");
+            password.classList.add("swal2-inputerror");
+        }
+    }
+    return user;
+}
+
+export const signIn = async (firebase) => {
+    let user = null;
     await Swal.fire({
         title: 'Enter Your Details',
         html:
@@ -70,37 +103,14 @@ const signIn = async (firebase) => {
           '<input id="password" class="swal2-input" type="password" placeholder="Password">',
         focusConfirm: false,
         showCancelButton: true,
-        preConfirm: async ()=> { 
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-
-            email.classList.remove("swal2-inputerror");
-            password.classList.remove("swal2-inputerror");
-                
-            if (!email.value){
-                email.classList.add("swal2-inputerror");
-                Swal.showValidationMessage('please fill in your email address');
-            } else  if (!password.value){
-                password.classList.add("swal2-inputerror");
-                Swal.showValidationMessage('please enter your password');
-            } else if (emailValidate(email.value)==='invalid') {
-                Swal.showValidationMessage('email address is invalid');
-                email.classList.add("swal2-inputerror");
-            } else if (password.value && passwordValidate(password.value)==='invalid') {
-                Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
-                password.classList.add("swal2-inputerror");
-            } else {
-                let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
-                if(userExists){
-                    console.log('user exists')
-                    console.log(userExists)
-                } else {console.log('user does not exist')}
-            }        
+        preConfirm: async () => { 
+            user = await preConfirmSignIn(firebase, user);
         }
     })
+    return user;
 }
 
-const preConfirmFunction = async (firebase, totalPrice) => {
+const preConfirmSignUp = async (firebase, totalPrice) => {
 
     const name = document.getElementById('name');
     const email = document.getElementById('email');
@@ -147,7 +157,17 @@ const preConfirmFunction = async (firebase, totalPrice) => {
     }
 }
 
+const button = document.getElementById('sign-in-button');
+
+if (button){
+    button.addEventListener('click', event => {
+    button.textContent = `Click count: ${event.detail}`;
+    signIn()
+    })
+}
+
 export const checkout = async (firebase, history, totalPrice) => {
+
 
     await Swal.fire({
         title: 'Enter Your Details',
@@ -161,8 +181,12 @@ export const checkout = async (firebase, history, totalPrice) => {
         showDenyButton: true,
         denyButtonText: 'Sign In',
         denyButtonColor: 'purple', 
+        // footer: '<div class="checkout-footer">'+
+        //             '<p>already have an account?</p>'+
+        //             '<button class="swal-button swal2-styled" id="sign-in-button">Sign In</button>'+
+        //         '</div>',
         preConfirm: async ()=> { 
-            return await preConfirmFunction(firebase, totalPrice);
+            return await preConfirmSignUp(firebase, totalPrice);
         }
     }).then(result=>{
         // console.log(result)
@@ -181,4 +205,5 @@ export const checkout = async (firebase, history, totalPrice) => {
             history.push('/');
         }
     })
+
 }
