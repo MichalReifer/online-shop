@@ -112,6 +112,25 @@ class Firebase {
     this.db.ref("/users/"+user.userID).set(user);
   }
 
+  signUp = async (email, password) => {
+    console.log(email);
+    this.auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    });
+  }
+
+  printCurrentUser = () =>{
+    console.log(this.auth.currentUser?.email);
+  }
 }
 
   export default Firebase;

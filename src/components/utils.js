@@ -53,36 +53,84 @@ export const removeFromCart = (cakeId, products, setProducts, setOrder) => {
 
 
 /* Cart component - Checkout Functions */
+
 const emailValidate = (string) => {
     return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? 'valid' : 'invalid'
 }
 
-export const preConfirmFunction = async (getUserByUserEmail, totalPrice) => {
+const passwordValidate = (string) => {
+    return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string) ? 'valid' : 'invalid'
+}
+
+const signIn = async (firebase) => {
+    await Swal.fire({
+        title: 'Enter Your Details',
+        html:
+          '<input id="email" class="swal2-input" type="email" placeholder="Email">'+
+          '<input id="password" class="swal2-input" type="password" placeholder="Password">',
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: async ()=> { 
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+
+            email.classList.remove("swal2-inputerror");
+            password.classList.remove("swal2-inputerror");
+                
+            if (!email.value){
+                email.classList.add("swal2-inputerror");
+                Swal.showValidationMessage('please fill in your email address');
+            } else  if (!password.value){
+                password.classList.add("swal2-inputerror");
+                Swal.showValidationMessage('please enter your password');
+            } else if (emailValidate(email.value)==='invalid') {
+                Swal.showValidationMessage('email address is invalid');
+                email.classList.add("swal2-inputerror");
+            } else if (password.value && passwordValidate(password.value)==='invalid') {
+                Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
+                password.classList.add("swal2-inputerror");
+            } else {
+                let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
+                if(userExists){
+                    console.log('user exists')
+                    console.log(userExists)
+                } else {console.log('user does not exist')}
+            }        
+        }
+    })
+}
+
+const preConfirmFunction = async (firebase, totalPrice) => {
 
     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const address = document.getElementById('address');
+    const password = document.getElementById('password');
 
     name.classList.remove("swal2-inputerror");
     email.classList.remove("swal2-inputerror");
     address.classList.remove("swal2-inputerror");
+    password.classList.remove("swal2-inputerror");
 
-    if (!name.value||!email.value||!address.value){
+    if (!name.value||!email.value||!address.value||!password.value){
         Swal.showValidationMessage('please fill in all fields');
         if (!name.value){name.classList.add("swal2-inputerror");}
         if (!email.value){email.classList.add("swal2-inputerror");}
         if (!address.value){address.classList.add("swal2-inputerror");}
+        if (!password.value){password.classList.add("swal2-inputerror");}
     }
     else if (email.value && emailValidate(email.value)==='invalid') {
         Swal.showValidationMessage('email address is invalid');
         email.classList.add("swal2-inputerror");
+    } else if (password.value && passwordValidate(password.value)==='invalid') {
+        Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
+        password.classList.add("swal2-inputerror");
     } else {
         const orderID = Math.random().toString(36).substr(2, 9);
         const order = {'orderID': orderID, 'made-by': email.value ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
             'time': new Date().toLocaleString()};
-        let userExists = await getUserByUserEmail(email.value).then(result=>result);
+        let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
         let user = null;
-
         if(userExists){
             user = userExists;
             user.orders.push(orderID);
@@ -91,6 +139,8 @@ export const preConfirmFunction = async (getUserByUserEmail, totalPrice) => {
         } else{
             const userID = Math.random().toString(36).substr(2, 9);
             user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value, 'orders': [orderID]};
+            console.log(user);
+            firebase.signUp(email.value, password.value);
         }
 
         return [user, order]
@@ -99,28 +149,36 @@ export const preConfirmFunction = async (getUserByUserEmail, totalPrice) => {
 
 export const checkout = async (firebase, history, totalPrice) => {
 
-    const { value: details} = await Swal.fire({
+    await Swal.fire({
         title: 'Enter Your Details',
         html:
           '<input id="name" class="swal2-input" type="name" placeholder="Name">' +
           '<input id="email" class="swal2-input" type="email" placeholder="Email">'+
-          '<input id="address" class="swal2-input" type="address" placeholder="Delivary Address">',
-        showCancelButton: true,
+          '<input id="address" class="swal2-input" type="address" placeholder="Delivary Address">'+
+          '<input id="password" class="swal2-input" type="password" placeholder="Password">',
         focusConfirm: false,
+        showCancelButton: true,
+        showDenyButton: true,
+        denyButtonText: 'Sign In',
+        denyButtonColor: 'purple', 
         preConfirm: async ()=> { 
-            return await preConfirmFunction(firebase.getUserByUserEmail, totalPrice);
+            return await preConfirmFunction(firebase, totalPrice);
+        }
+    }).then(result=>{
+        // console.log(result)
+        if(result.isDenied){
+            signIn(firebase)
+        }
+        else if (result.value) {
+            const [user, order] = result.value;
+            firebase.setOrder(order);
+            firebase.setUser(user);
+            Swal.fire({
+                title: 'order completed',
+                text: 'an email is sent to you with the order details and a link for payment',
+                icon: 'success'})
+            localStorage.removeItem('order');
+            history.push('/');
         }
     })
-    
-    if (details) {
-        const [user, order] = details;
-        firebase.setOrder(order);
-        firebase.setUser(user);
-        Swal.fire({
-            title: 'order completed',
-            text: 'an email is sent to you with the order details and a link for payment',
-            icon: 'success'})
-        localStorage.removeItem('order');
-        history.push('/');
-    }
 }
