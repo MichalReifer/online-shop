@@ -121,8 +121,13 @@ const preConfirmSignUp = async (firebase, totalPrice) => {
     email.classList.remove("swal2-inputerror");
     address.classList.remove("swal2-inputerror");
     password.classList.remove("swal2-inputerror");
-
-    if (!name.value||!email.value||!address.value||!password.value){
+    
+    let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
+    if (userExists){
+        Swal.showValidationMessage('this email is already registered. use sign in instead.');
+        email.classList.add("swal2-inputerror");
+    }
+    else if (!name.value||!email.value||!address.value||!password.value){
         Swal.showValidationMessage('please fill in all fields');
         if (!name.value){name.classList.add("swal2-inputerror");}
         if (!email.value){email.classList.add("swal2-inputerror");}
@@ -136,39 +141,26 @@ const preConfirmSignUp = async (firebase, totalPrice) => {
         Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
         password.classList.add("swal2-inputerror");
     } else {
-        const orderID = Math.random().toString(36).substr(2, 9);
-        const order = {'orderID': orderID, 'made-by': email.value ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
-            'time': new Date().toLocaleString()};
-        let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
-        let user = null;
-        if(userExists){
-            user = userExists;
-            user.orders.push(orderID);
-            user.name = name.value;
-            user.address = address.value;
-        } else{
-            const userID = Math.random().toString(36).substr(2, 9);
-            user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value, 'orders': [orderID]};
-            console.log(user);
-            firebase.signUp(email.value, password.value);
-        }
-
-        return [user, order]
+        firebase.signUp(email.value, password.value);
+        const userID = Math.random().toString(36).substr(2, 9);
+        const user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value};
+        // console.log(user);
+        return user
     }
 }
 
-const button = document.getElementById('sign-in-button');
+// const button = document.getElementById('sign-in-button');
 
-if (button){
-    button.addEventListener('click', event => {
-    button.textContent = `Click count: ${event.detail}`;
-    signIn()
-    })
-}
+// if (button){
+//     button.addEventListener('click', event => {
+//     button.textContent = `Click count: ${event.detail}`;
+//     signIn()
+//     })
+// }
 
-export const checkout = async (firebase, history, totalPrice) => {
+export const signUp = async (firebase, history, totalPrice) => {
 
-
+    let user = null;
     await Swal.fire({
         title: 'Enter Your Details',
         html:
@@ -186,24 +178,54 @@ export const checkout = async (firebase, history, totalPrice) => {
         //             '<button class="swal-button swal2-styled" id="sign-in-button">Sign In</button>'+
         //         '</div>',
         preConfirm: async ()=> { 
-            return await preConfirmSignUp(firebase, totalPrice);
+            user = await preConfirmSignUp(firebase, totalPrice);
+            return user;
         }
     }).then(result=>{
         // console.log(result)
         if(result.isDenied){
-            signIn(firebase)
+            user = signIn(firebase);
         }
         else if (result.value) {
-            const [user, order] = result.value;
-            firebase.setOrder(order);
-            firebase.setUser(user);
-            Swal.fire({
-                title: 'order completed',
-                text: 'an email is sent to you with the order details and a link for payment',
-                icon: 'success'})
-            localStorage.removeItem('order');
-            history.push('/');
+            firebase.setUser(result.value);
         }
     })
+    return user;
+}
 
+export const checkout = async (firebase, history, totalPrice) => {
+
+    let user = null;
+    const currentUser = firebase.getCurrentUser();
+    // console.log(currentUser);
+    // console.log(currentUser.email);
+    if (currentUser){ 
+        await Swal.fire({
+            title: `checkout as ${currentUser.email}?`,
+            icon: 'question',
+            showCancelButton: true,
+            focusConfirm: false
+        }).then(result=>{
+            if(result.isConfirmed){
+                user = currentUser; 
+            }
+        })
+    } else {
+        user = await signUp(firebase, history, totalPrice);
+    }
+
+    if (user){     
+        const orderID = Math.random().toString(36).substr(2, 9);
+        const order = {'orderID': orderID, 'made-by': user.email ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
+                            'time': new Date().toLocaleString()};
+
+        firebase.setOrder(order);
+
+        Swal.fire({
+            title: 'order completed',
+            text: 'an email is sent to you with the order details and a link for payment',
+            icon: 'success'})
+        localStorage.removeItem('order');
+        history.push('/');
+    }
 }
