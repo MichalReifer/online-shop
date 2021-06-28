@@ -2,7 +2,7 @@ import logo from './images/logo.jpg';
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useState } from 'react';
-import {signIn} from './utils';
+import {signUp} from './utils';
 
 const Navbar = (props) => {
 
@@ -12,9 +12,8 @@ const Navbar = (props) => {
         setUser(props.firebase.getCurrentUser()?.email)
     }, 500)
     
-    const signMeIn = async (firebase)=>{
-        // const user = await props.firebase.signIn('michalr@gmail.com', 'lalala');
-        const user = await signIn(props.firebase);
+    const signMeUp = async (firebase)=>{
+        const user = await signUp(props.firebase);
         setUser(user?.email);
 
     }
@@ -28,7 +27,7 @@ const Navbar = (props) => {
         <nav className="navbar">
             <a href="/"><img src={logo} alt='logo' /></a>
             <div className="links">
-                {!user && <a onClick={signMeIn}>Sign In</a>}
+                {!user && <a onClick={signMeUp}>Sign Up</a>}
                 { user && 
                     <div className="sign-out"> 
                         <p>Hi, {user}!</p>
