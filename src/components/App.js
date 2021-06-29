@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cart from './Cart';
 import ProductPage from './ProductPage';
 import Search from './Search';
+import UserPage from './UserPage';
 
 
 function App(props) {
@@ -26,6 +27,9 @@ function App(props) {
             <Route path="/products/:cakeId" >
               <ProductPage/>
             </Route>
+            <Route path="/users/:userName" >
+              <UserPage/>
+            </Route>            
           </Switch>
         </div>  
       </div>

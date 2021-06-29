@@ -84,7 +84,7 @@ const preConfirmSignIn = async (firebase, user) => {
         password.classList.add("swal2-inputerror");
     } else {
         user = await firebase.signIn(email.value, password.value);
-        console.log(user)
+        // console.log(user)
         if(!user){
             Swal.showValidationMessage('invalid email or password');
             email.classList.add("swal2-inputerror");
@@ -122,7 +122,7 @@ const preConfirmSignUp = async (firebase, totalPrice) => {
     address.classList.remove("swal2-inputerror");
     password.classList.remove("swal2-inputerror");
     
-    let userExists = await firebase.getUserByUserEmail(email.value).then(result=>result);
+    let userExists = await firebase.getUserByEmail(email.value).then(result=>result);
     if (userExists){
         Swal.showValidationMessage('this email is already registered. use sign in instead.');
         email.classList.add("swal2-inputerror");
@@ -216,7 +216,7 @@ export const checkout = async (firebase, history, totalPrice) => {
 
     if (user){     
         const orderID = Math.random().toString(36).substr(2, 9);
-        const order = {'orderID': orderID, 'made-by': user.email ,'total-price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
+        const order = {'orderID': orderID, 'made_by': user.email ,'total_price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
                             'time': new Date().toLocaleString()};
 
         firebase.setOrder(order);

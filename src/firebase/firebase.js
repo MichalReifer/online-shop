@@ -90,6 +90,17 @@ class Firebase {
     return product;
   }
 
+  getOrdersByEmail = async (email) => {
+    const snapshots = await this.db.ref("/orders").once('value')
+    let orders = [];
+    snapshots.forEach(data=>{
+      if (data.val().made_by === email){
+        orders.push(data.val());
+      }
+    })
+    return orders;
+  }
+
   setOrder = async (order) => {
     this.db.ref("/orders/"+order.orderID).set(order);
   }
@@ -97,15 +108,15 @@ class Firebase {
 
   /* Users Database: */
 
-  getUserByUserEmail = async (email) => {
+  getUserByEmail = async (email) => {
     const snapshots = await this.db.ref("/users").once('value')
-    let product = null;
+    let user = null;
     snapshots.forEach(data=>{
       if (data.val().email === email){
-        product = data.val();
+        user = data.val();
       }
     })
-    return product;
+    return user;
   }
 
   setUser = async (user) => {
@@ -113,12 +124,12 @@ class Firebase {
   }
 
   signUp = async (email, password) => {
-    console.log(email);
+    // console.log(email);
     this.auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       var user = userCredential.user;
       console.log('sign up succeeded.');
-      console.log(user.email);
+      // console.log(user.email);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -133,7 +144,7 @@ class Firebase {
       .then((userCredential) => {
         var user = userCredential.user;
         console.log('sign in succeeded.');
-        console.log(user.email)
+        // console.log(user.email)
         return user;
       })
       .catch((error) => {
@@ -143,14 +154,14 @@ class Firebase {
         console.log(errorMessage);
         return null;
       });
-    console.log(user)
+    // console.log(user)
     return user;
   }
 
   signOut = async () => {
     this.auth.signOut().then(() => {
       console.log('sign out succeeded.');
-      this.printCurrentUser();
+      // this.printCurrentUser();
     }).catch((error) => {
       console.log(error);
     });     
