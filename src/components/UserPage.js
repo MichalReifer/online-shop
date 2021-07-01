@@ -1,65 +1,56 @@
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 
 const UserPage = (props) => {
 
-    const { userName } = useParams()
-    const { userEmail } = useLocation().state;
+    const { userId } = useLocation().state;
     const [ user, setUser ]= useState(null);
     const [ userOrders, setUserOrders ] = useState([]);
-
-    console.log(userName);
-    console.log(userEmail)
+    const [ showDetails, setShowDetails ] = useState(false);
 
     useEffect(async()=>{
-        setTimeout(async()=>{
-            const user = await props.firebase.getUserByEmail(userEmail);
-            const userOrders = await props.firebase.getOrdersByEmail(userEmail);
+        // setTimeout(async()=>{
+            const user = await props.firebase.getUserById(userId);
+            const userOrders = await props.firebase.getOrdersByEmail(user?.email);
             setUser(user);
             setUserOrders(userOrders);
-        }, 1000)
+            const currentUser = await props.firebase.getCurrentUser();
+            if (currentUser?.uid===userId){
+                setShowDetails(true)
+            }
+        // }, 1000)
+    }, [userId])
 
-    }, [])
-
-    console.log(user)
-    console.log(userOrders)
-
-
-//
     return (
         <div className="user-page">
-            {/* { isLoading && <div>Loading...</div>} */}
-            {/* { error && <div>{ error }</div>} */}
-            { user && (
-                <div>
+            { (user&&showDetails) && (
+                <div className='user-details'>
                     <h1>{user.name}</h1>
-                    <div className='user-page'>
-                        <div className="details">
-                            <h4>email: {user.email}</h4>
-                            <p>address: {user.address}</p>
-                            <h2>Orders</h2>
-                            { userOrders.map((order, index)=>(
-                                <div>
-                                    <h3>Order {index+1}</h3>
-                                    <p>made on: {order.time}</p>
-                                    <p>total price: {order.total_price}</p>
-                                    <h3>products:</h3>
-                                    {Object.keys(order.products).map(product=>(
-                                        <div>
-                                            <p>{product} : {order.products[product]}</p>
-                                        </div>
-                                    ))}
+                    <h4>email: {user.email}</h4>
+                    <p>address: {user.address}</p>
+                    <h2>Orders</h2>
+                    { userOrders.map((order, index)=>(
+                        <div key={index}>
+                            <h3>Order {index+1}</h3>
+                            <p>made on: {order.time}</p>
+                            <p>total price: {order.total_price}</p>
+                            <h3>products:</h3>
+                            {Object.keys(order.products).map(product=>(
+                                <div key={product}>
+                                    <p>{product} : {order.products[product]}</p>
                                 </div>
-                            )) 
-                            } 
-                            {/* <button onClick={()=>addToCart(cakeId, history)}>Add To Cart</button> */}
+                            ))}
                         </div>
-                    </div>
+                    )) 
+                    } 
                 </div>
             )}
+            { (user&&!showDetails) && 
+                <h2>you are not authorised to access this page.</h2>
+            }
         </div>
     );
 }

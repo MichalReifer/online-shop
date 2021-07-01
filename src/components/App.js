@@ -27,7 +27,7 @@ function App(props) {
             <Route path="/products/:cakeId" >
               <ProductPage/>
             </Route>
-            <Route path="/users/:userName" >
+            <Route path="/users/:userId_userName">
               <UserPage/>
             </Route>            
           </Switch>
