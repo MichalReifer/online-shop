@@ -62,31 +62,31 @@ const passwordValidate = (string) => {
     return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string) ? 'valid' : 'invalid'
 }
 
-const preConfirmSignIn = async (firebase, user) => {
+const preConfirmSignIn = async (firebase) => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
-
+    let user = null;
 
     email.classList.remove("swal2-inputerror");
     password.classList.remove("swal2-inputerror");
         
     if (!email.value){
         email.classList.add("swal2-inputerror");
+        email.focus();
         Swal.showValidationMessage('please fill in your email address');
-    } else  if (!password.value){
-        password.classList.add("swal2-inputerror");
-        Swal.showValidationMessage('please enter your password');
     } else if (emailValidate(email.value)==='invalid') {
         Swal.showValidationMessage('email address is invalid');
         email.classList.add("swal2-inputerror");
-    } else if (password.value && passwordValidate(password.value)==='invalid') {
-        Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
+        email.focus();
+    } else if (!password.value){
         password.classList.add("swal2-inputerror");
+        password.focus();
+        Swal.showValidationMessage('please enter your password');
     } else {
         user = await firebase.signIn(email.value, password.value);
         // console.log(user)
         if(!user){
-            Swal.showValidationMessage('invalid email or password');
+            Swal.showValidationMessage('invalid login, please try again');
             email.classList.add("swal2-inputerror");
             password.classList.add("swal2-inputerror");
         }
@@ -103,14 +103,15 @@ export const signIn = async (firebase) => {
           '<input id="password" class="swal2-input" type="password" placeholder="Password">',
         focusConfirm: false,
         showCancelButton: true,
+        allowEnterKey: true,
         preConfirm: async () => { 
-            user = await preConfirmSignIn(firebase, user);
+            user = await preConfirmSignIn(firebase);
         }
     })
     return user;
 }
 
-const preConfirmSignUp = async (firebase, totalPrice) => {
+const preConfirmSignUp = async (firebase) => {
 
     const name = document.getElementById('name');
     const email = document.getElementById('email');
@@ -137,14 +138,14 @@ const preConfirmSignUp = async (firebase, totalPrice) => {
     else if (email.value && emailValidate(email.value)==='invalid') {
         Swal.showValidationMessage('email address is invalid');
         email.classList.add("swal2-inputerror");
+        email.focus();
     } else if (password.value && passwordValidate(password.value)==='invalid') {
-        Swal.showValidationMessage('password should have at least 5 characters and can use only english letters, digits and/or meta characters.');
+        Swal.showValidationMessage('password should have at least 5 characters of english letters, digits and/or meta characters.');
         password.classList.add("swal2-inputerror");
+        password.focus()
     } else {
-        firebase.signUp(email.value, password.value);
-        const userID = Math.random().toString(36).substr(2, 9);
-        const user = {'userID': userID, 'name': name.value, 'email': email.value, 'address': address.value};
-        // console.log(user);
+        const user = {'name': name.value, 'email': email.value, 'address': address.value};
+        firebase.signUp(user, password.value);
         return user
     }
 }
@@ -158,7 +159,7 @@ const preConfirmSignUp = async (firebase, totalPrice) => {
 //     })
 // }
 
-export const signUp = async (firebase, history, totalPrice) => {
+export const signUp = async (firebase) => {
 
     let user = null;
     await Swal.fire({
@@ -178,16 +179,13 @@ export const signUp = async (firebase, history, totalPrice) => {
         //             '<button class="swal-button swal2-styled" id="sign-in-button">Sign In</button>'+
         //         '</div>',
         preConfirm: async ()=> { 
-            user = await preConfirmSignUp(firebase, totalPrice);
+            user = await preConfirmSignUp(firebase);
             return user;
         }
     }).then(result=>{
         // console.log(result)
         if(result.isDenied){
             user = signIn(firebase);
-        }
-        else if (result.value) {
-            firebase.setUser(result.value);
         }
     })
     return user;
@@ -211,14 +209,12 @@ export const checkout = async (firebase, history, totalPrice) => {
             }
         })
     } else {
-        user = await signUp(firebase, history, totalPrice);
+        user = await signUp(firebase);
     }
 
     if (user){     
-        const orderID = Math.random().toString(36).substr(2, 9);
-        const order = {'orderID': orderID, 'made_by': user.email ,'total_price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
+        const order = {'made_by': user.email ,'total_price': totalPrice, 'products': JSON.parse(localStorage.getItem('order')),
                             'time': new Date().toLocaleString()};
-
         firebase.setOrder(order);
 
         Swal.fire({

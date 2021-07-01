@@ -79,11 +79,11 @@ class Firebase {
     return data;
   }
 
-  getOrderByOrderId = async (orderID) => {
+  getOrderById = async (orderID) => {
     const snapshots = await this.db.ref("/orders").once('value')
     let product = null;
     snapshots.forEach(data=>{
-      if (data.val().orderID === orderID){
+      if (data.key === orderID){
         product = data.val();
       }
     })
@@ -102,11 +102,24 @@ class Firebase {
   }
 
   setOrder = async (order) => {
-    this.db.ref("/orders/"+order.orderID).set(order);
+    const d = new Date();
+    const timeID = `${d.getFullYear()}`+`${d.getMonth()+1}`+`${d.getDate()+1}_`
+                  +`${d.getHours()}:`+`${d.getMinutes()}:`+`${d.getSeconds()}:`+`${d.getMilliseconds()}`;
+    this.db.ref("/orders/"+timeID).set(order);
   }
 
-
   /* Users Database: */
+
+  getUserById = async (userId) => {
+    const snapshots = await this.db.ref("/users").once('value')
+    let user = null;
+    snapshots.forEach(data=>{
+      if (data.key === userId){
+        user = data.val();
+      }
+    })
+    return user;
+  }
 
   getUserByEmail = async (email) => {
     const snapshots = await this.db.ref("/users").once('value')
@@ -114,6 +127,7 @@ class Firebase {
     snapshots.forEach(data=>{
       if (data.val().email === email){
         user = data.val();
+        console.log(data.key)
       }
     })
     return user;
@@ -123,13 +137,14 @@ class Firebase {
     this.db.ref("/users/"+user.userID).set(user);
   }
 
-  signUp = async (email, password) => {
+  signUp = async (user, password) => {
     // console.log(email);
-    this.auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      var user = userCredential.user;
+    this.auth.createUserWithEmailAndPassword(user.email, password)
+    .then((credentials) => {
+      const authUser = credentials.user;
       console.log('sign up succeeded.');
-      // console.log(user.email);
+      authUser.updateProfile({displayName: user.name})
+      this.db.ref("/users/"+authUser.uid).set(user);
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -168,14 +183,25 @@ class Firebase {
   }
 
   getCurrentUser = ()=> {
-    // console.log(this.auth.currentUser);
+    // console.log(this.auth);
     return this.auth.currentUser;
 
   }
 
   printCurrentUser = () =>{
     console.log(this.auth.currentUser?.email);
-    // console.log(this.auth.currentUser?.displayName);
+    console.log(this.auth.currentUser?.displayName);
+  }
+
+  changeAuth = async() => {
+    this.auth.onAuthStateChanged(user=>{
+      if (user){
+        // console.log(user.email);
+        console.log('user is logged in');
+      } else {
+        console.log('user is logged out')
+      }
+    })
   }
 
 }
