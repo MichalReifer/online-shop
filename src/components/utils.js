@@ -2,6 +2,22 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 
 
+
+/* Search component */
+export const sortProducts = (products, field) =>{
+    products.sort((a, b)=>{
+        const nameA = a[field];
+        const nameB = b[field];
+        if (nameA < nameB) {
+            return -1;
+        }else if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+    return products;
+}
+
 /* ProductPage component */
 export const addToCart = (cakeId, history) => {
     let storage = localStorage.getItem('order');

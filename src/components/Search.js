@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { sortProducts } from "./utils";
 import ProductPreview from "./ProductPreview";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
@@ -8,19 +9,18 @@ const Search = (props) => {
 
     const searchForm = document.querySelector('.search-form');
     const [isLoading, setIsLoading] = useState(true);
-    const [allProducts, setAllProducts] = useState(null);
-    const [products, setProducts] = useState(null);
+    const [filteredProducts, setFilteredProducts] = useState(null);
 
     useEffect(async ()=>{
-        let data = await props.firebase.getAllProducts()
-        setAllProducts(data);
-        setProducts(allProducts)
+        let allProducts = await props.firebase.getAllProducts()
+        allProducts = sortProducts(allProducts, 'cakeId');
+        setFilteredProducts(allProducts)
         setIsLoading(false)
         if(searchForm){searchForm.addEventListener('submit', (e)=>{
             e.preventDefault();
-            const term = searchForm.term.value.trim();
+            const term = searchForm.term.value.trim().toLowerCase();
             if (term || term===''){ 
-                setProducts(allProducts.filter(product=>Object.values(product).join('').includes(term)));
+                setFilteredProducts(allProducts.filter(product=>Object.values(product).join('').toLocaleLowerCase().includes(term)));
             }
         })}
     }, [searchForm])
@@ -33,7 +33,7 @@ const Search = (props) => {
             </form>
             {/* { error && <div>{ error }</div> } */}
             { isLoading && <div>Loading...</div> }
-            { products && <ProductPreview products={products}/>}
+            { filteredProducts && <ProductPreview products={filteredProducts}/>}
 
         </div>
     );
