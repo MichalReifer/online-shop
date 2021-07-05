@@ -137,30 +137,41 @@ class Firebase {
     this.db.ref("/users/"+user.userID).set(user);
   }
 
+  setUserInLocalStorage = (authUser) => {
+    localStorage.setItem('currentUser', 
+      `{"uid": "${authUser.uid}", "email": "${authUser.email}", "displayName": "${authUser.displayName}"}`
+      );
+  }
+
   signUp = async (user, password) => {
     // console.log(email);
-    this.auth.createUserWithEmailAndPassword(user.email, password)
-    .then((credentials) => {
-      const authUser = credentials.user;
-      console.log('sign up succeeded.');
-      authUser.updateProfile({displayName: user.name})
-      this.db.ref("/users/"+authUser.uid).set(user);
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
-    });
+    const authUser = await this.auth.createUserWithEmailAndPassword(user.email, password)
+      .then(async (credentials) => {
+        const authUser = credentials.user;
+        await authUser.updateProfile({displayName: user.displayName})
+        this.db.ref("/users/"+authUser.uid).set(user);
+        this.setUserInLocalStorage(authUser);
+        console.log('sign up succeeded.');
+        return authUser;
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
+    return authUser;
   }
 
   signIn = async (email, password) => {
     const user = await this.auth.signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        var user = userCredential.user;
+        var authUser = userCredential.user;
         console.log('sign in succeeded.');
         // console.log(user.email)
-        return user;
+        // localStorage.setItem('currentUser', JSON.stringify(authUser));
+        this.setUserInLocalStorage(authUser);
+        return authUser;
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -169,7 +180,6 @@ class Firebase {
         console.log(errorMessage);
         return null;
       });
-    // console.log(user)
     return user;
   }
 
@@ -183,7 +193,6 @@ class Firebase {
   }
 
   getCurrentUser = ()=> {
-    // console.log(this.auth);
     return this.auth.currentUser;
 
   }

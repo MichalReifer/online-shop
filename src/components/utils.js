@@ -84,7 +84,6 @@ const preConfirmSignIn = async (firebase) => {
         Swal.showValidationMessage('please enter your password');
     } else {
         user = await firebase.signIn(email.value, password.value);
-        // console.log(user)
         if(!user){
             Swal.showValidationMessage('invalid login, please try again');
             email.classList.add("swal2-inputerror");
@@ -144,20 +143,13 @@ const preConfirmSignUp = async (firebase) => {
         password.classList.add("swal2-inputerror");
         password.focus()
     } else {
-        const user = {'name': name.value, 'email': email.value, 'address': address.value};
-        firebase.signUp(user, password.value);
-        return user
+        const user = {'displayName': name.value, 'email': email.value, 'address': address.value};
+        const authUser = await firebase.signUp(user, password.value);
+        // console.log(authUser);  
+        return authUser;
     }
 }
 
-// const button = document.getElementById('sign-in-button');
-
-// if (button){
-//     button.addEventListener('click', event => {
-//     button.textContent = `Click count: ${event.detail}`;
-//     signIn()
-//     })
-// }
 
 export const signUp = async (firebase) => {
 
@@ -176,7 +168,6 @@ export const signUp = async (firebase) => {
         denyButtonColor: 'purple', 
         // footer: '<div class="checkout-footer">'+
         //             '<p>already have an account?</p>'+
-        //             '<button class="swal-button swal2-styled" id="sign-in-button">Sign In</button>'+
         //         '</div>',
         preConfirm: async ()=> { 
             user = await preConfirmSignUp(firebase);
@@ -194,12 +185,11 @@ export const signUp = async (firebase) => {
 export const checkout = async (firebase, history, totalPrice) => {
 
     let user = null;
-    const currentUser = firebase.getCurrentUser();
-    // console.log(currentUser);
-    // console.log(currentUser.email);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(currentUser);
     if (currentUser){ 
         await Swal.fire({
-            title: `checkout as ${currentUser.email}?`,
+            title: `checkout as ${currentUser.displayName}?`,
             icon: 'question',
             showCancelButton: true,
             focusConfirm: false
@@ -209,7 +199,8 @@ export const checkout = async (firebase, history, totalPrice) => {
             }
         })
     } else {
-        user = await signUp(firebase);
+        await signUp(firebase);
+        user = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     if (user){     
