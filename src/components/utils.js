@@ -2,7 +2,6 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 
 
-
 /* Search component */
 export const sortProducts = (products, field) =>{
     products.sort((a, b)=>{
@@ -170,6 +169,16 @@ const preConfirmSignUp = async (firebase) => {
 export const signUp = async (firebase) => {
 
     let user = null;
+    
+const buttonHandler = async (dom)=>{
+    console.log(dom)
+    const button = document.getElementById('sign-in-button');
+    button.addEventListener('click', async event => {        
+        await signIn(firebase);
+        user = JSON.parse(localStorage.getItem('currentUser'));
+    })
+}
+
     await Swal.fire({
         title: 'Enter Your Details',
         html:
@@ -182,13 +191,15 @@ export const signUp = async (firebase) => {
         showDenyButton: true,
         denyButtonText: 'Sign In',
         denyButtonColor: 'purple', 
-        // footer: '<div class="checkout-footer">'+
-        //             '<p>already have an account?</p>'+
-        //         '</div>',
+        footer: '<div class="checkout-footer">'+
+                    '<p>already have an account?</p>'+
+                    '<button type="button" class="swal2-deny swal2-styled swal2-default-outline swal-button" aria-label id="sign-in-button">Sign In</button>'+
+                '</div>',
         preConfirm: async ()=> { 
             user = await preConfirmSignUp(firebase);
             return user;
-        }
+        },
+        didRender: buttonHandler
     }).then(result=>{
         // console.log(result)
         if(result.isDenied){
