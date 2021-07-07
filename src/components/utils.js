@@ -169,15 +169,6 @@ const preConfirmSignUp = async (firebase) => {
 export const signUp = async (firebase) => {
 
     let user = null;
-    
-const buttonHandler = async (dom)=>{
-    console.log(dom)
-    const button = document.getElementById('sign-in-button');
-    button.addEventListener('click', async event => {        
-        await signIn(firebase);
-        user = JSON.parse(localStorage.getItem('currentUser'));
-    })
-}
 
     await Swal.fire({
         title: 'Enter Your Details',
@@ -190,16 +181,28 @@ const buttonHandler = async (dom)=>{
         showCancelButton: true,
         showDenyButton: true,
         denyButtonText: 'Sign In',
-        denyButtonColor: 'purple', 
-        footer: '<div class="checkout-footer">'+
-                    '<p>already have an account?</p>'+
-                    '<button type="button" class="swal2-deny swal2-styled swal2-default-outline swal-button" aria-label id="sign-in-button">Sign In</button>'+
-                '</div>',
+        denyButtonColor: '#7e02c5d5', 
         preConfirm: async ()=> { 
             user = await preConfirmSignUp(firebase);
             return user;
         },
-        didRender: buttonHandler
+        willOpen: ()=>{ 
+            let actions = Swal.getActions();
+            let footerDiv = document.createElement('div');
+            let denyButton = Swal.getDenyButton();
+            let p = document.createElement('p');
+            p.innerHTML = 'already have an account? ';
+            footerDiv.appendChild(p);
+            footerDiv.appendChild(denyButton);
+            actions.appendChild(footerDiv);
+            footerDiv.classList.add('footer-div')
+            // Swal.hideLoading()
+        //     console.log(Swal.getContainer());
+        //     console.log(Swal.getActions().remove());
+        //     let footer = Swal.getFooter();
+        //     button.setAttribute('aria-label', '')
+        //     button.type = 'button'
+        }
     }).then(result=>{
         // console.log(result)
         if(result.isDenied){

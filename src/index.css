@@ -14,6 +14,7 @@ h1 {
   color:#9b0048;
 }
 
+/* Navbar */
 .navbar {
   background: #fff;
   padding: 20px;
@@ -32,8 +33,13 @@ h1 {
   height: 75px;
 }
 
-.navbar .links {
+.navbar .links, .sign-out {
   margin-left: auto;
+  display: flex;
+}
+
+.sign-out * {
+  align-self: center;
 }
 
 .navbar .links a {
@@ -47,6 +53,7 @@ h1 {
   color: #f1356d;
 }
 
+/* content (all pages below Navbar) */
 .content {
   max-width: 1010px;
   margin: 40px auto;
@@ -110,11 +117,6 @@ h1 {
   margin: 26px 0 16px 16px;
 }
 
-.cart-products {
-  overflow: auto;
-  max-height: 534px;
-}
-
 .cart-bottom {
   display: flex;
   justify-content: space-between;
@@ -134,20 +136,22 @@ h1 {
   font-size: large;
 }
 
+.cart-products {
+  overflow: auto;
+  max-height: 534px;
+}
+
 /* cart-previews / list */
 .cart-preview {
   padding: 10px 16px;
   margin: 10px 0;
   border-bottom: 1px solid #fafafa;
+  display: flex;
+  justify-content: space-between;
 }
 
 .cart-preview:hover {
   box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-}
-
-.cart-preview  {
-  display: flex;
-  justify-content: space-between;
 }
 
 .cart-preview *{
@@ -245,4 +249,28 @@ button:active:not(.swal-button, .swal2-styled) {
 
 .search label {
   margin-right:15px;
+}
+
+/* Swal2: sign up buttons */
+
+.swal2-actions {
+  /* height: 150px; */
+  display: flex;
+}
+.swal2-actions *:not(.footer-div) {
+  align-self: flex-start;
+  margin-bottom: 15px;
+}
+
+.swal2-actions .footer-div{
+  /* position: absolute; */
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f2f2f2;
+}
+
+.swal2-actions .footer-div * {
+  align-self: center;
+  margin: 8px;
 }
