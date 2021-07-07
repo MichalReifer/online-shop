@@ -274,3 +274,75 @@ button:active:not(.swal-button, .swal2-styled) {
   align-self: center;
   margin: 8px;
 }
+
+/* user page component */ 
+
+.user-details {
+  margin-bottom: 26px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-details *{
+  align-self: center;
+}
+
+.user-details-container button {
+  margin: 26px;
+  width: 150px;
+}
+
+.user-details h1 {
+  margin-left: 0;
+}
+
+.user-page h2{
+  margin: 5px 0;
+  color: #f1356d;
+}
+
+.user-orders {
+  overflow: auto;
+  max-height: 500px;
+}
+
+/* user orders component */
+
+.order-preview{
+  padding: 10px 0;
+  margin: 10px 0;
+  border: 1px solid #fafafa;
+}
+
+.order-preview .products{
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-preview:hover {
+  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+
+.order-preview *{
+  align-self: center;
+}
+
+.order-preview h2 {
+  font-size: 20px;
+  color: #f1356d;
+  width: 150px;
+  text-align: center;
+}
+
+.order-preview p {
+  width: auto;
+}
+
+.order-preview img {
+  width: 68px;
+  height: 100px;
+}
+
+.order-preview a {
+  height: 100px;
+}

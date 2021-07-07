@@ -103,7 +103,7 @@ class Firebase {
 
   setOrder = async (order) => {
     const d = new Date();
-    const timeID = `${d.getFullYear()}`+`${d.getMonth()+1}`+`${d.getDate()+1}_`
+    const timeID = `${d.getFullYear()}`+`${d.getMonth()+1}`+`${d.getDate()}_`
                   +`${d.getHours()}:`+`${d.getMinutes()}:`+`${d.getSeconds()}:`+`${d.getMilliseconds()}`;
     this.db.ref("/orders/"+timeID).set(order);
   }
@@ -137,10 +137,12 @@ class Firebase {
     this.db.ref("/users/"+user.userID).set(user);
   }
 
-  setUserInLocalStorage = (authUser) => {
+  setUserInLocalStorage = async (authUser) => {
     localStorage.setItem('currentUser', 
       `{"uid": "${authUser.uid}", "email": "${authUser.email}", "displayName": "${authUser.displayName}"}`
       );
+    const dataUser = await this.getUserById(authUser.uid);
+    localStorage.setItem('userDetails', `{"address": "${dataUser.address}"}` )
   }
 
   signUp = async (user, password) => {
@@ -180,6 +182,7 @@ class Firebase {
         console.log(errorMessage);
         return null;
       });
+    // console.log(user)
     return user;
   }
 
@@ -200,6 +203,28 @@ class Firebase {
   printCurrentUser = () =>{
     console.log(this.auth.currentUser?.email);
     console.log(this.auth.currentUser?.displayName);
+  }
+
+
+  updateProfile = async (newName, newAddress) => {
+    const authUser = this.auth.currentUser;
+    const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    let name = newName? newName: authUser.displayName;
+    let address = newAddress? newAddress: userDetails.address;
+    await authUser.updateProfile({
+      displayName: name
+    }).then(() => {
+      this.db.ref("/users/"+authUser.uid).set({
+        displayName: name,
+        address: address,
+        email: authUser.email  
+      });
+      this.setUserInLocalStorage(authUser);
+    }).catch((error) => {
+      // An error occurred
+      // ...
+    });
+    return true;
   }
 
   changeAuth = async() => {

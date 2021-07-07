@@ -196,12 +196,6 @@ export const signUp = async (firebase) => {
             footerDiv.appendChild(denyButton);
             actions.appendChild(footerDiv);
             footerDiv.classList.add('footer-div')
-            // Swal.hideLoading()
-        //     console.log(Swal.getContainer());
-        //     console.log(Swal.getActions().remove());
-        //     let footer = Swal.getFooter();
-        //     button.setAttribute('aria-label', '')
-        //     button.type = 'button'
         }
     }).then(result=>{
         // console.log(result)
@@ -245,4 +239,23 @@ export const checkout = async (firebase, history, totalPrice) => {
         localStorage.removeItem('order');
         history.push('/');
     }
+}
+
+export const changeDetails = async (firebase) => {
+    let user = null;
+    await Swal.fire({
+        title: 'Enter Your Details',
+        html:
+        '<input id="name" class="swal2-input" type="name" placeholder="Name">' +
+        '<input id="address" class="swal2-input" type="address" placeholder="Delivary Address">',
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: async ()=> { 
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            user = await firebase.updateProfile(name, address);
+        }
+    })
+    console.log(user);
+    return user;
 }
