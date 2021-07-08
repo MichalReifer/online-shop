@@ -39,7 +39,7 @@ const UserOrders = ({userOrders, firebase}) => {
                         <h3>products:</h3>
                         {products && Object.keys(order.products).map((product, i)=>(
                             <div key={i}>
-                                    <p>{products[index][i].title} : {order.products[product]}</p>
+                                    <p>{products[index][i]?.title} : {order.products[product]}</p>
                             </div>
                             ))
                         }

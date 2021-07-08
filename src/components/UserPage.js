@@ -1,22 +1,28 @@
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import UserOrders from './UserOrders';
 import { changeDetails } from './utils';
+import Swal from 'sweetalert2';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 const UserPage = (props) => {
 
-    const { userId } = useLocation().state;
+    const { user: currentUser, setUser: setCurrentUser} = useContext(CurrentUserContext);
+    const { userId } = useParams();
     const [ user, setUser ]= useState(null);
     const [ userDetails, setUserDetails ] = useState(null);
     const [ userOrders, setUserOrders ] = useState([]);
     const [ showDetails, setShowDetails ] = useState(false);
 
+    console.log(currentUser)
+    console.log(user)
+
     useEffect(async()=>{
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             setUser(true);
+            setShowDetails(false);
             if (currentUser?.uid===userId){
                 setUser(currentUser);
                 setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
@@ -24,14 +30,22 @@ const UserPage = (props) => {
                 const userOrders = await props.firebase.getOrdersByEmail(currentUser.email);
                 setUserOrders(userOrders);
             }
-    }, [])
+    }, [userId])
 
     const changeUserDetails = async () => {
         await changeDetails(props.firebase);
-        console.log('change done.')
         setUserDetails(await JSON.parse(localStorage.getItem('userDetails')));
         setUser(await JSON.parse(localStorage.getItem('currentUser')));
-        console.log('set current user done.')
+        setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
+    }
+
+    const changePassword = async () => {
+        await props.firebase.changePassword(user.email);
+        console.log("email sent");
+        Swal.fire({
+            title: 'a password reset link is sent to your email address.',
+            icon: 'success'
+        })
     }
 
     return (
@@ -48,7 +62,7 @@ const UserPage = (props) => {
                                 <p>address: {userDetails.address}</p>
                             </div>
                             <button onClick={changeUserDetails}>change details</button>
-                            <button>change password</button>
+                            <button onClick={changePassword}>change password</button>
                         </div>
                     </div>
                     <h2>Orders</h2>

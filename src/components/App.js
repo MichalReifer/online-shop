@@ -5,6 +5,7 @@ import Cart from './Cart';
 import ProductPage from './ProductPage';
 import Search from './Search';
 import UserPage from './UserPage';
+import CurrentUserContextProvider from '../contexts/CurrentUserContext';
 
 
 function App(props) {
@@ -12,26 +13,28 @@ function App(props) {
   return (
     <Router>
       <div className="App">
-        <Navbar />
-        <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <Home/>
-            </Route>
-            <Route path="/cart">
-              <Cart />
-            </Route>
-            <Route path="/search">
-              <Search/>
-            </Route>
-            <Route path="/products/:cakeId" >
-              <ProductPage/>
-            </Route>
-            <Route path="/users/:userId_userName">
-              <UserPage/>
-            </Route>            
-          </Switch>
-        </div>  
+        <CurrentUserContextProvider>
+          <Navbar />
+          <div className="content">
+            <Switch>
+              <Route exact path="/">
+                <Home/>
+              </Route>
+              <Route path="/cart">
+                <Cart />
+              </Route>
+              <Route path="/search">
+                <Search/>
+              </Route>
+              <Route path="/products/:cakeId" >
+                <ProductPage/>
+              </Route>
+              <Route path="/users/:userId">
+                <UserPage/>
+              </Route>            
+            </Switch>
+          </div>  
+        </CurrentUserContextProvider>
       </div>
     </Router>
   );

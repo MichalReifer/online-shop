@@ -213,19 +213,34 @@ class Firebase {
     let address = newAddress? newAddress: userDetails.address;
     await authUser.updateProfile({
       displayName: name
-    }).then(() => {
+    }).then(async () => {
       this.db.ref("/users/"+authUser.uid).set({
         displayName: name,
         address: address,
         email: authUser.email  
       });
-      this.setUserInLocalStorage(authUser);
+      await this.setUserInLocalStorage(authUser);
     }).catch((error) => {
       // An error occurred
       // ...
     });
     return true;
   }
+
+
+  changePassword = async (email) => {
+    this.auth.sendPasswordResetEmail(email)
+    .then(() => {
+      // Password reset email sent!
+      // ..
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ..
+    });
+  }
+
 
   changeAuth = async() => {
     this.auth.onAuthStateChanged(user=>{
