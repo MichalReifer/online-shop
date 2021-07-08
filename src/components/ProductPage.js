@@ -1,23 +1,22 @@
-import { useHistory, useLocation, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { useEffect, useState, useContext } from "react";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { addToCart } from './utils';
+import { ProductsContext } from '../contexts/ProductsContext'
 
 
 const ProductPage = (props) => {
       
+    const { products, isLoading } = useContext(ProductsContext)
     const { cakeId } = useParams()
-    const { id } = useLocation().state;
     const history = useHistory();
-    const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null);
 
     useEffect( async ()=>{
-        let data = await props.firebase.getProduct(id);
+        const data = await products?.filter(product=>product.cakeId===cakeId)[0];
         setProduct(data);
-        setIsLoading(false);
-    }, [])     
+    }, [products])     
 
     return (  
         <div className="product-details">

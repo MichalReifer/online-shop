@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ProductsContext } from '../contexts/ProductsContext'
 import CartProducts from "./CartProducts";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
@@ -8,7 +9,7 @@ import { checkout } from './utils';
 
 const Cart = (props) => {
 
-    const [ isLoading, setIsLoading ] = useState(true);
+    const { products: allProducts, isLoading } = useContext(ProductsContext)
     const [ cartEmpty, setCartEmpty ] = useState(true);
     const [ products, setProducts] = useState([]);
     const [ totalPrice, setTotalPrice] = useState(0)
@@ -22,19 +23,20 @@ const Cart = (props) => {
         setCartEmpty(ans);
     }
 
-    let storage = localStorage.getItem('order');
+    const storage = localStorage.getItem('order');
     useEffect(async ()=>{
         if (storage && storage!='{}'){
             setCartEmpty(false);
             let order = JSON.parse(storage);
-            for (const cakeId in order){
-                let data = await props.firebase.getProductByName(cakeId).then(result=>result);
-                setProducts(prevArr => [...prevArr, data]);
-                setTotalPrice(prevPrice => prevPrice += data.price*order[cakeId]);
+            if(allProducts){
+                for (const cakeId in order){
+                    const data = allProducts.filter(product=>product.cakeId===cakeId)[0];
+                    setProducts(prevArr => [...prevArr, data]);
+                    setTotalPrice(prevPrice => prevPrice += data.price*order[cakeId]);
+                }
             }
         }
-        setIsLoading(false)
-    }, [localStorage])
+    }, [allProducts])
 
 
     return (

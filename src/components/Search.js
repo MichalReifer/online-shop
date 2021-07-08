@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sortProducts } from "./utils";
 import ProductPreview from "./ProductPreview";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
+import { ProductsContext } from '../contexts/ProductsContext'
 
 
 const Search = (props) => {
 
+    let { products: allProducts, isLoading } = useContext(ProductsContext)
     const searchForm = document.querySelector('.search-form');
-    const [isLoading, setIsLoading] = useState(true);
     const [filteredProducts, setFilteredProducts] = useState(null);
 
     useEffect(async ()=>{
-        let allProducts = await props.firebase.getAllProducts()
         allProducts = sortProducts(allProducts, 'cakeId');
         setFilteredProducts(allProducts)
-        setIsLoading(false)
         if(searchForm){searchForm.addEventListener('submit', (e)=>{
             e.preventDefault();
             const term = searchForm.term.value.trim().toLowerCase();

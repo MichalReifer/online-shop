@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 /* Search component */
 export const sortProducts = (products, field) =>{
-    products.sort((a, b)=>{
+    products?.sort((a, b)=>{
         const nameA = a[field];
         const nameB = b[field];
         if (nameA < nameB) {
@@ -103,6 +103,7 @@ const preConfirmSignIn = async (firebase) => {
             Swal.showValidationMessage('invalid login, please try again');
             email.classList.add("swal2-inputerror");
             password.classList.add("swal2-inputerror");
+            password.focus();
         }
     }
     return user;
@@ -210,7 +211,7 @@ export const checkout = async (firebase, history, totalPrice) => {
 
     let user = null;
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(currentUser);
+    // console.log(currentUser);
     if (currentUser){ 
         await Swal.fire({
             title: `checkout as ${currentUser.displayName}?`,
@@ -256,6 +257,6 @@ export const changeDetails = async (firebase) => {
             user = await firebase.updateProfile(name, address);
         }
     })
-    console.log(user);
+    // console.log(user);
     return user;
 }

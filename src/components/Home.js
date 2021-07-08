@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import ProductPreview from "./ProductPreview";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
-
+import { ProductsContext } from '../contexts/ProductsContext'
 
 const Home = (props) => {
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [products, setProducts] = useState(null);
-
-    useEffect(async ()=>{
-        let data = await props.firebase.getAllProducts()
-        setProducts(data);
-        setIsLoading(false)
-    }, [])
+    const { products, isLoading } = useContext(ProductsContext)
 
     let categories = [];
     const productsByCategory = [];    
