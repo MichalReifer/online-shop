@@ -210,7 +210,8 @@ class Firebase {
       this.db.ref("/users/"+authUser.uid).set({
         displayName: name,
         address: address,
-        email: authUser.email  
+        email: authUser.email,
+        admin: userDetails.admin
       });
       await this.setUserInLocalStorage(authUser);
     }).catch((error) => {

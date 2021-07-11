@@ -186,9 +186,8 @@ const preConfirmSignUp = async (firebase) => {
         password.classList.add("swal2-inputerror");
         password.focus()
     } else {
-        const user = {'displayName': name.value, 'email': email.value, 'address': address.value};
+        const user = {'displayName': name.value, 'email': email.value, 'address': address.value, 'admin': false};
         const authUser = await firebase.signUp(user, password.value);
-        // console.log(authUser);  
         return authUser;
     }
 }

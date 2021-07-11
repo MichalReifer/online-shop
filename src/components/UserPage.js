@@ -10,7 +10,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const UserPage = (props) => {
 
-    const { user: currentUser, setUser: setCurrentUser} = useContext(CurrentUserContext);
+    const { user: currentUser, setUser: setCurrentUser, admin, setAdmin } = useContext(CurrentUserContext);
     const { userId } = useParams();
     const [ user, setUser ]= useState(null);
     const [ userDetails, setUserDetails ] = useState(null);
@@ -38,7 +38,6 @@ const UserPage = (props) => {
 
     const changePassword = async () => {
         await props.firebase.changePassword(user.email);
-        console.log("email sent");
         Swal.fire({
             title: 'a password reset link is sent to your email address.',
             icon: 'success'
@@ -52,7 +51,10 @@ const UserPage = (props) => {
             { (user&&showDetails) && (
                 <div className="user-page">
                     <div className='user-details-container'>
-                        <h1>{user.displayName}</h1>
+                        <div className="user-name-container">
+                            <h1>{user.displayName}</h1>
+                            { admin && <h2>admin</h2> }
+                        </div>
                         <div className="user-details">
                             <div>
                                 <h4>email: {user.email}</h4>
@@ -71,5 +73,4 @@ const UserPage = (props) => {
 }
  
 
-// export default UserPage;
 export default compose(withFirebase)(UserPage);

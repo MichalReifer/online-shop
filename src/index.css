@@ -293,6 +293,20 @@ button:active:not(.swal-button, .swal2-styled) {
   background-color: #9b0048;
 }
 
+.user-name-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.user-name-container h2 {
+  margin-bottom: 34px !important;
+  color: #9b0048 !important;
+}
+
+.user-name-container h1 {
+  margin-left: 0;
+}
+
 .user-page h2{
   margin: 5px 0;
   color: #f1356d;
