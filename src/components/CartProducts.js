@@ -37,11 +37,11 @@ const CartProducts = ({cartProducts, resetTotalPrice, cartEmpty}) => {
                         <img src={require(`${product.image}`).default} alt="" />
                     </Link>
                     {/* { <img src={product.image} alt="" />} */}
-                        <h2>{product.title}</h2>
-                        <p>{product.price} ₪</p>
-                        <input type="number" id="quantity" name="quantity" min="1" max="5" value={order[product.cakeId]} 
-                            onChange={e=>setOrder({...order, [product.cakeId]: parseInt(e.target.value)})}></input>   
-                        <button onClick={()=>removeFromCart(product.cakeId, products, setProducts, setOrder)}>Remove</button>
+                    <h2>{product.title}</h2>
+                    <p>{product.price} ₪</p>
+                    <input type="number" id="quantity" name="quantity" min="1" max="5" value={order[product.cakeId]} 
+                        onChange={e=>setOrder({...order, [product.cakeId]: parseInt(e.target.value)})}></input>   
+                    <button onClick={()=>removeFromCart(product.cakeId, products, setProducts, setOrder)}>Remove</button>
                 </div>
             ))}
         </div>

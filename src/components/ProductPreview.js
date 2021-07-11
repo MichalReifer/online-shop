@@ -7,7 +7,7 @@ const ProductPreview = ({products, title}) => {
         <div className="product-list">
             <h1>{title}</h1>
             <div className="products">
-                {products.map((product) => (
+                {products.map(product => (
                     <div className="product-preview" key={product.id}>
                         <Link className='link' to={{
                             pathname: `/products/${product.cakeId}`,

@@ -17,9 +17,6 @@ const UserPage = (props) => {
     const [ userOrders, setUserOrders ] = useState([]);
     const [ showDetails, setShowDetails ] = useState(false);
 
-    console.log(currentUser)
-    console.log(user)
-
     useEffect(async()=>{
             setUser(true);
             setShowDetails(false);
