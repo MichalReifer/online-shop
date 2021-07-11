@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import swal from 'sweetalert';
 import Swal from "sweetalert2";
 
@@ -109,6 +110,28 @@ const preConfirmSignIn = async (firebase) => {
     return user;
 }
 
+const forgotPasswordHandler = async (firebase)=>{
+    const email = document.getElementById('email');
+    const link = document.getElementById('forgot-password');
+    link.addEventListener('click', async event => {        
+        const approve = await firebase.changePassword(email.value);
+        if (approve){
+            Swal.fire({
+                title: 'a password reset link is sent to your email address.',
+                icon: 'success'
+            })
+        } else {
+            email.classList.add("swal2-inputerror");
+            email.focus();
+            if (!email.value){
+                Swal.showValidationMessage('please fill in your email address');   
+            } else {
+                Swal.showValidationMessage('email address is invalid');   
+            }
+        }
+    })
+}
+
 export const signIn = async (firebase) => {
     let user = null;
     await Swal.fire({
@@ -119,9 +142,13 @@ export const signIn = async (firebase) => {
         focusConfirm: false,
         showCancelButton: true,
         allowEnterKey: true,
+        footer: '<div class="forgot-password-footer">'+
+        '<a id="forgot-password">forgot password?</a>'+
+        '</div>',
         preConfirm: async () => { 
             user = await preConfirmSignIn(firebase);
-        }
+        },
+        didRender: async () => {forgotPasswordHandler(firebase)}
     })
     return user;
 }

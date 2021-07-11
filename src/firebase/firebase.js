@@ -170,19 +170,14 @@ class Firebase {
       .then((userCredential) => {
         var authUser = userCredential.user;
         console.log('sign in succeeded.');
-        // console.log(user.email)
-        // localStorage.setItem('currentUser', JSON.stringify(authUser));
         this.setUserInLocalStorage(authUser);
         return authUser;
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        return null;
+        console.log(errorCode, errorMessage);
       });
-    // console.log(user)
     return user;
   }
 
@@ -197,14 +192,12 @@ class Firebase {
 
   getCurrentUser = ()=> {
     return this.auth.currentUser;
-
   }
 
   printCurrentUser = () =>{
     console.log(this.auth.currentUser?.email);
     console.log(this.auth.currentUser?.displayName);
   }
-
 
   updateProfile = async (newName, newAddress) => {
     const authUser = this.auth.currentUser;
@@ -227,30 +220,18 @@ class Firebase {
     return true;
   }
 
-
   changePassword = async (email) => {
-    this.auth.sendPasswordResetEmail(email)
+    const approve = await this.auth.sendPasswordResetEmail(email)
     .then(() => {
-      // Password reset email sent!
-      // ..
+      console.log('Password reset email sent!')
+      return true;
     })
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ..
+      console.log(errorCode, errorMessage);
     });
-  }
-
-
-  changeAuth = async() => {
-    this.auth.onAuthStateChanged(user=>{
-      if (user){
-        // console.log(user.email);
-        console.log('user is logged in');
-      } else {
-        console.log('user is logged out')
-      }
-    })
+    return approve;
   }
 
 }

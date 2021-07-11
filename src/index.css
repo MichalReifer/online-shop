@@ -290,10 +290,7 @@ button:active:not(.swal-button, .swal2-styled) {
 .user-details-container button {
   margin: 26px;
   width: 150px;
-}
-
-.user-details h1 {
-  margin-left: 0;
+  background-color: #9b0048;
 }
 
 .user-page h2{
@@ -345,4 +342,15 @@ button:active:not(.swal-button, .swal2-styled) {
 
 .order-preview a {
   height: 100px;
+}
+
+#forgot-password {
+  color: #2196f3;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#forgot-password:hover {
+  color: #2c82c9;
 }
