@@ -201,9 +201,9 @@ class Firebase {
 
   updateProfile = async (newName, newAddress) => {
     const authUser = this.auth.currentUser;
-    const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+    const dataUser =  await this.getUserById(authUser.uid);
     let name = newName? newName: authUser.displayName;
-    let address = newAddress? newAddress: userDetails.address;
+    let address = newAddress? newAddress: dataUser.address;
     await authUser.updateProfile({
       displayName: name
     }).then(async () => {
@@ -211,12 +211,11 @@ class Firebase {
         displayName: name,
         address: address,
         email: authUser.email,
-        admin: userDetails.admin
+        admin: dataUser.admin
       });
       await this.setUserInLocalStorage(authUser);
     }).catch((error) => {
-      // An error occurred
-      // ...
+        console.log(error);
     });
     return true;
   }
