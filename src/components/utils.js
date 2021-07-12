@@ -286,3 +286,18 @@ export const changeDetails = async (firebase) => {
     // console.log(user);
     return user;
 }
+
+export const showOrHideProducts = (index) => {
+    // const orderProducts = document.getElementsByClassName("order-products")[index];
+    // orderProducts.classList.toggle('show-order-products');
+    const orderProducts = document.getElementsByClassName("order-products");
+    if(orderProducts[index].style.display === 'block'){
+        orderProducts[index].style.display = 'none'
+    }else{
+        for (let i=0; i<orderProducts.length; i++){
+            orderProducts[i].style.display = 'none';
+        }
+        orderProducts[index].style.display = 'block'
+    }
+    // orderProducts[index].classList.toggle('show-order-products');
+}

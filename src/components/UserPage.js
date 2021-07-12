@@ -57,15 +57,17 @@ const UserPage = (props) => {
                         </div>
                         <div className="user-details">
                             <div>
-                                <h4>email: {user.email}</h4>
-                                <p>address: {userDetails.address}</p>
+                                <h4>{user.email}</h4>
+                                <p>{userDetails.address}</p>
                             </div>
                             <button onClick={changeUserDetails}>change details</button>
                             <button onClick={changePassword}>change password</button>
                         </div>
                     </div>
-                    <h2>Orders</h2>
-                    <UserOrders userOrders={userOrders}/>
+                    <div className="user-orders-container">
+                        <h2>Orders</h2>
+                        <UserOrders userOrders={userOrders}/>
+                    </div>
                 </div>
             )}
         </div>

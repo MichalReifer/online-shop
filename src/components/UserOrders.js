@@ -1,6 +1,7 @@
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useEffect, useState } from 'react';
+import { showOrHideProducts } from './utils';
 
 
 const UserOrders = ({userOrders, firebase}) => {
@@ -31,14 +32,15 @@ const UserOrders = ({userOrders, firebase}) => {
     return (
         <div className='user-orders'>
             {orders && orders.map((order, index)=>(
-                <div className="order-preview" key={index}>
+                <div className="order-preview" key={index} onClick={()=>{showOrHideProducts(index)}}>
                     {/* <h3>Order {index+1}</h3> */}
-                    <p>made on: {order.time}</p>
-                    <p>total price: {order.total_price}</p>
-                    <div className="products">
-                        <h3>products:</h3>
+                    <h3>made on: {order.time}</h3>
+                    <p>total price: {order.total_price} ₪</p>
+                    <div className="order-products">
+                        {/* <h3>products:</h3> */}
                         {products && Object.keys(order.products).map((product, i)=>(
-                            <div key={i}>
+                            <div className="each-order" key={i}>
+                                    <img src={require(`${products[index][i]?.image}`).default} alt="" />
                                     <p>{products[index][i]?.title} : {order.products[product]}</p>
                             </div>
                             ))
