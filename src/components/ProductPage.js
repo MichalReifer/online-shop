@@ -19,7 +19,7 @@ const ProductPage = (props) => {
     }, [products])     
 
     return (  
-        <div className="product-details">
+        <div className="product-page">
             { isLoading && <div>Loading...</div>}
             {/* { error && <div>{ error }</div>} */}
             { product && (
