@@ -9,7 +9,7 @@ import { checkout } from './utils';
 
 const Cart = (props) => {
 
-    const { products: allProducts, isLoading } = useContext(ProductsContext)
+    const { dataProducts: allProducts, isLoadingData, setIsLoadingData } = useContext(ProductsContext)
     const [ cartEmpty, setCartEmpty ] = useState(true);
     const [ products, setProducts] = useState([]);
     const [ totalPrice, setTotalPrice] = useState(0)
@@ -23,8 +23,8 @@ const Cart = (props) => {
         setCartEmpty(ans);
     }
 
-    const storage = localStorage.getItem('order');
     useEffect(async ()=>{
+        const storage = localStorage.getItem('order');
         if (storage && storage!='{}'){
             setCartEmpty(false);
             let order = JSON.parse(storage);
@@ -35,9 +35,10 @@ const Cart = (props) => {
                     setTotalPrice(prevPrice => prevPrice += data.price*order[cakeId]);
                 }
             }
+        } else{
+            setIsLoadingData(false);
         }
     }, [allProducts])
-
 
     return (
         <div className="cart">
@@ -47,7 +48,7 @@ const Cart = (props) => {
                     <h1>Cart</h1> 
                     <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} cartEmpty={isCartEmpty}/>
                 </div>}
-            { isLoading && <div>Loading...</div> }
+            { isLoadingData && <div>Loading...</div> }
             { totalPrice!=0 &&
             <div className="cart-bottom">
                 <h2><pre>Total Price:   {totalPrice}₪</pre></h2>    
