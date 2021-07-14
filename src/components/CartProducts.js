@@ -12,6 +12,7 @@ const CartProducts = ({cartProducts, resetTotalPrice, cartEmpty}) => {
         setProducts(cartProducts)
     }, [cartProducts])
 
+    // update quantity of products in cart:
     useEffect(()=>{
         localStorage.setItem('order', JSON.stringify(order));
         let totalPrice = 0;

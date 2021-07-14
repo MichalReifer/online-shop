@@ -42,7 +42,7 @@ const Cart = (props) => {
 
     return (
         <div className="cart">
-            { cartEmpty && <h1>Your cart is empty.</h1>}
+            { cartEmpty && <h1 className="cart-empty">your cart is empty</h1>}
             { !cartEmpty && 
                 <div>
                     <h1>Cart</h1> 

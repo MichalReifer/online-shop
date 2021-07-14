@@ -16,26 +16,22 @@ h1 {
 }
 
 /* scroll-bar */
-/* width */
 ::-webkit-scrollbar {
   width: 15px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
 }
  
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #d220e298;
+  background: #e2209898;
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #9f19aca1; 
+  background: #bb197d98; 
 }
 
 /* Navbar */
@@ -129,9 +125,11 @@ h1 {
 /* cart */
 
 .cart h1{
-  /* margin-bottom: 16px; */
-  /* margin-right: 16px; */
   margin: 26px 0 16px 16px;
+}
+
+.cart-empty{
+  text-align: center;
 }
 
 .cart-bottom {
@@ -292,77 +290,62 @@ button:active:not(.swal-button, .swal2-styled) {
   margin: 8px;
 }
 
-/* user page component */ 
+/***** user page component ******/ 
 
 .user-page {
   display: flex;
   justify-content: space-around;
 }
 
-.user-orders-container{
-  width: 420px;
-  cursor: pointer;
-  padding: 10px;
-  box-shadow: 10px 30px 20px rgba(167, 8, 69, 0.1);
-}
-
-.user-orders-container h2{
-  margin: 40px 0 15px;
-  color: #9b0048;
-  text-align: center;
-}
-
-.user-details-container {
+.user-page > *{
   width: 420px;
   padding: 10px;
   box-shadow: -10px 30px 20px rgba(167, 8, 69, 0.1);
 }
 
-.user-name-container {
-  min-height: 120px;
-}
-
-.user-name-container h2 {
-  color: #9b0048 !important;
-}
-
-.user-name-container * {
+.user-page * {
   text-align: center;
+
+  /* in case user name is too long */
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-.user-details {
-  text-align: center;
+.user-page h2 {
+  color: #9b0048 !important;
 }
 
-.user-details button {
+.user-orders-container h2{
+  margin: 40px 0 15px;
+}
+
+.name-and-address {
+  margin: 40px;
+}
+
+.name-and-address * {
+  margin: 15px;
+}
+
+.user-page button {
   margin: 26px;
   width: 150px;
   background-color: #a80250c9;
   font-weight: bold;
 }
 
-.user-details div {
-  margin: 40px;
-}
-
-.user-details div * {
-  text-align: center;
-  margin: 15px;
-}
-
-/* user orders component */
+/********* user orders component *********/
 
 .user-orders{
   overflow: auto;
-  height: 625px;
+  height: 615px;
 }
 
 .order-preview{
   padding: 10px 0;
   margin: 10px 0;
   border: 1px solid #fafafa;
+  cursor: pointer;
 }
 
 .order-preview *{

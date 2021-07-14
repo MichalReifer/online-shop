@@ -299,5 +299,4 @@ export const showOrHideProducts = (index) => {
         }
         orderProducts[index].style.display = 'block'
     }
-    // orderProducts[index].classList.toggle('show-order-products');
 }

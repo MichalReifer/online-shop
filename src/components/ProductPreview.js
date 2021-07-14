@@ -18,7 +18,8 @@ const ProductPreview = ({products, title}) => {
                         <img src={require(`${product.image}`).default} alt="" />
                         {/* {<img src={product.image} alt="" />} */}
                             <h2>{product.title}</h2>
-                            <p>{product.price} ₪</p>                    
+                            <p>{product.price} ₪</p>
+                            <p></p>                 
                         </Link>
                     </div>
                 ))}
