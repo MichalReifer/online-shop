@@ -103,9 +103,9 @@ class Firebase {
 
   setOrder = async (order) => {
     const d = new Date();
-    const timeID = `${d.getFullYear()}`+`${d.getMonth()+1}`+`${d.getDate()}_`
-                  +`${d.getHours()}:`+`${d.getMinutes()}:`+`${d.getSeconds()}:`+`${d.getMilliseconds()}`;
-    this.db.ref("/orders/"+timeID).set(order);
+    const orderId =`${d.getTime()}_${d.getDate()}|${d.getMonth()+1}|${d.getFullYear()}_`
+                  +`${d.getHours()}:`+`${d.getMinutes()}`;
+    this.db.ref("/orders/"+orderId).set(order);
   }
 
   /* Users Database: */
