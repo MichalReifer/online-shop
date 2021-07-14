@@ -10,34 +10,37 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const UserPage = (props) => {
 
-    const { user: currentUser, setUser: setCurrentUser, admin, setAdmin } = useContext(CurrentUserContext);
-    const { userId } = useParams();
-    const [ user, setUser ]= useState(null);
+    const { setStorageUser, admin, authUser, isLoading } = useContext(CurrentUserContext);
+    const { userId: urlId } = useParams();
     const [ userDetails, setUserDetails ] = useState(null);
-    const [ userOrders, setUserOrders ] = useState([]);
-    const [ showDetails, setShowDetails ] = useState(false);
+    const [ userOrders, setUserOrders ] = useState(null);
+    const [ noAccess, setNoAccess ] = useState(false);
 
     useEffect(async()=>{
-            setUser(true);
-            setShowDetails(false);
-            if (currentUser?.uid===userId){
-                setUser(currentUser);
+        // reset in case urlId is changed
+        setNoAccess(false);
+        setUserOrders(null);
+        // after authUser is loaded from firebase:
+        if(!isLoading){
+            if (authUser?.uid===urlId){
                 setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
-                setShowDetails(true);
-                const userOrders = await props.firebase.getOrdersByEmail(currentUser.email);
+                const userOrders = await props.firebase.getOrdersByEmail(authUser.email);
                 setUserOrders(userOrders);
             }
-    }, [userId])
+            else {
+                setNoAccess(true);
+            }
+        }
+    }, [urlId, isLoading])
 
     const changeUserDetails = async () => {
         await changeDetails(props.firebase);
-        setUserDetails(await JSON.parse(localStorage.getItem('userDetails')));
-        setUser(await JSON.parse(localStorage.getItem('currentUser')));
-        setCurrentUser(JSON.parse(localStorage.getItem('currentUser')));
+        setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
+        setStorageUser(JSON.parse(localStorage.getItem('currentUser')));
     }
 
-    const changePassword = async () => {
-        await props.firebase.changePassword(user.email);
+    const changePassword = async () => {    
+        await props.firebase.changePassword(authUser.email);
         Swal.fire({
             title: 'a password reset link is sent to your email address.',
             icon: 'success'
@@ -46,30 +49,28 @@ const UserPage = (props) => {
 
     return (
         <div>
-            {!user && <div>Loading...</div>}
-            {(user&&!showDetails)&&<h2>you are not authorised to access this page.</h2>}
-            { (user&&showDetails) && (
+            { isLoading && <div>Loading...</div>}
+            { noAccess && <h2>you are not authorised to access this page.</h2>}
+            { (!isLoading&&!noAccess) && 
                 <div className="user-page">
                     <div className='user-details-container'>
-                        <div className="user-name-container">
-                            <h1>{user.displayName}</h1>
+                            <h1>{authUser.displayName}</h1>
                             { admin && <h2>admin</h2> }
-                        </div>
-                        <div className="user-details">
-                            <div>
-                                <h4>{user.email}</h4>
-                                <p>{userDetails.address}</p>
+                            <div className="name-and-address">
+                                <h4>{authUser.email}</h4>
+                                { userDetails && <p>{userDetails.address}</p>}
                             </div>
                             <button onClick={changeUserDetails}>change details</button>
                             <button onClick={changePassword}>change password</button>
-                        </div>
                     </div>
                     <div className="user-orders-container">
                         <h2>Orders</h2>
+                        {!userOrders && <p>Loading...</p> }
+                        {userOrders?.length==0 && <h3>no orders were made</h3> }
                         <UserOrders userOrders={userOrders}/>
                     </div>
                 </div>
-            )}
+            }
         </div>
     );
 }

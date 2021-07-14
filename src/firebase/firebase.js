@@ -190,13 +190,20 @@ class Firebase {
     });     
   }
 
-  getCurrentUser = ()=> {
-    return this.auth.currentUser;
+  getCurrentUser = (setCurrentUser, removeCurrentUser)=>{
+    this.auth.onAuthStateChanged( user => {
+      if (user) {
+        setCurrentUser(user);
+      }
+      else {
+        removeCurrentUser();
+      }
+    })
   }
 
   printCurrentUser = () =>{
-    console.log(this.auth.currentUser?.email);
-    console.log(this.auth.currentUser?.displayName);
+    console.log("current user's email", this.auth.currentUser?.email);
+    console.log("current user's name", this.auth.currentUser?.displayName);
   }
 
   updateProfile = async (newName, newAddress) => {
@@ -236,4 +243,4 @@ class Firebase {
 
 }
 
-  export default Firebase;
+export default Firebase;

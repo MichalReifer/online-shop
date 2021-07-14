@@ -9,13 +9,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const Navbar = (props) => {
 
-    const { user, setUser, admin, setAdmin } = useContext(CurrentUserContext)
+    const { storageUser: user, setStorageUser: setUser, admin } = useContext(CurrentUserContext)
     const history = useHistory();
 
     const signMeUp = async ()=>{
         await signUp(props.firebase);
         setUser(JSON.parse(localStorage.getItem('currentUser')));
-        setAdmin(true)
     }
 
     const signOut = ()=>{
