@@ -300,3 +300,34 @@ export const showOrHideProducts = (index) => {
         orderProducts[index].style.display = 'block'
     }
 }
+
+// product page - zoom image:
+export const zoomInOrOut = (e) => {
+    e.target.classList.toggle('zoom-in-image');
+    e.target.classList.toggle('zoom-out-image');
+}
+
+export const moveImageWithMouse = e => {
+    // This gives the position of the image on the page
+  var bbox = e.target.getBoundingClientRect();
+
+  // Then we measure how far into the image the mouse is in both x and y directions
+  var mouseX = e.clientX - bbox.left;
+  var mouseY = e.clientY - bbox.top;
+
+  // Then work out how far through the image as a percentage the mouse is
+  var xPercent = (mouseX / bbox.width) * 100;
+  var yPercent = (mouseY / bbox.height) * 100;
+
+  // Then we change the `transform-origin` css property on the image to center the zoom effect on the mouse position
+  e.target.style.transformOrigin = xPercent+'% ' + yPercent+ '%';
+  // We add the '%' units to make sure the string looks exactly like the css declaration it becomes.
+}
+
+export const zoomOutWhenClickOutOfImage = e => {
+    if (!(e.target).closest('.product-image')) {
+      console.log('shrink image');
+      document.getElementsByClassName('product-image')[0]?.classList.remove('zoom-in-image');
+      document.getElementsByClassName('product-image')[0]?.classList.add('zoom-out-image');          
+    }        
+  }
