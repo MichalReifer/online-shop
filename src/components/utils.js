@@ -268,6 +268,7 @@ export const checkout = async (firebase, history, totalPrice) => {
     }
 }
 
+// user page:
 export const changeDetails = async (firebase) => {
     let user = null;
     await Swal.fire({
@@ -287,17 +288,16 @@ export const changeDetails = async (firebase) => {
     return user;
 }
 
+// user page - user-orders:
 export const showOrHideProducts = (index) => {
-    // const orderProducts = document.getElementsByClassName("order-products")[index];
-    // orderProducts.classList.toggle('show-order-products');
     const orderProducts = document.getElementsByClassName("order-products");
-    if(orderProducts[index].style.display === 'block'){
-        orderProducts[index].style.display = 'none'
+    if(orderProducts[index].style.maxHeight === '246px'){
+        orderProducts[index].style.maxHeight = '0'
     }else{
         for (let i=0; i<orderProducts.length; i++){
-            orderProducts[i].style.display = 'none';
+            orderProducts[i].style.maxHeight = '0';
         }
-        orderProducts[index].style.display = 'block'
+        orderProducts[index].style.maxHeight = '246px'
     }
 }
 

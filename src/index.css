@@ -374,13 +374,9 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .order-preview .order-products{
-  display: none;
-  max-height: 246px;
+  max-height: 0;
   overflow: auto;
-}
-
-.order-preview .show-order-products {
-  display: block;
+  transition: max-height 2s ease-out;
 }
 
 .order-preview .each-order {
