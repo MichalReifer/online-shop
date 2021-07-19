@@ -36,7 +36,7 @@ const ProductPage = (props) => {
                             <button onClick={()=>addToCart(cakeId, history)}>Add To Cart</button>
                         </div>
                         <div className="image-container">
-                            <img className="product-image" src={require(`${product.image}`).default} alt="cake" onClick={(e)=>zoomInOrOut(e)}/>
+                            <img className="product-image zoom-out-image" src={require(`${product.image}`).default} alt="cake" onClick={(e)=>zoomInOrOut(e)}/>
                         </div>
                     </div>
                 </div>
