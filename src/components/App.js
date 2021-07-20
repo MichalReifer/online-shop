@@ -8,6 +8,7 @@ import UserPage from './UserPage';
 import CurrentUserContextProvider from '../contexts/CurrentUserContext';
 import ProductsContextProvider from '../contexts/ProductsContext';
 import AllUsers from './AllUsers';
+import PageNotFound from './PageNotFound';
 
 
 function App(props) {
@@ -37,7 +38,10 @@ function App(props) {
                 </Route>                      
                 <Route path="/all_users">
                   <AllUsers/>
-                </Route>            
+                </Route>
+                <Route path="*">
+                  <PageNotFound />
+                </Route>       
               </Switch>
             </div>  
           </CurrentUserContextProvider>

@@ -4,19 +4,25 @@ import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { addToCart, zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
 import { ProductsContext } from '../contexts/ProductsContext'
+import PageNotFound from "./PageNotFound";
 
 
 const ProductPage = (props) => {
       
-    const { products, isLoading } = useContext(ProductsContext)
+    const { products } = useContext(ProductsContext)
     const { cakeId } = useParams()
     const history = useHistory();
     const [product, setProduct] = useState(null);
+    const [ isLoading, setIsLoading] = useState(true)
 
     useEffect( async ()=>{
-        const data = await products?.filter(product=>product.cakeId===cakeId)[0];
-        setProduct(data);
-    }, [products])     
+        if (products){
+            const data = await products?.filter(product=>product.cakeId===cakeId)[0];
+            setProduct(data);
+            setIsLoading(false);
+        }
+    }, [products])   
+    
 
     document.getElementsByClassName('product-image')[0]?.addEventListener("mousemove", e => moveImageWithMouse(e))
     document.addEventListener("click", e => zoomOutWhenClickOutOfImage(e));
@@ -24,6 +30,7 @@ const ProductPage = (props) => {
     return (  
         <div className="product-page">
             { isLoading && <div>Loading...</div>}
+            { (!isLoading&&!product) && <PageNotFound /> }
             { product && (
                 <div>
                     <h1>{product.title}</h1>
