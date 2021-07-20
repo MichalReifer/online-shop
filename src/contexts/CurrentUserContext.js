@@ -38,7 +38,7 @@ const CurrentUserContextProvider = (props) => {
     useEffect(async()=>{
         if(authUser){
             const dataUser = await props.firebase.getUserById(authUser.uid);
-            setAdmin(dataUser.admin);
+            setAdmin(dataUser?.admin);
             setIsLoadingAdmin(false);
         }
     }, [authUser])

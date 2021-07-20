@@ -38,7 +38,7 @@ const UserOrders = ({userOrders, firebase}) => {
                     <div className="order-products">
                         {products && Object.keys(order.products).map((product, i)=>(
                             <div className="each-order" key={i}>
-                                    <img src={require(`${products[index][i]?.image}`).default} alt="" />
+                                    <img src={products[index][i]?.image} alt="" />
                                     <p>{products[index][i]?.title} : {order.products[product]}</p>
                             </div>
                             ))

@@ -1,4 +1,3 @@
-import logo from './images/logo.jpg';
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useContext } from 'react';
@@ -36,7 +35,9 @@ const Navbar = (props) => {
 
     return (
         <nav className="navbar">
-            <a href="/"><img src={logo} alt='logo' /></a>
+            <a href="/">
+                <img src={"https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Flogo.jpg?alt=media&token=843c82d0-a4ba-4c44-81ca-2a958ad36be7"} alt='logo' />
+            </a>
             <div className="links">
                 {!user && <a onClick={signMeUp}>Sign up</a>}
                 { user &&
