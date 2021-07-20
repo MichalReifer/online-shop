@@ -5,11 +5,13 @@ import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useHistory } from "react-router";
 import { checkout } from '../utils';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 const Cart = (props) => {
 
     const { dataProducts: allProducts, isLoadingData, setIsLoadingData } = useContext(ProductsContext)
+    const { setStorageUser: setUser } = useContext(CurrentUserContext);
     const [ cartEmpty, setCartEmpty ] = useState(true);
     const [ products, setProducts] = useState([]);
     const [ totalPrice, setTotalPrice] = useState(0)
@@ -52,7 +54,7 @@ const Cart = (props) => {
             { totalPrice!=0 &&
             <div className="cart-bottom">
                 <h2><pre>Total Price:   {totalPrice}₪</pre></h2>    
-                <button onClick={()=>checkout(props.firebase, history, totalPrice)}>Checkout</button>
+                <button onClick={()=>checkout(props.firebase, history, totalPrice, setUser)}>Checkout</button>
             </div>   }
         </div>
     );

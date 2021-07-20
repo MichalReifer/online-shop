@@ -239,7 +239,7 @@ export const signUp = async (firebase) => {
     return user;
 }
 
-export const checkout = async (firebase, history, totalPrice) => {
+export const checkout = async (firebase, history, totalPrice, setUser) => {
 
     let user = null;
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -270,6 +270,7 @@ export const checkout = async (firebase, history, totalPrice) => {
             text: 'an email is sent to you with the order details and a link for payment',
             icon: 'success'})
         localStorage.removeItem('order');
+        setUser(JSON.parse(localStorage.getItem('currentUser')));
         history.push('/');
     }
 }
