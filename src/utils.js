@@ -30,12 +30,18 @@ export const addToCart = (cakeId, history) => {
             swal("Added To Cart!", { 
                 icon: "success",
                 buttons: ['Keep Shopping', 'Go To Cart']})
-            .then(cart=> {if (cart){history.push("/cart");}})
+            .then(cart=> {
+                if (cart){history.push("/cart")}
+                else {history.push("/")}
+            })
         }
         else{ swal('This item is already in cart.', {
             icon: 'error',
             buttons: ['Keep Shopping', 'Go To Cart']})
-            .then(cart=> {if (cart){history.push("/cart");}})
+            .then(cart=> {
+                if (cart){history.push("/cart")}
+                else {history.push("/")}
+            })
         }
     }
     else{
@@ -309,7 +315,6 @@ export const zoomInOrOut = (e) => {
 
 export const zoomOutWhenClickOutOfImage = e => {
     if (!(e.target).closest('.product-image')) {
-      console.log('shrink image');
       document.getElementsByClassName('product-image')[0]?.classList.remove('zoom-in-image');
       document.getElementsByClassName('product-image')[0]?.classList.add('zoom-out-image');          
     }        
@@ -319,15 +324,14 @@ export const moveImageWithMouse = e => {
     // This gives the position of the image on the page
   var bbox = e.target.getBoundingClientRect();
 
-  // Then we measure how far into the image the mouse is in both x and y directions
+  // measure how far into the image the mouse is in both x and y directions
   var mouseX = e.clientX - bbox.left;
   var mouseY = e.clientY - bbox.top;
 
-  // Then work out how far through the image as a percentage the mouse is
+  // work out how far through the image as a percentage the mouse is
   var xPercent = (mouseX / bbox.width) * 100;
   var yPercent = (mouseY / bbox.height) * 100;
 
-  // Then we change the `transform-origin` css property on the image to center the zoom effect on the mouse position
+  // change the `transform-origin` css property on the image to center the zoom effect on the mouse position
   e.target.style.transformOrigin = xPercent+'% ' + yPercent+ '%';
-  // We add the '%' units to make sure the string looks exactly like the css declaration it becomes.
 }
