@@ -81,10 +81,6 @@ button:active:not(.swal-button, .swal2-styled) {
   display: flex;
 }
 
-.sign-out * {
-  align-self: center;
-}
-
 .navbar .links a {
   margin-left: 30px;
   text-decoration: none;
@@ -95,6 +91,21 @@ button:active:not(.swal-button, .swal2-styled) {
 .navbar a:hover {
   color: #f1356d;
 }
+
+.navbar .links .sign-out * {
+  align-self: center;
+}
+
+.navbar .links .sign-out #name {
+  margin-left: 5px;
+}
+
+.navbar .links .sign-out #admin {
+  font-size: 15px;
+  margin-bottom: 8px;
+  align-self: flex-end;
+}
+
 
 /* content (all pages below Navbar) */
 .content {
@@ -354,6 +365,10 @@ input[type=number]::-webkit-inner-spin-button {
   font-weight: bold;
 }
 
+.user-page a:hover{
+  color: #f1356d;
+}
+
 /********* user orders component *********/
 
 .user-orders{
@@ -408,4 +423,9 @@ input[type=number]::-webkit-inner-spin-button {
 
 #forgot-password:hover {
   color: #2c82c9;
+}
+
+.admin * {
+  color: #9b0048;
+  font-weight: bold;
 }

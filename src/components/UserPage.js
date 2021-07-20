@@ -24,14 +24,14 @@ const UserPage = (props) => {
         if(!isLoading){
             if (authUser?.uid===urlId){
                 setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
-                const userOrders = await props.firebase.getOrdersByEmail(authUser.email);
+                const userOrders = await props.firebase.getOrdersByEmail(authUser?.email);
                 setUserOrders(userOrders);
             }
             else {
                 setNoAccess(true);
             }
         }
-    }, [urlId, isLoading])
+    }, [urlId, isLoading, authUser])
 
     const changeUserDetails = async () => {
         await changeDetails(props.firebase);
@@ -40,7 +40,7 @@ const UserPage = (props) => {
     }
 
     const changePassword = async () => {    
-        await props.firebase.changePassword(authUser.email);
+        await props.firebase.changePassword(authUser?.email);
         Swal.fire({
             title: 'a password reset link is sent to your email address.',
             icon: 'success'
@@ -54,10 +54,11 @@ const UserPage = (props) => {
             { (!isLoading&&!noAccess) && 
                 <div className="user-page">
                     <div className='user-details-container'>
-                            <h1>{authUser.displayName}</h1>
+                            <h1>{authUser?.displayName}</h1>
                             { admin && <h2>admin</h2> }
+                            { admin && <a id='admin' href="/all_users">see all users</a>}
                             <div className="name-and-address">
-                                <h4>{authUser.email}</h4>
+                                <h4>{authUser?.email}</h4>
                                 { userDetails && <p>{userDetails.address}</p>}
                             </div>
                             <button onClick={changeUserDetails}>change details</button>

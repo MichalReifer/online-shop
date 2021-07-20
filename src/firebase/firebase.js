@@ -110,6 +110,21 @@ class Firebase {
 
   /* Users Database: */
 
+  getAllUsers = async () => {
+    let users = [];
+    const data = await this.db.ref("/users").once('value')
+    .then(snapshots=>{
+      snapshots.forEach(snapshot=>{
+        const dataVal = snapshot.val()
+        users.push(dataVal)
+      })
+      return users;
+    }).catch(error => {
+        console.log(error)
+        return error})
+    return data;
+  }
+
   getUserById = async (userId) => {
     const snapshots = await this.db.ref("/users").once('value')
     let user = null;

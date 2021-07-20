@@ -11,6 +11,7 @@ const CurrentUserContextProvider = (props) => {
     const [ authUser, setAuthUser ] = useState(null);
     const [ storageUser, setStorageUser ] = useState(JSON.parse(localStorage.getItem('currentUser')));
     const [ admin, setAdmin ] = useState(false);
+    const [ isLoadingAdmin, setIsLoadingAdmin ] = useState(true);
 
     useEffect(()=>{
         props.firebase.getCurrentUser(
@@ -19,7 +20,9 @@ const CurrentUserContextProvider = (props) => {
                 setAuthUser({
                 uid: user.uid,
                 displayName: user.displayName,
-                email: user.email
+                email: user.email,
+                signedIn: new Date(parseInt(user.metadata.a)),
+                lastSignedIn: new Date(parseInt(user.metadata.b))
                 })
                 setIsLoading(false);
             },
@@ -27,6 +30,7 @@ const CurrentUserContextProvider = (props) => {
             ()=>{
                 setAuthUser(null);
                 setIsLoading(false);
+                setIsLoadingAdmin(false);
             }
         )
     },[storageUser])
@@ -35,11 +39,12 @@ const CurrentUserContextProvider = (props) => {
         if(authUser){
             const dataUser = await props.firebase.getUserById(authUser.uid);
             setAdmin(dataUser.admin);
+            setIsLoadingAdmin(false);
         }
     }, [authUser])
 
     return (
-        <CurrentUserContext.Provider value={{ storageUser, setStorageUser, admin, authUser, isLoading }} >
+        <CurrentUserContext.Provider value={{ storageUser, setStorageUser, admin, authUser, setAdmin, isLoading, isLoadingAdmin }} >
             {props.children}
         </CurrentUserContext.Provider>
     );

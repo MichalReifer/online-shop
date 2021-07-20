@@ -9,7 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const Navbar = (props) => {
 
-    const { storageUser: user, setStorageUser: setUser, admin } = useContext(CurrentUserContext)
+    const { storageUser: user, setStorageUser: setUser, admin, setAdmin } = useContext(CurrentUserContext)
     const history = useHistory();
 
     const signMeUp = async ()=>{
@@ -26,6 +26,7 @@ const Navbar = (props) => {
             if(result.isConfirmed){
                 props.firebase.signOut();
                 setUser(null)
+                setAdmin(null);
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('userDetails');
                 history.push('/');
@@ -40,8 +41,8 @@ const Navbar = (props) => {
                 {!user && <a onClick={signMeUp}>Sign up</a>}
                 { user &&
                     <div className="sign-out"> 
-                        {admin && <p>admin</p>}
-                        <Link to={`/users/${user.uid}`}> Hi, {user.displayName}!</Link>
+                        {admin && <p id='admin'>admin</p>}
+                        <Link id="name" to={`/users/${user.uid}`}> Hi, {user.displayName}!</Link>
                         <a onClick={signOut}>Log out</a>
                     </div> }
                 <a href="/">Home</a>
