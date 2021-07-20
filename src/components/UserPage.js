@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import UserOrders from './UserOrders';
-import { changeDetails } from './utils';
+import { changeDetails } from '../utils';
 import Swal from 'sweetalert2';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 

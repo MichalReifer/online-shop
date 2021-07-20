@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { sortProducts } from "./utils";
+import { sortProducts } from "../utils";
 import ProductPreview from "./ProductPreview";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';

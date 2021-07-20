@@ -4,7 +4,7 @@ import CartProducts from "./CartProducts";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useHistory } from "react-router";
-import { checkout } from './utils';
+import { checkout } from '../utils';
 
 
 const Cart = (props) => {
@@ -19,7 +19,7 @@ const Cart = (props) => {
         setTotalPrice(price);
     }
 
-    const isCartEmpty = (ans)=>{
+    const emptyCart = (ans)=>{
         setCartEmpty(ans);
     }
 
@@ -46,7 +46,7 @@ const Cart = (props) => {
             { !cartEmpty && 
                 <div>
                     <h1>Cart</h1> 
-                    <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} cartEmpty={isCartEmpty}/>
+                    <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} emptyCart={emptyCart}/>
                 </div>}
             { isLoadingData && <div>Loading...</div> }
             { totalPrice!=0 &&

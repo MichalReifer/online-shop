@@ -307,6 +307,14 @@ export const zoomInOrOut = (e) => {
     e.target.classList.toggle('zoom-out-image');
 }
 
+export const zoomOutWhenClickOutOfImage = e => {
+    if (!(e.target).closest('.product-image')) {
+      console.log('shrink image');
+      document.getElementsByClassName('product-image')[0]?.classList.remove('zoom-in-image');
+      document.getElementsByClassName('product-image')[0]?.classList.add('zoom-out-image');          
+    }        
+  }
+  
 export const moveImageWithMouse = e => {
     // This gives the position of the image on the page
   var bbox = e.target.getBoundingClientRect();
@@ -323,11 +331,3 @@ export const moveImageWithMouse = e => {
   e.target.style.transformOrigin = xPercent+'% ' + yPercent+ '%';
   // We add the '%' units to make sure the string looks exactly like the css declaration it becomes.
 }
-
-export const zoomOutWhenClickOutOfImage = e => {
-    if (!(e.target).closest('.product-image')) {
-      console.log('shrink image');
-      document.getElementsByClassName('product-image')[0]?.classList.remove('zoom-in-image');
-      document.getElementsByClassName('product-image')[0]?.classList.add('zoom-out-image');          
-    }        
-  }

@@ -2,7 +2,7 @@ import logo from './images/logo.jpg';
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { useContext } from 'react';
-import {signUp} from './utils';
+import {signUp} from '../utils';
 import { Link, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';

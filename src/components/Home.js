@@ -19,7 +19,6 @@ const Home = (props) => {
 
     return (
         <div className="home">
-            {/* { error && <div>{ error }</div> } */}
             { isLoading && <div>Loading...</div>}    
             { categories.map(function(category, i){
             return( 

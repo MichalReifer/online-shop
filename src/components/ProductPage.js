@@ -2,7 +2,7 @@ import { useHistory, useParams } from "react-router";
 import { useEffect, useState, useContext } from "react";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
-import { addToCart, zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from './utils';
+import { addToCart, zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
 import { ProductsContext } from '../contexts/ProductsContext'
 
 
@@ -24,7 +24,6 @@ const ProductPage = (props) => {
     return (  
         <div className="product-page">
             { isLoading && <div>Loading...</div>}
-            {/* { error && <div>{ error }</div>} */}
             { product && (
                 <div>
                     <h1>{product.title}</h1>

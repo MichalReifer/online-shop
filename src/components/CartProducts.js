@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { removeFromCart } from './utils';
+import { removeFromCart } from '../utils';
 
 
-const CartProducts = ({cartProducts, resetTotalPrice, cartEmpty}) => {
+const CartProducts = ({cartProducts, resetTotalPrice, emptyCart}) => {
 
     const [order, setOrder]  = useState(JSON.parse(localStorage.getItem('order')));
     const [products, setProducts] = useState([]);
@@ -19,7 +19,7 @@ const CartProducts = ({cartProducts, resetTotalPrice, cartEmpty}) => {
         products.map(product=>{
             totalPrice+=product.price*order[product.cakeId]})
         if(Object.keys(order).length===0){
-            cartEmpty(true)
+            emptyCart(true)
             resetTotalPrice(0)
         } else{
             resetTotalPrice(totalPrice)}
