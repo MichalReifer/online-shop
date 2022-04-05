@@ -28,7 +28,7 @@ class Firebase {
 
   getAllProducts = async () => {
     let products = [];
-    const data = await this.db.ref("/products").once('value')
+    const data = this.db.ref("/products").once('value')
     .then(snapshots=>{
       snapshots.forEach(snapshot=>{
         const dataVal = snapshot.val()

@@ -1,4 +1,3 @@
-import firebase from 'firebase';
 import swal from 'sweetalert';
 import Swal from "sweetalert2";
 
