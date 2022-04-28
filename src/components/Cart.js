@@ -47,13 +47,13 @@ const Cart = (props) => {
             { cartEmpty && <h1 className="cart-empty">your cart is empty</h1>}
             { !cartEmpty && 
                 <div>
-                    <h1>Cart</h1> 
+                    <h1>CART</h1> 
                     <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} emptyCart={emptyCart}/>
                 </div>}
             { isLoadingData && <div>Loading...</div> }
             { totalPrice!=0 &&
             <div className="cart-bottom">
-                <h2><pre>Total Price:   {totalPrice}₪</pre></h2>    
+                <h3><pre>Total Price:   {totalPrice}₪</pre></h3>    
                 <button onClick={()=>checkout(props.firebase, history, totalPrice, setUser)}>Checkout</button>
             </div>   }
         </div>

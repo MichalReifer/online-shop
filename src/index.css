@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Beau+Rivage&family=Dancing+Script&family=Ingrid+Darling&family=Lavishly+Yours&family=Qwitcher+Grypen:wght@700&display=swap');
 
 /* base styles */
 * {
@@ -14,6 +15,16 @@ h1 {
   font-size: 50px;
   margin: 26px;
   color:#9b0048;
+  font-family: 'Babylonica';
+    /* font-family: 'Beau Rivage'; */
+  /* font-family: 'Ingrid Darling'; */
+  /* font-family: 'Lavishly Yours'; */
+  font-weight: 100;
+}
+
+h2 {
+  font-family: 'Babylonica';
+  font-weight: 100;
 }
 
 button {
@@ -115,14 +126,10 @@ img {
 /* content (all pages below Navbar) */
 .content {
   max-width: 1010px;
-  margin: 40px auto;
+  margin: 40px auto;  
   padding: 0 20px;
 }
 
-.product-list h1, .product-list h2 {
-  font-family: 'Beau Rivage';
-  font-weight: 100;
-}
 
 /* product-previews / list */
 
@@ -144,11 +151,14 @@ img {
 }
 
 .product-preview h2 {
-  font-size: 20px;
   color: #f1356d;
   margin-bottom: 8px;
   text-align: center;
   max-width: 150px;
+  /* font-family: 'Babylonica'; */
+  /* font-family: 'Beau Rivage'; */
+/* font-family: 'Ingrid Darling'; */
+  font-family: 'Lavishly Yours';
 }
 
 .product-preview p {
@@ -170,6 +180,8 @@ img {
 
 .cart h1{
   margin: 26px 0 16px 16px;
+  font-family: 'Babylonica';
+  font-weight: 100;
 }
 
 .cart-empty{
@@ -218,11 +230,13 @@ img {
 }
 
 .cart-preview h2 {
-  font-size: 20px;
+  font-size: 30px;
   color: #f1356d;
   /* margin-bottom: 8px; */
   width: 150px;
   text-align: center;
+  font-family: 'Babylonica';
+  font-weight: 100;
 }
 
 .cart-preview p {
@@ -245,7 +259,6 @@ input[type=number]::-webkit-inner-spin-button {
 
 /* product details page */
 
-
 .product-page  {
   text-align: justify;
 }
@@ -254,7 +267,7 @@ input[type=number]::-webkit-inner-spin-button {
   font-size: 50px;
   color: #9b0048;
   margin-left: 0;
-  font-family: 'Beau Rivage';
+  font-family: 'Babylonica';
   font-weight: 100;
 }
 
@@ -358,11 +371,13 @@ input[type=number]::-webkit-inner-spin-button {
   overflow: hidden;
 }
 
-.user-page h2 {
-  color: #9b0048 !important;
+.user-page h1, .user-page h2  {
+  font-family: 'Lavishly Yours';
 }
 
-.user-orders-container h2{
+.user-page h2 {
+  font-size: 2em;
+  color: #9b0048 !important;
   margin: 40px 0 15px;
 }
 

@@ -36,8 +36,8 @@ const ProductPage = (props) => {
                     <h1>{product.title}</h1>
                     <div className='details-container'>
                         <div className="details">
-                            <h4>{product.category}</h4>
                             <p>{product.description}</p>
+                            <p>category: {product.category}</p>
                             <p>price: {product.price} ₪</p>
                             <button onClick={()=>addToCart(cakeId, history)}>Add To Cart</button>
                         </div>
