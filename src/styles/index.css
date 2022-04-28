@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Beau+Rivage&family=Dancing+Script&family=Ingrid+Darling&family=Lavishly+Yours&family=Qwitcher+Grypen:wght@700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+  text-align: justify;
+}
+
+
+h1 {
+  font-size: 50px;
+  margin: 26px;
+  color:#9b0048;
+  font-family: 'Babylonica';
+    /* font-family: 'Beau Rivage'; */
+  /* font-family: 'Ingrid Darling'; */
+  /* font-family: 'Lavishly Yours'; */
+  font-weight: 100;
+}
+
+h2 {
+  font-family: 'Babylonica';
+  font-weight: 100;
+}
+
+button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+}
+
+button:hover:not(.swal-button, .swal2-styled){
+  background: #b12750;
+  color: rgb(236, 232, 232);
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+button:active:not(.swal-button, .swal2-styled) {
+  background: #df3165 !important;
+}
+
+img {
+  border-radius: 10px;
+}
+
+/* scroll-bar */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #e2209898;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bb197d98; 
+}
+
+
+/* content (all pages below Navbar) */
+.content {
+  max-width: 1010px;
+  margin: 40px auto;  
+  padding: 0 20px;
+}
+
+
+/* search */
+.search form {
+  margin: 26px;
+}
+
+.search label {
+  margin-right:15px;
+}
+
+/* Swal2: sign up buttons */
+
+.swal2-title{
+  font-family: "Quicksand";
+}
+
+.swal2-actions {
+  /* height: 150px; */
+  display: flex;
+}
+
+.swal2-actions *:not(.footer-div) {
+  align-self: flex-start;
+  margin-bottom: 15px;
+}
+
+.swal2-actions .footer-div{
+  /* position: absolute; */
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f2f2f2;
+}
+
+.swal2-actions .footer-div * {
+  align-self: center;
+  margin: 8px;
+}
