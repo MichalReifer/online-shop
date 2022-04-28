@@ -55,6 +55,7 @@ img {
 }
 
 /* scroll-bar */
+
 ::-webkit-scrollbar {
   width: 15px;
 }
@@ -72,7 +73,6 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: #bb197d98; 
 }
-
 
 /* content (all pages below Navbar) */
 .content {
