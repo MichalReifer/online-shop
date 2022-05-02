@@ -119,3 +119,14 @@ img {
   align-self: center;
   margin: 8px;
 }
+
+/* page not found */
+
+.not-found * {
+  font-family: "Quicksand";
+  margin: 20px;
+}
+
+.no-access {
+  font-family: "Quicksand";
+}

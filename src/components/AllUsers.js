@@ -31,7 +31,7 @@ const AllUsers = (props) => {
     return (
         <div className="all-users">
             { isLoadingAdmin && <p>Loading...</p> }
-            { noAccess && <h2>you are not authorised to access this page.</h2> }
+            { noAccess && <h2 className='no-access'>you are not authorised to access this page.</h2> }
             { (!isLoadingAdmin&&!noAccess) && 
                 <div>
                     <h1>Users</h1>

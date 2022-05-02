@@ -7,12 +7,10 @@ export const sortProducts = (products, field) =>{
     products?.sort((a, b)=>{
         const nameA = a[field];
         const nameB = b[field];
-        if (nameA < nameB) {
-            return -1;
-        }else if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
+        let order = 0;
+        if (nameA>nameB)  order=1;
+        else if (nameA<nameB) order=-1;
+        return order;
     });
     return products;
 }

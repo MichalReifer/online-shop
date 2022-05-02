@@ -50,7 +50,7 @@ const UserPage = (props) => {
     return (
         <div>
             { isLoading && <div>Loading...</div>}
-            { noAccess && <h2>you are not authorised to access this page.</h2>}
+            { noAccess && <h2 className='no-access'>you are not authorised to access this page.</h2>}
             { (!isLoading&&!noAccess) && 
                 <div className="user-page">
                     <div className='user-details-container'>
