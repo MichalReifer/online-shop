@@ -19,31 +19,33 @@ function App(props) {
         <ProductsContextProvider>
           <CurrentUserContextProvider>
             <Navbar />
-            <div className="content">
-              <Switch>
-                <Route exact path="/">
-                  <Home/>
-                </Route>
-                <Route path="/cart">
-                  <Cart />
-                </Route>
-                <Route path="/search">
-                  <Search/>
-                </Route>
-                <Route path="/products/:cakeId" >
-                  <ProductPage/>
-                </Route>
-                <Route path="/users/:userId">
-                  <UserPage/>
-                </Route>                      
-                <Route path="/all_users">
-                  <AllUsers/>
-                </Route>
-                <Route path="*">
-                  <PageNotFound />
-                </Route>       
-              </Switch>
-            </div>  
+            <div className="white-container">
+              <div className="content">
+                <Switch>
+                  <Route exact path="/">
+                    <Home/>
+                  </Route>
+                  <Route path="/cart">
+                    <Cart />
+                  </Route>
+                  <Route path="/search">
+                    <Search/>
+                  </Route>
+                  <Route path="/products/:cakeId" >
+                    <ProductPage/>
+                  </Route>
+                  <Route path="/users/:userId">
+                    <UserPage/>
+                  </Route>                      
+                  <Route path="/all_users">
+                    <AllUsers/>
+                  </Route>
+                  <Route path="*">
+                    <PageNotFound />
+                  </Route>       
+                </Switch>
+              </div>  
+            </div>
           </CurrentUserContextProvider>
         </ProductsContextProvider>
       </div>

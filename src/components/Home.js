@@ -19,7 +19,7 @@ const Home = (props) => {
 
     return (
         <div className="home">
-            { isLoading && <div>Loading...</div>}    
+            { isLoading && <div className='loading'>Loading...</div>}    
             { categories.map(function(category, i){
             return( 
                 productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>

@@ -17,8 +17,7 @@ const ProductPreview = ({products, title}) => {
                             }}>
                         {<img src={product.image} alt="" />}
                             <h2>{product.title}</h2>
-                            <p>{product.price} ₪</p>
-                            <p></p>                 
+                            <p className="price">{product.price} ₪</p>
                         </Link>
                     </div>
                 ))}

@@ -1,6 +1,10 @@
 
 /***** user page component ******/ 
 
+.user-details-container, .user-orders-container {
+  background: rgba(255, 255, 255);
+}
+
 .user-page {
     display: flex;
     justify-content: space-around;
@@ -53,7 +57,7 @@
   
   .user-orders{
     overflow: auto;
-    height: 615px;
+    height: 550px;
   }
   
   .order-preview{

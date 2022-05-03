@@ -31,7 +31,7 @@ const Search = (props) => {
                 <input type="text" name="term"  />
             </form>
             {/* { error && <div>{ error }</div> } */}
-            { isLoading && <div>Loading...</div> }
+            { isLoading && <div className='loading'>Loading...</div> }
             { filteredProducts && <ProductPreview products={filteredProducts}/>}
 
         </div>

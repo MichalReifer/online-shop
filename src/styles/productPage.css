@@ -13,8 +13,8 @@
     font-weight: 100;
   }
   
-  .product-page div {
-    margin: 20px 0;
+  .product-page .product-content {
+    margin: 30px;
   }
   
   .product-page p {

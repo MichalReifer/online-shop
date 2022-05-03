@@ -1,11 +1,10 @@
 
 /* Navbar */
 .navbar {
-    background: #fff;
-    padding: 20px;
-    padding-bottom: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     max-width: 1010px;
     margin: 0 auto;
     border-bottom: 1px solid #f2f2f2;

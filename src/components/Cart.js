@@ -50,7 +50,7 @@ const Cart = (props) => {
                     <h1>CART</h1> 
                     <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} emptyCart={emptyCart}/>
                 </div>}
-            { isLoadingData && <div>Loading...</div> }
+            { isLoadingData && <div className='loading'>Loading...</div> }
             { totalPrice!=0 &&
             <div className="cart-bottom">
                 <h3><pre>Total Price:   {totalPrice}₪</pre></h3>    

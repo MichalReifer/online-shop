@@ -36,7 +36,7 @@ const Navbar = (props) => {
     return (
         <nav className="navbar">
             <a href="/">
-                <img src={"https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Flogo.jpg?alt=media&token=843c82d0-a4ba-4c44-81ca-2a958ad36be7"} alt='logo' />
+            <img src={"https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Flogo.gif?alt=media&token=45c05622-859f-451d-97f2-da7b4f68cf55"} alt='logo' />
             </a>
             <div className="links">
                 {!user && <a onClick={signMeUp}>Sign up</a>}

@@ -2,6 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Beau+Rivage&family=Dancing+Script&family=Ingrid+Darling&family=Lavishly+Yours&family=Qwitcher+Grypen:wght@700&display=swap');
 
+body {
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Fbackground_image.jpg?alt=media&token=f7608f4b-8bd3-4a6c-8aff-1783b27d5a77');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 /* base styles */
 * {
   margin: 0;
@@ -10,6 +17,9 @@
   text-align: justify;
 }
 
+.loading {
+  margin: 26px;
+}
 
 h1 {
   font-size: 50px;
@@ -26,6 +36,7 @@ h2 {
   font-family: 'Babylonica';
   font-weight: 100;
 }
+
 
 button {
   background: #f1356d;
@@ -75,10 +86,19 @@ img {
 }
 
 /* content (all pages below Navbar) */
-.content {
+
+.white-container {
+  background: rgba(255, 255, 255, 0.5);
   max-width: 1010px;
-  margin: 40px auto;  
+  margin: 0 auto;  
   padding: 0 20px;
+}
+
+.content {
+  /* max-width: 1010px; */
+  margin: 40px 0;  
+  min-height: 700px;
+  padding: 20px 0;
 }
 
 

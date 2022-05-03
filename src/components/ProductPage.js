@@ -29,10 +29,10 @@ const ProductPage = (props) => {
 
     return (  
         <div className="product-page">
-            { isLoading && <div>Loading...</div>}
+            { isLoading && <div className='loading'>Loading...</div>}
             { (!isLoading&&!product) && <PageNotFound /> }
             { product && (
-                <div>
+                <div className="product-content">
                     <h1>{product.title}</h1>
                     <div className='details-container'>
                         <div className="details">

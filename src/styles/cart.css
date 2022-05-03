@@ -14,7 +14,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 44px;
-    margin-bottom: 80px;
+    margin-bottom: 20px;
   }
   
   .cart-bottom *{
@@ -31,7 +31,7 @@
   
   .cart-products {
     overflow: auto;
-    max-height: 534px;
+    max-height: 480px;
   }
   
   /* cart-previews / list */

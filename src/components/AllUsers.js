@@ -30,7 +30,7 @@ const AllUsers = (props) => {
 
     return (
         <div className="all-users">
-            { isLoadingAdmin && <p>Loading...</p> }
+            { isLoadingAdmin && <p className='loading'>Loading...</p> }
             { noAccess && <h2 className='no-access'>you are not authorised to access this page.</h2> }
             { (!isLoadingAdmin&&!noAccess) && 
                 <div>
@@ -41,7 +41,7 @@ const AllUsers = (props) => {
                         <p>address</p>
                         <p style={{width: 100 +"px"}}>admin</p>
                     </div>
-                    { isLoading && <div>Loading...</div>}
+                    { isLoading && <div className='loading'>Loading...</div>}
                     { dataUsers && dataUsers.map((user, index)=>(
                         <div className={"cart-preview " + (user.admin? 'admin':'')} key={index}>
                             <p>{user.displayName}</p>
