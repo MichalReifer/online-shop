@@ -9,11 +9,15 @@ import './styles/userPage.css'
 import './styles/search.css'
 import App from './components/App';
 import Firebase, { FirebaseContext } from './firebase';
+import { store } from './redux/store'
+import { Provider } from 'react-redux'
 
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
-  <App />
+  <Provider store={store}>
+    <App />
+  </Provider>
 </FirebaseContext.Provider>,
   document.getElementById('root')
 );
