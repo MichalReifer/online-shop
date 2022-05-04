@@ -27,8 +27,8 @@ const Search = (props) => {
     return (
         <div className="search">
             <form className="search-form">
-                <label>search: </label>
-                <input type="text" name="term"  />
+                <input type="text" name="term" placeholder="search cakes" />
+                {/* <button type="submit" className="search-submit">Search</button> */}
             </form>
             {/* { error && <div>{ error }</div> } */}
             { isLoading && <div className='loading'>Loading...</div> }
