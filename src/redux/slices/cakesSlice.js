@@ -8,9 +8,9 @@ export const cakesSlice = createSlice({
     getCakes() {},
     removeCakes() {return {}},
     setCakes(state, action) {
-        const cakeData = action.payload
+        const cakesData = action.payload
         // keep the state as it was, then override the changes:
-        return {...state, ...cakeData}
+        return {...state, ...cakesData}
     }
 
   },
