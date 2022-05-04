@@ -6,6 +6,7 @@ import './styles/cart.css';
 import './styles/productPreview.css';
 import './styles/productPage.css'
 import './styles/userPage.css'
+import './styles/search.css'
 import App from './components/App';
 import Firebase, { FirebaseContext } from './firebase';
 
