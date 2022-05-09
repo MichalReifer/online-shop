@@ -35,9 +35,9 @@ const Navbar = (props) => {
 
     return (
         <nav className="navbar">
-            <a href="/">
+            <Link className='link' to={{pathname: '/'}}>
             <img src={"https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Flogo.gif?alt=media&token=45c05622-859f-451d-97f2-da7b4f68cf55"} alt='logo' />
-            </a>
+            </Link>
             <div className="links">
                 {!user && <a onClick={signMeUp}>Sign up</a>}
                 { user &&
@@ -46,9 +46,9 @@ const Navbar = (props) => {
                         <Link id="name" to={`/users/${user.uid}`}> Hi, {user.displayName}!</Link>
                         <a onClick={signOut}>Log out</a>
                     </div> }
-                <a href="/">Home</a>
-                <a href="/search">Search</a>
-                <a href="/cart">Cart</a>
+                <Link className='link' to={{pathname: '/'}}>Home</Link>
+                <Link className='link' to={{pathname: '/search'}}>Search</Link>
+                <Link className='link' to={{pathname: '/cart'}}>Cart</Link>
             </div>
         </nav>
     );
