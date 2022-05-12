@@ -1,19 +1,36 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductPreview from "./ProductPreview";
 import { withFirebase } from '../firebase/index';
 import { compose } from 'recompose';
 import { ProductsContext } from '../contexts/ProductsContext'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { getCakes } from '../redux/slices/cakesSlice'
+
 const Home = (props) => {
 
-    const { products, isLoading } = useContext(ProductsContext)
-
     let categories = [];
-    const productsByCategory = [];    
-    if(products){
-        categories = [...new Set(products.map(product=>product.category))];
+    const productsByCategory = [];  
+    const { products, isLoading } = useContext(ProductsContext)
+    
+    // if(products){
+    //     categories = [...new Set(products.map(product=>product.category))];
+    //     categories.map(category=>{
+    //         return productsByCategory.push(products.filter(product=>product.category===category));
+    //     })
+    // }
+
+    const dispatch = useDispatch()
+    const cakes = useSelector(state => state.cakes)
+
+    useEffect(()=>{
+        dispatch(getCakes())
+    }, [dispatch])
+
+    if(Object.keys(cakes).length>0){
+        categories = [...new Set(Object.values(cakes).map(product=>product.category))];
         categories.map(category=>{
-            return productsByCategory.push(products.filter(product=>product.category===category));
+            return productsByCategory.push(Object.values(cakes).filter(product=>product.category===category));
         })
     }
 
