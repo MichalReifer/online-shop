@@ -17,7 +17,7 @@ const Home = (props) => {
 
     const [someCakes, setSomeCakes] = useState([])
     const [hasMore, setHasMore] = useState(true)
-    const [cake_i, setCake_i] = useState(5)
+    const [cake_i, setCake_i] = useState(10)
 
     
     // if(products){
@@ -35,7 +35,7 @@ const Home = (props) => {
     }, [dispatch])
 
     useEffect(()=>{
-        setSomeCakes(Object.values(cakes).slice(0,5))
+        setSomeCakes(Object.values(cakes).slice(0,10))
     },[cakes])
   
     if(Object.keys(cakes).length>0){
@@ -57,12 +57,13 @@ const Home = (props) => {
 
     return (
         <div className="home">
+{/*             
             { isLoading && <div className='loading'>Loading...</div>}    
             { categories.map(function(category, i){
             return( 
                 productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
                 )})
-            }
+            } */}
 
             <InfiniteScroll
             dataLength={someCakes.length} //This is important field to render the next data
@@ -70,19 +71,7 @@ const Home = (props) => {
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
             >
-            {someCakes.map(cake=>{
-                return (
-                    <div key={cake.id}>
-                        <br />
-                        <br />
-                        <br />
-                        <div>{cake.title}</div>
-                        <br />
-                        <br />
-                        <br />
-                    </div>
-                )
-            })}
+            { <ProductPreview products={someCakes}/>}
             </InfiniteScroll>
         </div>
     );
