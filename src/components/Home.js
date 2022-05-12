@@ -7,37 +7,31 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getCakes } from '../redux/slices/cakesSlice'
+import { getCakeCategories, getCakes, getCakesNoImage} from '../redux/slices/cakesSlice'
 
 const Home = (props) => {
 
     let categories = [];
     const productsByCategory = [];  
-    const { products, isLoading } = useContext(ProductsContext)
 
-    const [someCakes, setSomeCakes] = useState([])
     const [hasMore, setHasMore] = useState(true)
-    const [cake_i, setCake_i] = useState(10)
+    const [someCategoris, setSomeCategories] = useState([])
+    const [categ_i, setCateg_i] = useState(2)
 
-    
-    // if(products){
-    //     categories = [...new Set(products.map(product=>product.category))];
-    //     categories.map(category=>{
-    //         return productsByCategory.push(products.filter(product=>product.category===category));
-    //     })
-    // }
 
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
 
     useEffect(()=>{
-        dispatch(getCakes())
+        dispatch(getCakesNoImage())
+        dispatch(getCakeCategories())
     }, [dispatch])
 
     useEffect(()=>{
-        setSomeCakes(Object.values(cakes).slice(0,10))
-    },[cakes])
-  
+        setSomeCategories(categories.slice(0,2))
+        console.log(someCategoris)
+    }, [])
+
     if(Object.keys(cakes).length>0){
         categories = [...new Set(Object.values(cakes).map(product=>product.category))];
         categories.map(category=>{
@@ -46,32 +40,24 @@ const Home = (props) => {
     }
 
     const fetchData = () => {
-        // alert('reached end of page')
         console.log('reached end of page')
-        if (someCakes.length === Object.values(cakes).length)
+        if (someCategoris.length === categories.length)
             setHasMore(false)
-        setSomeCakes([...someCakes, ...Object.values(cakes).slice(cake_i, cake_i+5)])
-        // console.log(someCakes)
-        setCake_i(cake_i+5)
+        setSomeCategories([...someCategoris, ...categories.slice(categ_i, categ_i+1)])
+        setCateg_i(categ_i+1)
     }
-
     return (
         <div className="home">
-{/*             
-            { isLoading && <div className='loading'>Loading...</div>}    
-            { categories.map(function(category, i){
-            return( 
-                productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
-                )})
-            } */}
-
             <InfiniteScroll
-            dataLength={someCakes.length} //This is important field to render the next data
+            dataLength={someCategoris.length} //This is important field to render the next data
             next={fetchData}
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
             >
-            { <ProductPreview products={someCakes}/>}
+            { someCategoris.map(function(category, i){
+                return( 
+                    productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
+            )})}
             </InfiniteScroll>
         </div>
     );
