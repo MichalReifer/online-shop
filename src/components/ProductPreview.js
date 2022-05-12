@@ -9,13 +9,8 @@ const ProductPreview = ({products, title}) => {
             <div className="products">
                 {products.map(product => (
                     <div className="product-preview" key={product.id}>
-                        <Link className='link' to={{
-                            pathname: `/products/${product.cakeId}`,
-                            state : {
-                                id: `${product.id}`
-                            }
-                            }}>
-                        {<img src={product.image} alt="" />}
+                        <Link className='link' to={{pathname: `/products/${product.cakeId}`,state : {id: `${product.id}`}}}>
+                            <img src={product.image} alt="" />
                             <h2>{product.title}</h2>
                             <p className="price">{product.price} ₪</p>
                         </Link>
