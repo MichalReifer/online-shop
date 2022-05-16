@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import cakesReducer from './slices/cakesSlice'
+import {cakesReducer, cakeCategoriesReducer} from './slices/cakesSlice'
 import  usersReducer from './slices/usersSlice'
 // redux saga:
 import createSagaMiddleware from "redux-saga";
@@ -8,6 +8,7 @@ import { watcherSaga } from "./sagas/rootSaga";
 
 const reducer = combineReducers({
     cakes: cakesReducer,
+    cakeCategories: cakeCategoriesReducer,
     users: usersReducer
   });
 
