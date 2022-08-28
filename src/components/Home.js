@@ -1,67 +1,58 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductPreview from "./ProductPreview";
-import { withFirebase } from '../firebase/index';
-import { compose } from 'recompose';
-import { ProductsContext } from '../contexts/ProductsContext'
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-
+import { fetchCakes } from "../redux/slices/cakesSlice";
 import { useSelector, useDispatch } from 'react-redux'
-import { getCakeCategories, getCakes, getCakesNoImage} from '../redux/slices/cakesSlice'
 
 const Home = (props) => {
 
-    let categories = [];
-    const productsByCategory = [];  
-
     const [hasMore, setHasMore] = useState(true)
-    const [someCategoris, setSomeCategories] = useState([])
-    const [categ_i, setCateg_i] = useState(2)
-
+    const [displayCakes, setDisplayCakes] = useState([])
+    const [page, setPage] = useState(2)
 
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
 
     useEffect(()=>{
-        dispatch(getCakesNoImage())
-        dispatch(getCakeCategories())
+        dispatch(fetchCakes({limit:10}))
     }, [dispatch])
 
     useEffect(()=>{
-        setSomeCategories(categories.slice(0,2))
-        console.log(someCategoris)
-    }, [])
-
-    if(Object.keys(cakes).length>0){
-        categories = [...new Set(Object.values(cakes).map(product=>product.category))];
-        categories.map(category=>{
-            return productsByCategory.push(Object.values(cakes).filter(product=>product.category===category));
-        })
-    }
+        setDisplayCakes([...displayCakes, ...cakes.cakes])
+    }, [cakes.cakes])
 
     const fetchData = () => {
         console.log('reached end of page')
-        if (someCategoris.length === categories.length)
-            setHasMore(false)
-        setSomeCategories([...someCategoris, ...categories.slice(categ_i, categ_i+1)])
-        setCateg_i(categ_i+1)
+        dispatch(fetchCakes({page, limit:5}))
+        setPage(page+1) 
+        console.log('length: ',cakes.cakes.length)
+        if (cakes.cakes.length < 5) setHasMore(false)
     }
+    // console.log(cakes)
+    // console.log(displayCakes)
+    // console.log(page)
+
     return (
         <div className="home">
             <InfiniteScroll
-            dataLength={someCategoris.length} //This is important field to render the next data
-            next={fetchData}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            >
-            { someCategoris.map(function(category, i){
-                return( 
-                    productsByCategory[i] && <ProductPreview products={productsByCategory[i]} key={i} title={category}/>
-            )})}
+                dataLength={displayCakes.length} //This is important field to render the next data
+                next={fetchData}
+                hasMore={hasMore}
+                loader={<h4>Loading...</h4>}
+                scrollThreshold={1}
+                >
+                <ProductPreview products={displayCakes}/>
             </InfiniteScroll>
+
+            {/* {cakes.loading && <div>Loading...</div>}
+            {(!cakes.loading && cakes.error) ? <div>Error: {cakes.error}</div>: null}
+            { (!cakes.loading && cakes.cakes.length) ?
+                <ProductPreview products={cakes.cakes}/>
+                : null  
+            } */}
+
         </div>
     );
-    
 }
  
-export default compose(withFirebase)(Home);
+export default Home;
