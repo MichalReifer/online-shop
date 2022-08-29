@@ -7,13 +7,13 @@ import { ColorRing } from 'react-loader-spinner'
 
 const Home = (props) => {
 
+    const CAKES_IN_LINE = 5
+    const LINES_ON_START = 3
     const searchForm = document.querySelector('.search-form')
     const [searchValue, setSearchValue] = useState('')
     const [hasMore, setHasMore] = useState(true)
     const [displayCakes, setDisplayCakes] = useState([])
-    const [page, setPage] = useState(2)
-    const CAKES_IN_LINE = 5
-
+    const [page, setPage] = useState(LINES_ON_START)
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
 
@@ -26,13 +26,13 @@ const Home = (props) => {
     }, [searchForm])
 
     useEffect(() => {
-        dispatch(fetchCakes({ limit: CAKES_IN_LINE*2 }))
-            .then(data=>setDisplayCakes(data.payload))    
+        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START }))
+            .then(data=>setDisplayCakes(data.payload))  
     }, [dispatch])
 
     useEffect(()=>{
-        dispatch(fetchCakes({ limit: CAKES_IN_LINE*2, value: searchValue }))
-            .then(data=>setDisplayCakes(data.payload))    
+        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START, value: searchValue }))
+            .then(data=>setDisplayCakes(data.payload))
     }, [searchValue])
 
     const fetchData = () => {
@@ -45,11 +45,6 @@ const Home = (props) => {
             .then(moreCakes=>setDisplayCakes([...displayCakes, ...moreCakes]))
             .then(()=> setPage(page+1))
     }
-
-    console.log('fetched cakes', cakes)
-    console.log('displayCakes', displayCakes)
-    console.log('searchValue:', searchValue)
-    console.log('page', page)
 
     return (
         <div className="home">
