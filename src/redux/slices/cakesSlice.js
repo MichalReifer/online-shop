@@ -9,6 +9,13 @@ export const fetchCakes = createAsyncThunk( 'cakes/fetchCakes', (params={page:0,
   }
 )
 
+export const fetchCakeById = createAsyncThunk( 'cakes/fetchCakeById', (id) => {
+  // console.log('id: ', id)
+  return fetch(`http://localhost:8081/cakes/by-cakeid/${id}`)
+    .then(response=>response.json())
+}
+)
+
 export const cakesSlice = createSlice({
   name: 'cakes',
   initialState: 
@@ -30,6 +37,11 @@ export const cakesSlice = createSlice({
       state.loading = false
       state.cakes = []
       state.error = action.error.message
+    })
+    builder.addCase(fetchCakeById.fulfilled, (state, action) => {
+      state.loading = false
+      state.cakes = action.payload
+      state.error = ''
     })
   },
 })
