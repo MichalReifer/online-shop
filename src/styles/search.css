@@ -1,14 +1,15 @@
 /* search */
-.search form {
+.search-form form {
     margin: 26px;
   }
   
-  .search label {
+  .search-form label {
     margin-right:15px;
   }
   
-  .search input {
+  .search-form input {
     font-size: large;
+    margin-left: 10px;
     padding: 5px 2px 5px 40px;
     border: none;
     border-radius: 15px;
@@ -22,13 +23,13 @@
       transition: background 600000s 0s;
   }
   
-  .search input:focus{
+  .search-form input:focus{
     box-shadow: 0 0 3px 0 #ff77bb !important;
     border-color: #ff77bb !important;
     outline: none !important;
   }
   
-  .search input::placeholder {
+  .search-form input::placeholder {
     color: #bbb;
   }
   

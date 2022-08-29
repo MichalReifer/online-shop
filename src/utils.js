@@ -2,19 +2,6 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 
 
-/* Search component */
-export const sortProducts = (products, field) =>{
-    products?.sort((a, b)=>{
-        const nameA = a[field];
-        const nameB = b[field];
-        let order = 0;
-        if (nameA>nameB)  order=1;
-        else if (nameA<nameB) order=-1;
-        return order;
-    });
-    return products;
-}
-
 /* ProductPage component */
 export const addToCart = (cakeId, history) => {
     let storage = localStorage.getItem('order');

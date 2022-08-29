@@ -47,7 +47,6 @@ const Navbar = (props) => {
                         <a onClick={signOut}>Log out</a>
                     </div> }
                 <Link className='link' to={{pathname: '/'}}>Home</Link>
-                <Link className='link' to={{pathname: '/search'}}>Search</Link>
                 <Link className='link' to={{pathname: '/cart'}}>Cart</Link>
             </div>
         </nav>
