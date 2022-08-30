@@ -35,8 +35,9 @@ const CartProducts = ({cartProducts, resetTotalPrice, emptyCart}) => {
                                 id: `${product.id}`
                             }
                             }}>
-                        <img src={product.image} alt="" />
-                    </Link>
+                        {/* <img src={product.image} alt="" /> */}
+                        <img src={'data:image/png;base64,'+product.image} alt="" />
+                        </Link>
                     <h2>{product.title}</h2>
                     <p>{product.price} ₪</p>
                     <input type="number" id="quantity" name="quantity" min="1" max="5" value={order[product.cakeId]} 
