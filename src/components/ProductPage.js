@@ -2,9 +2,9 @@ import { useHistory, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { addToCart, zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
 import PageNotFound from "./PageNotFound";
-import { ColorRing } from 'react-loader-spinner'
 import { useDispatch } from 'react-redux'
 import { fetchCakeById } from "../redux/slices/cakesSlice";
+import Loading from "./Loading";
 
 
 const ProductPage = (props) => {
@@ -26,20 +26,8 @@ const ProductPage = (props) => {
 
     return (  
         <div className="product-page">
-            { (!isLoading && !cake) && <PageNotFound /> }
-            { isLoading &&
-                <div style={{display:'flex'}}>
-                    <ColorRing
-                        visible={true}
-                        height="80"
-                        width="80"
-                        ariaLabel="blocks-loading"
-                        wrapperStyle={{margin: 'auto', marginTop: 20}}
-                        wrapperClass="blocks-wrapper"
-                        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-                    />
-                </div>
-            }
+            <Loading isLoading={isLoading} />
+            <PageNotFound isNotFound={(!isLoading && !cake)} />
             { cake && (
                 <div className="product-content">
                     <h1>{cake.title}</h1>

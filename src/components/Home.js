@@ -3,7 +3,8 @@ import ProductPreview from "./ProductPreview";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchCakes } from "../redux/slices/cakesSlice";
 import { useSelector, useDispatch } from 'react-redux'
-import { ColorRing } from 'react-loader-spinner'
+import Loading from "./Loading";
+import Error from "./Error";
 
 const Home = (props) => {
 
@@ -54,32 +55,19 @@ const Home = (props) => {
                 {/* <button type="submit" className="search-submit">Search</button> */}
             </form>
 
-            <InfiniteScroll
-                dataLength={displayCakes.length} //This is important field to render the next data
-                next={fetchData}
-                hasMore={hasMore}
-            >
-                <ProductPreview products={displayCakes} />
-            </InfiniteScroll>
+            <Loading isLoading={cakes.loading} />
+            <Error isError={(!cakes.loading && cakes.error)} errorMessage={cakes.error}/>
 
-            { cakes.loading &&
-                <div style={{display:'flex'}}>
-                    <ColorRing
-                        visible={true}
-                        height="80"
-                        width="80"
-                        ariaLabel="blocks-loading"
-                        wrapperStyle={{margin: 'auto', marginTop: 20}}
-                        wrapperClass="blocks-wrapper"
-                        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-                    />
-                </div>
+            { displayCakes && 
+                <InfiniteScroll
+                    dataLength={displayCakes.length} //This is important field to render the next data
+                    next={fetchData}
+                    hasMore={hasMore}
+                >
+                    <ProductPreview products={displayCakes} />
+                </InfiniteScroll>
             }
 
-            { (!cakes.loading && cakes.error) ? 
-                <div>Error: {cakes.error}</div>
-                : null
-            }
         </div>
     );
 }

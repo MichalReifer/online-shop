@@ -140,3 +140,18 @@ img {
 .no-access {
   font-family: "Quicksand";
 }
+
+.error {
+  display: flex;
+  font-size: larger;
+  color: gray;
+  margin-top: 40px;
+}
+
+.error p {
+  margin: auto;
+}
+
+.error p span {
+  font-weight: bold;
+}

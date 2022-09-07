@@ -37,7 +37,7 @@ function App(props) {
                     <AllUsers/>
                   </Route>
                   <Route path="*">
-                    <PageNotFound />
+                    <PageNotFound isNotFound={true}/>
                   </Route>       
                 </Switch>
               </div>  
