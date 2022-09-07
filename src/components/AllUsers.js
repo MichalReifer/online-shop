@@ -1,60 +1,37 @@
-import { withFirebase } from '../firebase/index';
-import { compose } from 'recompose';
-import { useContext, useEffect, useState } from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUsers } from '../redux/slices/usersSlice'
+import Loading from './Loading'
 
 
-const AllUsers = (props) => {
+const AllUsers = ({allUsers}) => {
 
-    const { admin, isLoadingAdmin } = useContext(CurrentUserContext);
-    const [ isLoading, setIsLoading] = useState(true);
-    const [ dataUsers, setDataUsers] = useState(null);
-    const [ noAccess, setNoAccess ] = useState(false);
+  const dispatch = useDispatch()
+  const users = useSelector(state=>state.users).users
+  const [isLoading, setIsLoading] = useState(true)
 
-
-    useEffect(async()=>{
-        const data = await props.firebase.getAllUsers();
-        setDataUsers(data);
+  useEffect(()=>{
+    dispatch(fetchUsers())
+      .then(data=>{
         setIsLoading(false)
-    }, [])
+        console.log(data)
+      })
+  }, [dispatch])
 
-    useEffect(()=>{
-        setNoAccess(false);
-        if(!isLoadingAdmin){
-            if(!admin){
-                console.log('not admin')
-                setNoAccess(true);
-            }
+
+  return (
+    <>
+      <h2>All Users</h2>
+      <div className='user-orders'>
+        <Loading isLoading={isLoading} />
+        {
+          users.map(user=>
+              <div>{user.name}</div>
+          )
         }
-    },[isLoadingAdmin])
-
-    return (
-        <div className="all-users">
-            { isLoadingAdmin && <p className='loading'>Loading...</p> }
-            { noAccess && <h2 className='no-access'>you are not authorised to access this page.</h2> }
-            { (!isLoadingAdmin&&!noAccess) && 
-                <div>
-                    <h1>Users</h1>
-                    <div className="cart-preview" >
-                        <p>name</p>
-                        <p>email</p>
-                        <p>address</p>
-                        <p style={{width: 100 +"px"}}>admin</p>
-                    </div>
-                    { isLoading && <div className='loading'>Loading...</div>}
-                    { dataUsers && dataUsers.map((user, index)=>(
-                        <div className={"cart-preview " + (user.admin? 'admin':'')} key={index}>
-                            <p>{user.displayName}</p>
-                            <p>{user.email}</p>
-                            <p>{user.address}</p>
-                            {user.admin && <p style={{width: 100 +"px"}}>admin</p> }
-                            {!user.admin && <button>make admin</button>}
-                        </div>
-                    ))}
-                </div>
-            }
-        </div>
-    );
+      </div>
+    </>
+  );
 }
  
-export default compose(withFirebase)(AllUsers);
+export default AllUsers;

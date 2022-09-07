@@ -20,6 +20,7 @@ export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', (id) => {
 
 const initialState = {
   loading: false,
+  userInfo: null,
   users: [],
   error: ''
 }
@@ -51,12 +52,12 @@ export const usersSlice = createSlice({
     },
     [fetchUserById.fulfilled]: (state, action) => {
       state.loading = false
-      state.users = action.payload
+      state.userInfo = action.payload
       state.error = ''
     },
     [fetchUserById.rejected]: (state, action) => {
       state.loading = false
-      state.users = []
+      state.userInfo = null
       state.error = action.error.message
     }
 

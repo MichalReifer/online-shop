@@ -1,7 +1,9 @@
-import { withFirebase } from '../firebase/index';
-import { compose } from 'recompose';
 import { useEffect, useState } from 'react';
 import { showOrHideProducts } from '../utils';
+
+import { useDispatch } from 'react-redux'
+import { fetchCakeById } from "../redux/slices/cakesSlice"
+import Loading from './Loading';
 
 
 const UserOrders = ({userOrders, firebase}) => {
@@ -9,28 +11,17 @@ const UserOrders = ({userOrders, firebase}) => {
     const [orders, setOrders] = useState(null);
     const [products, setProducts ] = useState(null);
 
-    useEffect(async ()=>{
-        setOrders(userOrders?.reverse());
-    }, [userOrders])
+    const dispatch = useDispatch()
 
-    useEffect(async ()=>{
-        if (orders && orders.length>0){
-            const promises = orders.map(async order=>{
-                const promises = Object.keys(order.products).map(async cakeId=>{
-                    const product = await firebase.getProductByName(cakeId);
-                    product['quantity'] = order.products[cakeId];    
-                    return product;
-                })
-                const products = await Promise.all(promises);
-                return products;
-            })
-            const products = await Promise.all(promises);
-            setProducts(products);
-        }
-    }, [orders])
+    useEffect(()=>{
+
+    }, [dispatch])
 
     return (
+      <>
+        <h2>Orders</h2>
         <div className='user-orders'>
+            {/* <Loading isLoading={!orders} /> */}
             {orders && orders.map((order, index)=>(
                 <div className="order-preview" key={index} onClick={()=>{showOrHideProducts(index)}}>
                     <h3>made on: {order.time}</h3>
@@ -48,7 +39,8 @@ const UserOrders = ({userOrders, firebase}) => {
                 )) 
             }
         </div>
+      </>
     );
 }
  
-export default compose(withFirebase)(UserOrders);
+export default UserOrders;

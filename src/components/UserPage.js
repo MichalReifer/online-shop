@@ -1,80 +1,90 @@
-import { withFirebase } from '../firebase/index';
-import { compose } from 'recompose';
 import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import UserOrders from './UserOrders';
-import { changeDetails } from '../utils';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserById } from '../redux/slices/usersSlice'
 import Swal from 'sweetalert2';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import UserOrders from './UserOrders';
+import Loading from './Loading';
+import PageNotFound from './PageNotFound';
+import AllUsers from './AllUsers';
 
 
 const UserPage = (props) => {
 
-    const { setStorageUser, admin, authUser, isLoading } = useContext(CurrentUserContext);
-    const { userId: urlId } = useParams();
-    const [ userDetails, setUserDetails ] = useState(null);
-    const [ userOrders, setUserOrders ] = useState(null);
-    const [ noAccess, setNoAccess ] = useState(false);
+  const { userId: urlId } = useParams();
+  const [ isLoading, setIsLoading ] = useState(true);
+  const [ isAuthorized, setIsAuthorized ] = useState(false);
+  const [ isMsgNoAccess, setIsMsgNoAccess] = useState(false)
 
-    useEffect(async()=>{
-        // reset in case urlId is changed
-        setNoAccess(false);
-        setUserOrders(null);
-        // after authUser is loaded from firebase:
-        if(!isLoading){
-            if (authUser?.uid===urlId){
-                setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
-                const userOrders = await props.firebase.getOrdersByEmail(authUser?.email);
-                setUserOrders(userOrders);
-            }
-            else {
-                setNoAccess(true);
-            }
-        }
-    }, [urlId, isLoading, authUser])
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.users).userInfo
+  const currentUser = useSelector(state => state.currentUser).userInfo
 
-    const changeUserDetails = async () => {
-        await changeDetails(props.firebase);
-        setUserDetails(JSON.parse(localStorage.getItem('userDetails')));
-        setStorageUser(JSON.parse(localStorage.getItem('currentUser')));
-    }
-
-    const changePassword = async () => {    
-        await props.firebase.changePassword(authUser?.email);
-        Swal.fire({
-            title: 'a password reset link is sent to your email address.',
-            icon: 'success'
+  useEffect(()=>{
+    if(currentUser)
+      dispatch(fetchUserById(urlId))
+        .then(data=>{
+          if (data.error) 
+            throw new Error(data.error.message)
+          else if(!currentUser.admin && data.payload?._id !== currentUser._id){
+            setIsMsgNoAccess(true)
+            throw new Error('user not authorized')
+          }
+          else {
+            console.log('user is authorized')
+            setIsLoading(false)
+            setIsAuthorized(true)
+          }
         })
-    }
+        .catch(err=>{
+          console.log(err)
+          setIsLoading(false)
+          setIsAuthorized(false)
+        })
+  },[currentUser, urlId])
 
-    return (
-        <div>
-            { isLoading && <div>Loading...</div>}
-            { noAccess && <h2 className='no-access'>you are not authorised to access this page.</h2>}
-            { (!isLoading&&!noAccess) && 
-                <div className="user-page">
-                    <div className='user-details-container'>
-                            <h1>{authUser?.displayName}</h1>
-                            { admin && <h2>admin</h2> }
-                            { admin && <a id='admin' href="/all_users">see all users</a>}
-                            <div className="name-and-address">
-                                <h4>{authUser?.email}</h4>
-                                { userDetails && <p>{userDetails.address}</p>}
-                            </div>
-                            <button onClick={changeUserDetails}>change details</button>
-                            <button onClick={changePassword}>change password</button>
-                    </div>
-                    <div className="user-orders-container">
-                        <h2>Orders</h2>
-                        {!userOrders && <p>Loading...</p> }
-                        {userOrders?.length==0 && <h3>no orders were made</h3> }
-                        <UserOrders userOrders={userOrders}/>
-                    </div>
-                </div>
+  // console.log(user)
+  const changeUserDetails = async () => {
+  }
+
+  const changePassword = async () => {    
+    Swal.fire({
+      title: 'a password reset link is sent to your email address.',
+      icon: 'success'
+    })
+  }
+
+  return (
+    <>
+      <Loading isLoading={isLoading} />
+      <PageNotFound isNotFound={(!isLoading && !isAuthorized)} msgNoAccess={isMsgNoAccess}/>
+
+      { ((!isLoading&&isAuthorized) && user) && 
+        <div className="user-page">
+
+          <div style={{background: 'white', height: 660}}>
+            <h1>{user.name}</h1>
+            { user.admin && <h2>admin</h2> }
+            <div className="name-and-address">
+                <h4>{user?.email}</h4>
+                <p>{user.address}</p>
+            </div>
+            <button onClick={changeUserDetails}>change details</button>
+            <button onClick={changePassword}>change password</button>
+          </div>
+          
+          <div style={{background: 'white'}}>
+            { user.admin ?
+              <AllUsers /> 
+            : <UserOrders />
             }
+          </div>
+            
         </div>
-    );
+      }
+    </>
+  );
 }
  
 
-export default compose(withFirebase)(UserPage);
+export default UserPage;
