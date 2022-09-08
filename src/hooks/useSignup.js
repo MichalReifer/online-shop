@@ -17,7 +17,7 @@ export const useSignup = ()=> {
   }
 
   const signup = async () => {
-    await Swal.fire({
+    return Swal.fire({
       title: 'Enter Your Details',
       html:
         '<input id="name" class="swal2-input" type="name" placeholder="Name">' +
@@ -42,10 +42,13 @@ export const useSignup = ()=> {
           footerDiv.classList.add('footer-div')
       }
     })
-    .then(result=>{if(result.isDenied) login()})
+    .then(result=>{
+      if(result.isDenied) return login()
+      else if (result.isConfirmed) return result
+    })
   }
 
-  const preConfirmSignUp = async (firebase) => {
+  const preConfirmSignUp = () => {
 
     const name = document.getElementById('name')
     const email = document.getElementById('email')
@@ -74,8 +77,9 @@ export const useSignup = ()=> {
         password.focus()
     } else {
         const user = {'name': name.value, 'email': email.value, 'address': address.value, password: password.value}
-        await dispatch(userSignup(user))
+        return dispatch(userSignup(user))
           .then(res=> {
+            console.log(res)
             if(res.error){
               Swal.showValidationMessage(res.error.message)
               if (/email/i.test(res.error.message)) {
@@ -83,10 +87,10 @@ export const useSignup = ()=> {
                 email.focus()
               }
             }
+            else return res.payload
           })
-
     }
-}
+  }
     
   return {signup}
 

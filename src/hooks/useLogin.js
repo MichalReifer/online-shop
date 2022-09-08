@@ -8,8 +8,8 @@ export const useLogin = ()=> {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const login = async () => {
-    await Swal.fire({
+  const login = () => {
+    return Swal.fire({
         title: 'Enter Your Details',
         html:
           '<input id="email2" class="swal2-input" type="email" placeholder="Email">'+
@@ -22,7 +22,7 @@ export const useLogin = ()=> {
     )
   }
 
-  const preConfirmLogin = async () => {
+  const preConfirmLogin = () => {
 
     const email = document.getElementById('email2');
     const password = document.getElementById('password2');
@@ -33,7 +33,8 @@ export const useLogin = ()=> {
     if (!email.value){email.classList.add("swal2-inputerror")}
     if (!password.value){password.classList.add("swal2-inputerror");}
   
-    await dispatch(userLogin({email: email.value, password: password.value}))
+    return dispatch(
+      userLogin({email: email.value, password: password.value}))
       .then(res=> {
         if(res.error){
           Swal.showValidationMessage(res.error.message)
@@ -44,8 +45,9 @@ export const useLogin = ()=> {
           else if (/password/i.test(res.error.message)) {
             password.classList.add("swal2-inputerror");
             password.focus()
-          } 
+          }
         }
+        else return res.payload
       })
 
   }

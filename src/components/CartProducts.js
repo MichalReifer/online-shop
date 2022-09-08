@@ -1,28 +1,28 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { removeFromCart } from '../utils';
+import { useCart } from "../hooks/useCart";
 
 
-const CartProducts = ({cartProducts, resetTotalPrice, emptyCart}) => {
+const CartProducts = ({products, setProducts, setTotalPrice, setCartEmpty}) => {
 
     const [order, setOrder]  = useState(JSON.parse(localStorage.getItem('order')));
-    const [products, setProducts] = useState([]);
+    const { removeFromCart } = useCart()
 
-    useEffect(()=>{
-        setProducts(cartProducts)
-    }, [cartProducts])
-
-    // update quantity of products in cart:
+    // update total price:
     useEffect(()=>{
         localStorage.setItem('order', JSON.stringify(order));
-        let totalPrice = 0;
-        products.map(product=>{
-            totalPrice+=product.price*order[product.cakeId]})
+
         if(Object.keys(order).length===0){
-            emptyCart(true)
-            resetTotalPrice(0)
-        } else{
-            resetTotalPrice(totalPrice)}
+            setCartEmpty(true)
+            setTotalPrice(0)
+        } 
+        else {
+            let totalPrice = 0;
+            products.map(product=>{
+                totalPrice+=product.price*order[product.cakeId]
+            })
+            setTotalPrice(totalPrice)
+        }
     }, [order, products])
 
     return (
@@ -42,7 +42,7 @@ const CartProducts = ({cartProducts, resetTotalPrice, emptyCart}) => {
                     <p>{product.price} ₪</p>
                     <input type="number" id="quantity" name="quantity" min="1" max="5" value={order[product.cakeId]} 
                         onChange={e=>setOrder({...order, [product.cakeId]: parseInt(e.target.value)})}></input>   
-                    <button onClick={()=>removeFromCart(product.cakeId, products, setProducts, setOrder)}>Remove</button>
+                    <button onClick={()=>removeFromCart(product.cakeId, setProducts, setOrder)}>Remove</button>
                 </div>
             ))}
         </div>

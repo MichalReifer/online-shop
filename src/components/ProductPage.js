@@ -1,11 +1,11 @@
 import { useHistory, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { addToCart, zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
+import { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
 import PageNotFound from "./PageNotFound";
 import { useDispatch } from 'react-redux'
 import { fetchCakeById } from "../redux/slices/cakesSlice";
 import Loading from "./Loading";
-
+import { useCart } from "../hooks/useCart";
 
 const ProductPage = (props) => {
       
@@ -14,6 +14,8 @@ const ProductPage = (props) => {
     const dispatch = useDispatch()
     const [cake, setCake] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+
+    const {addToCart} = useCart()
 
     useEffect(() => {
         dispatch(fetchCakeById(cakeId))
@@ -36,7 +38,7 @@ const ProductPage = (props) => {
                             <p>{cake.description}</p>
                             <p>category: {cake.category}</p>
                             <p>price: {cake.price} ₪</p>
-                            <button onClick={()=>addToCart(cakeId, history)}>Add To Cart</button>
+                            <button onClick={()=>addToCart(cakeId)}>Add To Cart</button>
                         </div>
                         <div className="image-container">
                         <img className="product-image zoom-out-image"  alt="cake" 

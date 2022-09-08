@@ -1,60 +1,53 @@
 import { useEffect, useState, useContext } from "react";
 import CartProducts from "./CartProducts";
-import { useHistory } from "react-router";
-import { checkout } from '../utils';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { useDispatch } from 'react-redux'
 import { fetchCakeById } from "../redux/slices/cakesSlice"
+import { useCart } from "../hooks/useCart";
 
 
-const Cart = (props) => {
+const Cart = () => {
 
-    const { setStorageUser: setUser } = useContext(CurrentUserContext);
     const [ cartEmpty, setCartEmpty ] = useState(true);
     const [ products, setProducts] = useState([]);
     const [ totalPrice, setTotalPrice] = useState(0)
-    const history = useHistory();
     const dispatch = useDispatch()
-
-    const resetTotalPrice = (price)=>{
-        setTotalPrice(price);
-    }
-
-    const emptyCart = (ans)=>{
-        setCartEmpty(ans);
-    }
+    const { checkout } = useCart()
 
     useEffect(()=>{
-        const storage = localStorage.getItem('order');
-        if (storage && storage!='{}'){
+        const order = JSON.parse(localStorage.getItem('order'))
+        if (order && Object.keys(order).length>0){
             setCartEmpty(false);
-            let order = JSON.parse(storage);
             for (const cakeId in order){
                 dispatch(fetchCakeById(cakeId))
                     .then(data=>data.payload)
                     .then(cake=>{
-                        setProducts(prevArr => [...prevArr, cake]);
-                        setTotalPrice(prevPrice => prevPrice += cake.price*order[cakeId]);
+                        if (cake) {
+                            setProducts(prevArr => [...prevArr, cake]);
+                            setTotalPrice(prevPrice => prevPrice += cake.price*order[cakeId]);
+                        }
                     })
             }
         }
+        else setCartEmpty(true)
     }, [])
 
     return (
         <div className="cart">
-            { cartEmpty && <h1 className="cart-empty">your cart is empty</h1>}
-            { !cartEmpty && 
+            { cartEmpty ? 
+                <h1 className="cart-empty">your cart is empty</h1>
+            :
+              <>
                 <div>
                     <h1>CART</h1> 
-                    <CartProducts cartProducts={products} resetTotalPrice={resetTotalPrice} emptyCart={emptyCart}/>
-                </div>}
-
-            { totalPrice!=0 &&
+                    <CartProducts {...{products, setProducts, setTotalPrice, setCartEmpty}}/>
+                </div>
                 <div className="cart-bottom">
                     <h3><pre>Total Price:   {totalPrice}₪</pre></h3>    
-                    <button onClick={()=>checkout(props.firebase, history, totalPrice, setUser)}>Checkout</button>
+                    <button onClick={()=>checkout(totalPrice)}>Checkout</button>
                 </div>
+              </>
             }
+
         </div>
     );
 }

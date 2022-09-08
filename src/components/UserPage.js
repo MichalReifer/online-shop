@@ -76,7 +76,7 @@ const UserPage = (props) => {
           <div style={{background: 'white'}}>
             { user.admin ?
               <AllUsers /> 
-            : <UserOrders />
+            : <UserOrders userId={user._id} />
             }
           </div>
             
