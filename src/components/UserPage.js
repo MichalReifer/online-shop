@@ -14,36 +14,33 @@ const UserPage = (props) => {
   const { userId: urlId } = useParams();
   const [ isLoading, setIsLoading ] = useState(true);
   const [ isAuthorized, setIsAuthorized ] = useState(false);
-  const [ isMsgNoAccess, setIsMsgNoAccess] = useState(false)
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.users).userInfo
-  const currentUser = useSelector(state => state.currentUser).userInfo
+  const currentUser = useSelector(state => state.currentUser)
 
   useEffect(()=>{
-    if(currentUser)
+    if(currentUser.userInfo)
       dispatch(fetchUserById(urlId))
         .then(data=>{
           if (data.error) 
             throw new Error(data.error.message)
-          else if(!currentUser.admin && data.payload?._id !== currentUser._id){
-            setIsMsgNoAccess(true)
+          else if(!currentUser.userInfo.admin && data.payload?._id !== currentUser.userInfo._id)
             throw new Error('user not authorized')
-          }
-          else {
-            console.log('user is authorized')
-            setIsLoading(false)
+          else 
             setIsAuthorized(true)
-          }
         })
         .catch(err=>{
           console.log(err)
-          setIsLoading(false)
           setIsAuthorized(false)
         })
+        .finally(()=>setIsLoading(false))
+    else if(currentUser.error) {
+      setIsAuthorized(false)
+      setIsLoading(false)
+    }
   },[currentUser, urlId])
 
-  // console.log(user)
   const changeUserDetails = async () => {
   }
 
@@ -57,7 +54,7 @@ const UserPage = (props) => {
   return (
     <>
       <Loading isLoading={isLoading} />
-      <PageNotFound isNotFound={(!isLoading && !isAuthorized)} msgNoAccess={isMsgNoAccess}/>
+      <PageNotFound isNotFound={(!isLoading && !isAuthorized)} msgNoAccess={true}/>
 
       { ((!isLoading&&isAuthorized) && user) && 
         <div className="user-page">

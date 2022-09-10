@@ -26,7 +26,6 @@ export const userLogin = createAsyncThunk( 'users/userLogin', (params={email:nul
   })
     .then(res =>res.json())
     .then(res=> {
-      console.log(res)
       if (res.error) throw new Error(res.error)
       else {
         localStorage.setItem('cake-shop-jwt', res.token)
@@ -36,9 +35,8 @@ export const userLogin = createAsyncThunk( 'users/userLogin', (params={email:nul
   }
 )
 
-export const userSignup = createAsyncThunk('users/userSignup', (userDetails) => {
-  // const {userDetails} = params
-  console.log(userDetails)
+export const userSignup = createAsyncThunk('users/userSignup', userDetails => {
+  // console.log(userDetails)
   return fetch('http://localhost:8081/users/signup', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -70,7 +68,7 @@ export const currentUserSlice = createSlice({
       state.loading = false
       state.userInfo = null
       state.userToken = null
-      state.error = null
+      state.error = 'logged out'
     }
   },
   extraReducers: {
