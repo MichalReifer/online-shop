@@ -2,11 +2,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserById } from '../redux/slices/usersSlice'
-import Swal from 'sweetalert2';
 import UserOrders from './UserOrders';
 import Loading from './Loading';
 import PageNotFound from './PageNotFound';
 import AllUsers from './AllUsers';
+import { useUserPage } from '../hooks/useUserPage';
 
 
 const UserPage = (props) => {
@@ -14,6 +14,7 @@ const UserPage = (props) => {
   const { userId: urlId } = useParams();
   const [ isLoading, setIsLoading ] = useState(true);
   const [ isAuthorized, setIsAuthorized ] = useState(false);
+  const { changeUserDetails, changePassword } = useUserPage()
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.users).userInfo
@@ -41,15 +42,6 @@ const UserPage = (props) => {
     }
   },[currentUser, urlId])
 
-  const changeUserDetails = async () => {
-  }
-
-  const changePassword = async () => {    
-    Swal.fire({
-      title: 'a password reset link is sent to your email address.',
-      icon: 'success'
-    })
-  }
 
   return (
     <>

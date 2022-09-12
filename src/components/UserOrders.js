@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { showOrHideProducts } from '../utils';
-
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCakes } from "../redux/slices/cakesSlice"
 import Loading from './Loading';
 import { fetchOrdersByUserId } from '../redux/slices/ordersSlice';
 import { formatDistance } from 'date-fns';
+import { useUserPage } from '../hooks/useUserPage';
 
 
 const UserOrders = ({userId}) => {
@@ -15,6 +14,7 @@ const UserOrders = ({userId}) => {
     const orders = useSelector(state => state.orders)
     const cakes = useSelector(state => state.cakes)
     const currentUser = useSelector(state => state.currentUser)
+    const { showOrHideProducts } = useUserPage()
 
     useEffect(()=>{
         dispatch(fetchOrdersByUserId({userId, token: currentUser.userToken}))

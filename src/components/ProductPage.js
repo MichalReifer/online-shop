@@ -1,21 +1,21 @@
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } from '../utils';
 import PageNotFound from "./PageNotFound";
 import { useDispatch } from 'react-redux'
 import { fetchCakeById } from "../redux/slices/cakesSlice";
 import Loading from "./Loading";
 import { useCart } from "../hooks/useCart";
+import { useProductPage } from "../hooks/useProductPage";
 
 const ProductPage = (props) => {
       
     const { cakeId } = useParams()
-    const history = useHistory();
     const dispatch = useDispatch()
     const [cake, setCake] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    const {addToCart} = useCart()
+    const { addToCart } = useCart()
+    const { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } = useProductPage()
 
     useEffect(() => {
         dispatch(fetchCakeById(cakeId))
