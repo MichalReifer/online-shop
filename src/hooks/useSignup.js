@@ -9,11 +9,11 @@ export const useSignup = ()=> {
   const {login} = useLogin()
 
   const emailValidate = (string) => {
-    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? 'valid' : 'invalid'
+    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string)
   }
 
   const passwordValidate = (string) => {
-    return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string) ? 'valid' : 'invalid'
+    return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string)
   }
 
   const signup = async () => {
@@ -67,11 +67,11 @@ export const useSignup = ()=> {
         if (!address.value){address.classList.add("swal2-inputerror")}
         if (!password.value){password.classList.add("swal2-inputerror")}
     }
-    else if (email.value && emailValidate(email.value)==='invalid') {
+    else if (email.value && !emailValidate(email.value)) {
         Swal.showValidationMessage('email address is invalid')
         email.classList.add("swal2-inputerror")
         email.focus()
-    } else if (password.value && passwordValidate(password.value)==='invalid') {
+    } else if (password.value && !passwordValidate(password.value)) {
         Swal.showValidationMessage('password should have at least 5 characters of english letters, digits and/or meta characters.')
         password.classList.add("swal2-inputerror")
         password.focus()
@@ -79,7 +79,6 @@ export const useSignup = ()=> {
         const user = {'name': name.value, 'email': email.value, 'address': address.value, password: password.value}
         return dispatch(userSignup(user))
           .then(res=> {
-            console.log(res)
             if(res.error){
               Swal.showValidationMessage(res.error.message)
               if (/email/i.test(res.error.message)) {

@@ -1,14 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { userLogin, userLogout } from '../redux/slices/currentUserSlice'
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'
-import { fetchUserByEmail } from '../redux/slices/usersSlice';
 
 export const useLogin = ()=> {
 
   const dispatch = useDispatch()
   const history = useHistory()
-  const currentUser = useSelector(state => state.currentUser)
+
+  const emailValidate = (string) => {
+    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string)
+  }
 
   const login = () => {
     return Swal.fire({
@@ -58,7 +60,7 @@ export const useLogin = ()=> {
 
   }
 
-  const forgotPasswordHandler = async (firebase)=>{
+  const forgotPasswordHandler = async ()=>{
     const email = document.getElementById('email')
     const link = document.getElementById('forgot-password')
     link.addEventListener('click', async event => { 
@@ -67,25 +69,18 @@ export const useLogin = ()=> {
           email.focus()
           Swal.showValidationMessage('please fill in your email address')
         }
-        else
-          dispatch(fetchUserByEmail({email: email.value, token: currentUser.userToken}))
-          .then(data=>{
-            if(data.payload) return //TODO: add function for reset password via email
-            else {
-              email.classList.add("swal2-inputerror")
-              email.focus();
-              Swal.showValidationMessage('email address is invalid')
-              throw new Error('email is invalid')
-            }
-          })
-          .then(()=>
-            Swal.fire({
-              title: 'a password reset link is sent to your email address.',
-              icon: 'success'
-            })
-          )
-          .catch(err=>{})
-
+        else if (!emailValidate(email.value)){
+          email.classList.add("swal2-inputerror")
+          email.focus();
+          Swal.showValidationMessage('email is invalid')
+        }
+        else {
+          //  TODO: function that sends an email to reset password  
+          Swal.fire({
+            title: 'a password reset link is sent to your email address.',
+            icon: 'success'
+          })   
+        }
     })
 }
 
