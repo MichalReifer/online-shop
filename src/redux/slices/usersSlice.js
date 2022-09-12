@@ -5,11 +5,21 @@ export const fetchUsers = createAsyncThunk( 'users/fetchUsers', (params={page:0,
   params.value =  params.value ?? '' 
   return fetch(`http://localhost:8081/users/?page=${params.page}&limit=${params.limit}&value=${params.value}`)
     .then(response=>response.json())
-}
+  }
 )
 
 export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', (id) => {
   return fetch(`http://localhost:8081/users/by-id/${id}`)
+    .then(res =>res.json())
+    .then(res=> {
+      if (res.error) throw new Error(res.error)
+      else return res
+    })
+  }
+)
+
+export const fetchUserByEmail = createAsyncThunk('users/fetchUserByEmail', email => {
+  return fetch(`http://localhost:8081/users/by-email/${email}`)
     .then(res =>res.json())
     .then(res=> {
       if (res.error) throw new Error(res.error)
@@ -59,7 +69,23 @@ export const usersSlice = createSlice({
       state.loading = false
       state.userInfo = null
       state.error = action.error.message
+    },
+
+    [fetchUserByEmail.pending]: state => {
+      state.loading = true
+      state.error = ''
+    },
+    [fetchUserByEmail.fulfilled]: (state, action) => {
+      state.loading = false
+      state.userInfo = action.payload
+      state.error = ''
+    },
+    [fetchUserByEmail.rejected]: (state, action) => {
+      state.loading = false
+      state.userInfo = null
+      state.error = action.error.message
     }
+ 
 
   },
 })

@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { userLogin, userLogout } from '../redux/slices/currentUserSlice'
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'
+import { fetchUserByEmail } from '../redux/slices/usersSlice';
 
 export const useLogin = ()=> {
 
@@ -12,20 +13,24 @@ export const useLogin = ()=> {
     return Swal.fire({
         title: 'Enter Your Details',
         html:
-          '<input id="email2" class="swal2-input" type="email" placeholder="Email">'+
-          '<input id="password2" class="swal2-input" type="password" placeholder="Password">',
+          '<input id="email" class="swal2-input" type="email" placeholder="Email">'+
+          '<input id="password" class="swal2-input" type="password" placeholder="Password">',
         focusConfirm: false,
         showCancelButton: true,
         allowEnterKey: true,
-        preConfirm: preConfirmLogin
+        footer: '<div class="forgot-password-footer">'+
+        '<a id="forgot-password">forgot password?</a>'+
+        '</div>',
+        preConfirm: preConfirmLogin,
+        didRender: forgotPasswordHandler
       }
     )
   }
 
   const preConfirmLogin = () => {
 
-    const email = document.getElementById('email2');
-    const password = document.getElementById('password2');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
 
     email.classList.remove("swal2-inputerror");
     password.classList.remove("swal2-inputerror");
@@ -51,6 +56,37 @@ export const useLogin = ()=> {
       })
 
   }
+
+  const forgotPasswordHandler = async (firebase)=>{
+    const email = document.getElementById('email')
+    const link = document.getElementById('forgot-password')
+    link.addEventListener('click', async event => { 
+        if(!email.value){
+          email.classList.add("swal2-inputerror")
+          email.focus()
+          Swal.showValidationMessage('please fill in your email address')
+        }
+        else
+          dispatch(fetchUserByEmail(email.value))
+          .then(data=>{
+            if(data.payload) return //TODO: add function for reset password via email
+            else {
+              email.classList.add("swal2-inputerror")
+              email.focus();
+              Swal.showValidationMessage('email address is invalid')
+              throw new Error('email is invalid')
+            }
+          })
+          .then(()=>
+            Swal.fire({
+              title: 'a password reset link is sent to your email address.',
+              icon: 'success'
+            })
+          )
+          .catch(err=>{})
+
+    })
+}
 
   const logout = ()=>{
     Swal.fire({
