@@ -1,49 +1,29 @@
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './Navbar';
 import Home from './Home';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cart from './Cart';
 import ProductPage from './ProductPage';
 import UserPage from './UserPage';
-import CurrentUserContextProvider from '../contexts/CurrentUserContext';
-import ProductsContextProvider from '../contexts/ProductsContext';
-import AllUsers from './AllUsers';
 import PageNotFound from './PageNotFound';
 
 
-function App(props) {
+function App() {
 
   return (
     <Router>
       <div className="App">
-        <ProductsContextProvider>
-          <CurrentUserContextProvider>
             <Navbar />
             <div className="white-container">
               <div className="content">
                 <Switch>
-                  <Route exact path="/">
-                    <Home/>
-                  </Route>
-                  <Route path="/cart">
-                    <Cart />
-                  </Route>
-                  <Route path="/products/:cakeId" >
-                    <ProductPage/>
-                  </Route>
-                  <Route path="/users/:userId">
-                    <UserPage/>
-                  </Route>                      
-                  <Route path="/all_users">
-                    <AllUsers/>
-                  </Route>
-                  <Route path="*">
-                    <PageNotFound isNotFound={true}/>
-                  </Route>       
+                  <Route exact path="/" render={()=><Home />} />
+                  <Route path="/cart" render={()=><Cart />} />
+                  <Route path="/products/:cakeId" render={()=><ProductPage />} />
+                  <Route path="/users/:userId" render={()=><UserPage />} />              
+                  <Route path="*" render={()=><PageNotFound isNotFound={true}/>} />    
                 </Switch>
               </div>  
             </div>
-          </CurrentUserContextProvider>
-        </ProductsContextProvider>
       </div>
     </Router>
   );
