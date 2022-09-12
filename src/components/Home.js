@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Loading from "./Loading";
 import Error from "./Error";
 
-const Home = (props) => {
+const Home = () => {
 
     const CAKES_IN_LINE = 5
     const LINES_ON_START = 3
@@ -17,7 +17,7 @@ const Home = (props) => {
     const [page, setPage] = useState(LINES_ON_START)
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
-
+// console.log(cakes)
     useEffect(()=>{
         if (searchForm)
             searchForm.addEventListener('submit', e=>{
@@ -27,8 +27,15 @@ const Home = (props) => {
     }, [searchForm])
 
     useEffect(() => {
-        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START }))
-            .then(data=>setDisplayCakes(data.payload))  
+        const controller = new AbortController()
+        const signal = controller.signal
+        
+        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START }, {signal}))
+            .then(data=>{
+                if(signal.aborted) setDisplayCakes(data.payload)
+            })
+        return () => controller.abort()
+        
     }, [dispatch])
 
     useEffect(()=>{
