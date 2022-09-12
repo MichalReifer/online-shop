@@ -14,12 +14,15 @@ const UserOrders = ({userId}) => {
     const dispatch = useDispatch()
     const orders = useSelector(state => state.orders)
     const cakes = useSelector(state => state.cakes)
+    const currentUser = useSelector(state => state.currentUser)
 
     useEffect(()=>{
-        dispatch(fetchOrdersByUserId(userId))
+        dispatch(fetchOrdersByUserId({userId, token: currentUser.userToken}))
             .then(data=>{
-                if(data.payload.length)
+                if(data.payload?.length)
                     return dispatch(fetchCakes({limit:0}))
+                else if (data.error) 
+                    console.error(data.error)
             })
             .finally(()=>setIsLoading(false))
     }, [dispatch])

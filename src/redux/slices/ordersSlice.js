@@ -1,14 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 
-export const fetchOrders = createAsyncThunk('orders/fetchOrders', name => {
+
+export const fetchOrders = createAsyncThunk('orders/fetchOrders', ({name, token}) => {
   name = name ?? ''
-  return fetch(`http://localhost:8081/orders/?name=${name}`)
+  return fetch(
+    `http://localhost:8081/orders/?name=${name}`,
+    { headers: {'Authorization': 'Bearer ' + token}}
+    )
     .then(res=>res.json())
 })
 
-export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId', userId => {
-  return fetch(`http://localhost:8081/orders/by-userid/${userId}`)
+export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId', ({userId, token}) => {
+  return fetch(
+    `http://localhost:8081/orders/by-userid/${userId}`,
+    { headers: {'Authorization': 'Bearer ' + token}}
+    )
     .then(res=>res.json())
     .then(res=> {
       if (res.error) throw new Error(res.error)
@@ -17,10 +24,13 @@ export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId'
 })
 
 
-export const addNewOrder = createAsyncThunk('orders/addNewOrder', order => {
+export const addNewOrder = createAsyncThunk('orders/addNewOrder', ({order, token}) => {
   return fetch('http://localhost:8081/orders',{
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json', 
+      'Authorization': 'Bearer ' + token
+    },
     body: JSON.stringify(order)
   })
   .then(res =>res.json())

@@ -9,9 +9,10 @@ const AllUsers = ({allUsers}) => {
   const dispatch = useDispatch()
   const users = useSelector(state=>state.users).users
   const [isLoading, setIsLoading] = useState(true)
+  const currentUser = useSelector(state => state.currentUser)
 
   useEffect(()=>{
-    dispatch(fetchUsers())
+    dispatch(fetchUsers({token: currentUser.userToken}))
       .then(data=>{
         setIsLoading(false)
         console.log(data)
@@ -26,7 +27,7 @@ const AllUsers = ({allUsers}) => {
         <Loading isLoading={isLoading} />
         {
           users.map(user=>
-              <div>{user.name}</div>
+              <div key={user.email}>{user.name}</div>
           )
         }
       </div>

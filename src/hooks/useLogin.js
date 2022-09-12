@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userLogin, userLogout } from '../redux/slices/currentUserSlice'
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom'
@@ -8,6 +8,7 @@ export const useLogin = ()=> {
 
   const dispatch = useDispatch()
   const history = useHistory()
+  const currentUser = useSelector(state => state.currentUser)
 
   const login = () => {
     return Swal.fire({
@@ -67,7 +68,7 @@ export const useLogin = ()=> {
           Swal.showValidationMessage('please fill in your email address')
         }
         else
-          dispatch(fetchUserByEmail(email.value))
+          dispatch(fetchUserByEmail({email: email.value, token: currentUser.userToken}))
           .then(data=>{
             if(data.payload) return //TODO: add function for reset password via email
             else {

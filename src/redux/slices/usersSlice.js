@@ -1,15 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
-export const fetchUsers = createAsyncThunk( 'users/fetchUsers', (params={page:0, limit:5, value:''}) => {
+export const fetchUsers = createAsyncThunk( 'users/fetchUsers', (params={page:0, limit:5, value:'', token:''}) => {
   params.value =  params.value ?? '' 
-  return fetch(`http://localhost:8081/users/?page=${params.page}&limit=${params.limit}&value=${params.value}`)
-    .then(response=>response.json())
+  return fetch(
+    `http://localhost:8081/users/?page=${params.page}&limit=${params.limit}&value=${params.value}`,
+    { headers: {'Authorization': 'Bearer ' + params.token}}
+    ).then(response=>response.json())
   }
 )
 
-export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', (id) => {
-  return fetch(`http://localhost:8081/users/by-id/${id}`)
+export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', ({id, token}) => {
+  return fetch(
+    `http://localhost:8081/users/by-id/${id}`,
+    { headers: {'Authorization': 'Bearer ' + token}}
+    )
     .then(res =>res.json())
     .then(res=> {
       if (res.error) throw new Error(res.error)
@@ -18,8 +23,11 @@ export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', (id) => {
   }
 )
 
-export const fetchUserByEmail = createAsyncThunk('users/fetchUserByEmail', email => {
-  return fetch(`http://localhost:8081/users/by-email/${email}`)
+export const fetchUserByEmail = createAsyncThunk('users/fetchUserByEmail', ({email, token}) => {
+  return fetch(
+    `http://localhost:8081/users/by-email/${email}`,
+    { headers: {'Authorization': 'Bearer ' + token}}
+    )
     .then(res =>res.json())
     .then(res=> {
       if (res.error) throw new Error(res.error)

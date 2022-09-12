@@ -21,7 +21,7 @@ const UserPage = (props) => {
 
   useEffect(()=>{
     if(currentUser.userInfo)
-      dispatch(fetchUserById(urlId))
+      dispatch(fetchUserById({id: urlId, token: currentUser.userToken}))
         .then(data=>{
           if (data.error) 
             throw new Error(data.error.message)

@@ -67,7 +67,6 @@ export const useCart = () => {
   }
 
   const checkout = async (totalPrice) => {
-
     if (currentUser)
       Swal.fire({
         title: `checkout as ${currentUser.name}?`,
@@ -77,43 +76,36 @@ export const useCart = () => {
       })
       .then(result=>{
         if(result.isConfirmed) 
-          takeOrder(currentUser, totalPrice)
+          takeOrder(user.userToken, totalPrice)
       }) 
-
     else 
       signup()
       .then(data=>{
-        if(data) takeOrder(data.value, totalPrice)
+        if(data) takeOrder(data.value?.token, totalPrice)
+        else console.error(data)
       })
 
   }
 
-  const takeOrder = (user, totalPrice) => {
-
-    if (user){     
-      const order = {
-        'userId': user._id,
-        'userName': user.name ,
-        'products': JSON.parse(localStorage.getItem('order')),
-        totalPrice
-      }
-  
-      dispatch(addNewOrder(order))
-        .then(res=>{
-          console.log(res)
-          if (res.error) throw Error(res.error.message)
-          else return
-        })
-        .then(()=>
-          Swal.fire({
-            title: 'order completed',
-            text: 'an email is sent to you with the order details and a link for payment',
-            icon: 'success'
-          })
-        )
-        .then(()=>history.push('/'))
-        .catch(err=>console.log(err))
+  const takeOrder = (token ,totalPrice) => {
+    const order = {
+      'products': JSON.parse(localStorage.getItem('order')),
+      totalPrice
     }
+    dispatch(addNewOrder({order, token}))
+      .then(res=>{
+        if (res.error) throw Error(res.error.message)
+        else return
+      })
+      .then(()=>
+        Swal.fire({
+          title: 'order completed',
+          text: 'an email is sent to you with the order details and a link for payment',
+          icon: 'success'
+        })
+      )
+      .then(()=>history.push('/'))
+      .catch(err=>console.log(err))
   }
   
 
