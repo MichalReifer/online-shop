@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUsers } from '../redux/slices/usersSlice'
+import { fetchUsers } from '../redux/slices/allUsersSlice'
 import Loading from './Loading'
 
 
-const AllUsers = ({allUsers}) => {
+const AllUsers = () => {
 
-  const dispatch = useDispatch()
-  const users = useSelector(state=>state.users).users
   const [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch()
   const currentUser = useSelector(state => state.currentUser)
+  const allUsers = useSelector(state=>state.allUsers).info
 
   useEffect(()=>{
     dispatch(fetchUsers({token: currentUser.userToken}))
@@ -26,7 +26,7 @@ const AllUsers = ({allUsers}) => {
       <div className='user-orders'>
         <Loading isLoading={isLoading} />
         {
-          users.map(user=>
+          allUsers.map(user=>
               <div key={user.email}>{user.name}</div>
           )
         }

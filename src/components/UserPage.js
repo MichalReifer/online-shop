@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserById } from '../redux/slices/usersSlice'
+import { fetchUserById } from '../redux/slices/userPageSlice'
 import UserOrders from './UserOrders';
 import Loading from './Loading';
 import PageNotFound from './PageNotFound';
@@ -17,7 +17,7 @@ const UserPage = (props) => {
   const { changeUserDetails, changePassword } = useUserPage()
 
   const dispatch = useDispatch()
-  const user = useSelector(state => state.users).userInfo
+  const user = useSelector(state => state.user).info
   const currentUser = useSelector(state => state.currentUser)
 
   useEffect(()=>{
