@@ -2,10 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserById } from '../redux/slices/userPageSlice'
-import UserOrders from './UserOrders';
-import Loading from './Loading';
-import PageNotFound from './PageNotFound';
-import AllUsers from './AllUsers';
+import UserOrders from '../components/UserOrders';
+import Loading from '../components/Loading';
+import PageNotFound from '../pages/PageNotFound';
+import AllUsers from '../components/AllUsers';
 import { useUserPage } from '../hooks/useUserPage';
 
 

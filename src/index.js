@@ -7,7 +7,7 @@ import './styles/productPreview.css';
 import './styles/productPage.css'
 import './styles/userPage.css'
 import './styles/search.css'
-import App from './components/App';
+import App from './App';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
 

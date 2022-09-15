@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { fetchCakesByList } from "../redux/slices/cartSlice"
 import { useCart } from "../hooks/useCart";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { Link } from "react-router-dom";
 
 

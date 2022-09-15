@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import PageNotFound from "./PageNotFound";
+import PageNotFound from "../pages/PageNotFound";
 import { useDispatch } from 'react-redux'
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { useCart } from "../hooks/useCart";
 import { useProductPage } from "../hooks/useProductPage";
 

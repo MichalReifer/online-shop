@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchCakes } from "../redux/slices/cakesSlice";
 import { useSelector, useDispatch } from 'react-redux'
-import Loading from "./Loading";
-import Error from "./Error";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 const Home = () => {
 
