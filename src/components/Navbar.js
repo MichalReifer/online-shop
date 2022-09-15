@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { validateToken } from '../redux/slices/currentUserSlice'
 import { useLogin } from '../hooks/useLogin'
 import { useSignup } from '../hooks/useSignup'
-import logo from '../assets/img/logo.gif' 
+import logo from '../assets/img/logo.gif'  
 
 
 const Navbar = () => {

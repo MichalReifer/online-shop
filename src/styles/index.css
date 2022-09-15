@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Beau+Rivage&family=Dancing+Script&family=Ingrid+Darling&family=Lavishly+Yours&family=Qwitcher+Grypen:wght@700&display=swap');
 
 body {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/cake-shop-19256.appspot.com/o/images%2Fbackground_image.jpg?alt=media&token=f7608f4b-8bd3-4a6c-8aff-1783b27d5a77');
+  background-image: url('../assets/img/baking-background.gif');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
