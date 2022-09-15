@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductPreview from "./ProductPreview";
+import { Link } from "react-router-dom"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchCakes } from "../redux/slices/cakesSlice";
 import { useSelector, useDispatch } from 'react-redux'
@@ -17,7 +17,7 @@ const Home = () => {
     const [page, setPage] = useState(LINES_ON_START)
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
-// console.log(cakes)
+
     useEffect(()=>{
         if (searchForm)
             searchForm.addEventListener('submit', e=>{
@@ -29,13 +29,12 @@ const Home = () => {
     useEffect(() => {
         const controller = new AbortController()
         const signal = controller.signal
-        
         dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START }, {signal}))
             .then(data=>{
-                if(signal.aborted) setDisplayCakes(data.payload)
+                if(signal.aborted) 
+                    setDisplayCakes(data.payload)
             })
         return () => controller.abort()
-        
     }, [dispatch])
 
     useEffect(()=>{
@@ -59,21 +58,30 @@ const Home = () => {
 
             <form className="search-form">
                 <input type="text" name="term" placeholder="search cakes" />
-                {/* <button type="submit" className="search-submit">Search</button> */}
             </form>
-
-            <Loading isLoading={cakes.loading} />
-            <Error isError={(!cakes.loading && cakes.error)} errorMessage={cakes.error}/>
 
             { displayCakes && 
                 <InfiniteScroll
-                    dataLength={displayCakes.length} //This is important field to render the next data
+                    dataLength={displayCakes.length}
                     next={fetchData}
                     hasMore={hasMore}
                 >
-                    <ProductPreview products={displayCakes} />
+                    <div className="products">
+                        {displayCakes.map(cake => (
+                            <div className="product-preview" key={cake.cakeId}>
+                                <Link className='link' to={{pathname:`/products/${cake.cakeId}`, state:{ gotFrom: 'home'}}}>
+                                    <img src={'data:image/png;base64,'+cake.image} width='100px'></img>
+                                    <h2>{cake.title}</h2>
+                                    <p className="price">{cake.price} ₪</p>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
                 </InfiniteScroll>
             }
+
+            <Loading isLoading={cakes.loading} />
+            <Error isError={(!cakes.loading && cakes.error)} errorMessage={cakes.error}/>
 
         </div>
     );
