@@ -2,12 +2,11 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import PageNotFound from "./PageNotFound";
 import { useDispatch } from 'react-redux'
-import { fetchCakeById } from "../redux/slices/cakesSlice";
 import Loading from "./Loading";
 import { useCart } from "../hooks/useCart";
 import { useProductPage } from "../hooks/useProductPage";
 
-const ProductPage = (props) => {
+const ProductPage = () => {
       
     const { cakeId } = useParams()
     const dispatch = useDispatch()
@@ -18,9 +17,14 @@ const ProductPage = (props) => {
     const { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } = useProductPage()
 
     useEffect(() => {
-        dispatch(fetchCakeById(cakeId))
-            .then(data=>{setCake(data.payload)})
-            .then(()=>setIsLoading(false))  
+        fetch(`http://localhost:8081/cakes/by-cakeid/${cakeId}`)
+        .then(res =>res.json())
+        .then(res=> {
+            if (res.error) throw new Error(res.error)
+            else setCake(res)
+        })
+        .finally(()=>setIsLoading(false))
+        .catch(err=>console.log(err))
     }, [dispatch])
 
     document.getElementsByClassName('product-image')[0]?.addEventListener("mousemove", e => moveImageWithMouse(e))

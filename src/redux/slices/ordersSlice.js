@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 
-
-export const fetchOrders = createAsyncThunk('orders/fetchOrders', ({name, token}) => {
-  name = name ?? ''
-  return fetch(
-    `http://localhost:8081/orders/?name=${name}`,
-    { headers: {'Authorization': 'Bearer ' + token}}
-    )
-    .then(res=>res.json())
-})
-
 export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId', ({userId, token}) => {
   return fetch(
     `http://localhost:8081/orders/by-userid/${userId}`,
@@ -55,20 +45,6 @@ export const ordersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchOrders.pending] : state => {
-      state.loading = true
-      state.error = ''
-    },
-    [fetchOrders.fulfilled]: (state, action) => {
-      state.loading = false
-      state.info = action.payload
-      state.error = ''
-    },
-    [fetchOrders.rejected]: (state, action) => {
-      state.loading = false
-      state.info = []
-      state.error = action.error.message
-    },
 
     [fetchOrdersByUserId.pending] : state => {
       state.loading = true
