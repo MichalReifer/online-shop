@@ -31,7 +31,7 @@ const Cart = () => {
     }, [dispatch])
 
     useEffect(()=>{
-        localStorage.setItem('order', JSON.stringify(order))
+        if (order) localStorage.setItem('order', JSON.stringify(order))
         const cakeList = order? Object.keys(order) : []
         let totalPrice = 0
         
