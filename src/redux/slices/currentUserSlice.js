@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
-const userToken = localStorage.getItem('cake-shop-jwt')
-  ? localStorage.getItem('cake-shop-jwt')
-  : null
+const userToken = localStorage.getItem('cake-shop-jwt') ?? null
 
 export const validateToken = createAsyncThunk('users/validate-token', (token) => {
-  return fetch('http://localhost:8081/users/validate-token', {
+  return fetch('/users/validate-token', {
     method: 'POST',
     headers: {'Authorization': 'Bearer ' + token}
   })
@@ -19,7 +17,7 @@ export const validateToken = createAsyncThunk('users/validate-token', (token) =>
 
 export const userLogin = createAsyncThunk( 'users/userLogin', (params={email:null, password:null}) => {
   const {email, password} = params
-  return fetch('http://localhost:8081/users/login', {
+  return fetch('/users/login', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({email, password})
@@ -37,7 +35,7 @@ export const userLogin = createAsyncThunk( 'users/userLogin', (params={email:nul
 
 export const userSignup = createAsyncThunk('users/userSignup', userDetails => {
   // console.log(userDetails)
-  return fetch('http://localhost:8081/users/signup', {
+  return fetch('users/signup', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(userDetails)

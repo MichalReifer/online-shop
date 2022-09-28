@@ -17,7 +17,7 @@ const ProductPage = () => {
     const { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } = useProductPage()
 
     useEffect(() => {
-        fetch(`http://localhost:8081/cakes/by-cakeid/${cakeId}`)
+        fetch(`/cakes/by-cakeid/${cakeId}`)
         .then(res =>res.json())
         .then(res=> {
             if (res.error) throw new Error(res.error)

@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 export const fetchUsers = createAsyncThunk( 'users/fetchUsers', (params={page:0, limit:5, value:'', token:''}) => {
   params.value =  params.value ?? '' 
   return fetch(
-    `http://localhost:8081/users/?page=${params.page}&limit=${params.limit}&value=${params.value}`,
+    `/users/?page=${params.page}&limit=${params.limit}&value=${params.value}`,
     { headers: {'Authorization': 'Bearer ' + params.token}}
     ).then(response=>response.json())
   }

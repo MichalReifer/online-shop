@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId', ({userId, token}) => {
   return fetch(
-    `http://localhost:8081/orders/by-userid/${userId}`,
+    `/orders/by-userid/${userId}`,
     { headers: {'Authorization': 'Bearer ' + token}}
     )
     .then(res=>res.json())
@@ -15,7 +15,7 @@ export const fetchOrdersByUserId = createAsyncThunk('orders/fetchOrdersByUserId'
 
 
 export const addNewOrder = createAsyncThunk('orders/addNewOrder', ({order, token}) => {
-  return fetch('http://localhost:8081/orders',{
+  return fetch('/orders',{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', 

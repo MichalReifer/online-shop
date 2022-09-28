@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchCakesByList = createAsyncThunk('cakes/fetchCakesByList', (cakeIdList) => {
   cakeIdList = cakeIdList.join('+')
-  return fetch(`http://localhost:8081/cakes/by-cakeid-list/${cakeIdList}`)
+  return fetch(`/cakes/by-cakeid-list/${cakeIdList}`)
     .then(response=>response.json())
     .then(res=> {
       if (res.error) throw new Error(res.error)

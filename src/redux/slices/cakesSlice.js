@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchCakes = createAsyncThunk('cakes/fetchCakes', (params={page:0, limit:5, value:''}) => {
     params.value =  params.value ?? '' 
-    return fetch(`http://localhost:8081/cakes/?page=${params.page}&limit=${params.limit}&value=${params.value}`)
+    return fetch(`/cakes/?page=${params.page}&limit=${params.limit}&value=${params.value}`)
       .then(response=>response.json())
       .then(res=> {
         if (res.error) throw new Error(res.error)

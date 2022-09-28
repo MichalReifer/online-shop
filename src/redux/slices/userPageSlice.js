@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchUserById = createAsyncThunk( 'users/fetchUsersById', ({id, token}) => {
   return fetch(
-    `http://localhost:8081/users/by-id/${id}`,
+    `/users/by-id/${id}`,
     { headers: {'Authorization': 'Bearer ' + token}}
     )
     .then(res =>res.json())
