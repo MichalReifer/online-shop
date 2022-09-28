@@ -26,21 +26,12 @@ const Home = () => {
             })
     }, [searchForm])
 
-    useEffect(() => {
-        const controller = new AbortController()
-        const signal = controller.signal
-        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START }, {signal}))
-            .then(data=>{
-                if(signal.aborted) 
-                    setDisplayCakes(data.payload)
-            })
-        return () => controller.abort()
-    }, [dispatch])
-
     useEffect(()=>{
+        setHasMore(true)
+        setPage(LINES_ON_START)
         dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START, value: searchValue }))
             .then(data=>setDisplayCakes(data.payload))
-    }, [searchValue])
+    }, [dispatch, searchValue])
 
     const fetchData = () => {
         console.log('reached end of page')
