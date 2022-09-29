@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { fetchCakes } from "../redux/slices/cakesSlice";
+import { fetchCakes, deleteCakes, CAKES_IN_LINE, LINES_ON_START, previousSearch } from "../redux/slices/cakesSlice"
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 
 const Home = () => {
 
-    const CAKES_IN_LINE = 5
-    const LINES_ON_START = 3
     const searchForm = document.querySelector('.search-form')
     const [searchValue, setSearchValue] = useState('')
-    const [hasMore, setHasMore] = useState(true)
-    const [displayCakes, setDisplayCakes] = useState([])
-    const [page, setPage] = useState(LINES_ON_START)
+    const [isInitialMount, setIsInitialMount] = useState(true)
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
+    
+    useEffect(()=>{
+        if(!cakes.cakes.length || previousSearch) {
+            dispatch(deleteCakes())
+            dispatch(fetchCakes({limit: CAKES_IN_LINE*LINES_ON_START }))
+        }
+    }, [])
 
     useEffect(()=>{
         if (searchForm)
@@ -27,21 +30,16 @@ const Home = () => {
     }, [searchForm])
 
     useEffect(()=>{
-        setHasMore(true)
-        setPage(LINES_ON_START)
-        dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START, value: searchValue }))
-            .then(data=>setDisplayCakes(data.payload))
-    }, [dispatch, searchValue])
+        if (isInitialMount) setIsInitialMount(false)
+        else {
+            dispatch(deleteCakes())            
+            dispatch(fetchCakes({ limit: CAKES_IN_LINE*LINES_ON_START, searchValue }))
+        }
+    }, [searchValue])
 
     const fetchData = () => {
         console.log('reached end of page')
-        dispatch(fetchCakes({ page, limit: CAKES_IN_LINE , value: searchValue}))
-            .then(data=>{
-                if (data.payload.length < CAKES_IN_LINE) setHasMore(false)
-                return data.payload
-            })
-            .then(moreCakes=>setDisplayCakes([...displayCakes, ...moreCakes]))
-            .then(()=> setPage(page+1))
+        dispatch(fetchCakes({page: cakes.page, limit: CAKES_IN_LINE , searchValue}))
     }
 
     return (
@@ -51,14 +49,14 @@ const Home = () => {
                 <input type="text" name="term" placeholder="search cakes" />
             </form>
 
-            { displayCakes && 
+            { !!cakes.cakes.length && 
                 <InfiniteScroll
-                    dataLength={displayCakes.length}
+                    dataLength={cakes.cakes.length}
                     next={fetchData}
-                    hasMore={hasMore}
+                    hasMore={cakes.hasMore}
                 >
                     <div className="products">
-                        {displayCakes.map(cake => (
+                        {cakes.cakes.map(cake => (
                             <div className="product-preview" key={cake.cakeId}>
                                 <Link className='link' to={{pathname:`/products/${cake.cakeId}`, state:{ gotFrom: 'home'}}}>
                                     <img src={'data:image/png;base64,'+cake.image} width='100px'></img>

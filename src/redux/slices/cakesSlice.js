@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+export const CAKES_IN_LINE = 5
+export const LINES_ON_START = 3
+export let previousSearch = false
 
-export const fetchCakes = createAsyncThunk('cakes/fetchCakes', (params={page:0, limit:5, value:''}) => {
-    params.value =  params.value ?? '' 
-    return fetch(`/cakes/?page=${params.page}&limit=${params.limit}&value=${params.value}`)
+export const fetchCakes = createAsyncThunk('cakes/fetchCakes', (params={page:0, limit:5, searchValue:''}) => {
+    let { page, limit, searchValue } = params
+    previousSearch = searchValue ?  true: false
+    searchValue =  searchValue ?? '' 
+    return fetch(`/cakes/?page=${page}&limit=${limit}&value=${searchValue}`)
       .then(response=>response.json())
       .then(res=> {
         if (res.error) throw new Error(res.error)
@@ -18,8 +23,17 @@ export const cakesSlice = createSlice({
   initialState: 
   {
     loading: false,
+    page: LINES_ON_START-1, 
+    hasMore: true,
     cakes: [],
     error: ''
+  },
+  reducers: {
+    deleteCakes: state => {
+      state.page = LINES_ON_START-1
+      state.hasMore = true
+      state.cakes = []
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCakes.pending, state => {
@@ -27,16 +41,18 @@ export const cakesSlice = createSlice({
     })
     builder.addCase(fetchCakes.fulfilled, (state, action) => {
       state.loading = false
-      state.cakes = action.payload
+      if (action.payload.length < CAKES_IN_LINE)
+        state.hasMore = false
+      state.cakes = [...state.cakes, ...action.payload]
+      state.page = state.page+1
       state.error = ''
     })
     builder.addCase(fetchCakes.rejected, (state, action) => {
       state.loading = false
-      state.cakes = []
       state.error = action.error.message
     })
   },
 })
 
-
+export const {deleteCakes} = cakesSlice.actions
 export const cakesReducer = cakesSlice.reducer
