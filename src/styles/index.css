@@ -34,9 +34,9 @@ body {
   text-align: justify;
 }
 
-*:focus-visible:not(.swal2-styled) {
+*:focus-visible:not(.swal2-styled, .search-form *) {
   outline: none;
-  border: 5px solid var(--dark-brown-trans);
+  border: 2px solid var(--dark-brown-trans);
 }
 
 .loading {
