@@ -2,7 +2,7 @@
 /***** user page component ******/ 
 
 .user-details-container, .user-orders-container {
-  background: rgba(255, 255, 255);
+  background: white;
 }
 
 .user-page {
@@ -18,7 +18,7 @@
   
   .user-page * {
     text-align: center;
-  
+
     /* in case user name is too long */
     text-overflow: ellipsis;
     overflow: hidden;
@@ -30,7 +30,7 @@
   
   .user-page h2 {
     font-size: 2em;
-    color: #9b0048 !important;
+    color: var(--dark-purple) !important;
     margin: 40px 0 15px;
   }
   
@@ -45,13 +45,9 @@
   .user-page button {
     margin: 26px;
     width: 150px;
-    background-color: #a80250c9;
     font-weight: bold;
   }
   
-  .user-page a:hover{
-    color: #f1356d;
-  }
   
   /********* user orders component *********/
   
@@ -63,7 +59,6 @@
   .order-preview{
     padding: 10px 0;
     margin: 10px 0;
-    border: 1px solid #fafafa;
     cursor: pointer;
   }
   
@@ -86,7 +81,7 @@
   }
   
   .order-preview:hover {
-    box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px var(--dark-brown-trans);
   }
   
   .order-preview *{
@@ -107,10 +102,4 @@
   
   #forgot-password:hover {
     color: #2c82c9;
-  }
-  
-  /* all-users list */
-  .admin * {
-    color: #9b0048;
-    font-weight: bold;
   }

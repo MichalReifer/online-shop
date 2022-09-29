@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Beau+Rivage&family=Dancing+Script&family=Ingrid+Darling&family=Lavishly+Yours&family=Qwitcher+Grypen:wght@700&family=Indie+Flower&display=swap');
+
+:root {
+
+  --white-trans: rgba(255, 255, 255, 0.5);
+  --white-trans-less: rgba(255, 255, 255, 0.7); 
+
+  --light-brown: rgb(177, 122, 51);
+  --dark-brown: rgb(151, 104, 41);
+  --darker-brown: rgb(131, 89, 35);
+  --dark-brown-trans: rgba(151, 103, 41, 0.356);
+
+  --light-purple-trans: #fcbfdb65;
+  --light-purple: #ad366e;
+  --dark-purple: #9b0048;
+  --darker-purple: #770138;
+  
+}
 
 body {
   background-image: url('../assets/img/baking-background.gif');
@@ -9,12 +25,16 @@ body {
   background-size: cover;
 }
 
-/* base styles */
 * {
   margin: 0;
   font-family: "Quicksand";
   color: #333;
   text-align: justify;
+}
+
+*:focus-visible:not(.swal2-styled) {
+  outline: none;
+  border: 5px solid var(--dark-brown-trans);
 }
 
 .loading {
@@ -24,9 +44,9 @@ body {
 h1 {
   font-size: 50px;
   margin: 26px;
-  color:#9b0048;
+  color:var(--dark-purple);
   font-family: 'Babylonica';
-    /* font-family: 'Beau Rivage'; */
+  /* font-family: 'Beau Rivage'; */
   /* font-family: 'Ingrid Darling'; */
   /* font-family: 'Lavishly Yours'; */
   font-weight: 100;
@@ -37,11 +57,10 @@ h2 {
   font-weight: 100;
 }
 
-
 button {
-  background: #f1356d;
-  color: #fff;
-  border: 0;
+  background: var(--light-purple);
+  border: solid 1px var(--light-purple);
+  color: white;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
@@ -50,15 +69,13 @@ button {
 }
 
 button:hover:not(.swal-button, .swal2-styled, .search-submit){
-  background: #b12750;
-  color: rgb(236, 232, 232);
-  border: 0;
-  padding: 8px;
-  border-radius: 8px;
+  background: var(--darker-purple);
 }
 
 button:active:not(.swal-button, .swal2-styled, .search-submit) {
-  background: #df3165 !important;
+  background: var(--light-purple-trans);
+  color: var(--light-purple);
+  border: solid 1px var(--light-purple);
 }
 
 img {
@@ -77,18 +94,18 @@ img {
 }
  
 ::-webkit-scrollbar-thumb {
-  background: #e2209898;
+  background: #e2942098;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #bb197d98; 
+  background: #c07e1bb0; 
 }
 
 /* content (all pages below Navbar) */
 
 .white-container {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--white-trans);
   max-width: 1010px;
   margin: 0 auto;  
   padding: 0 20px;

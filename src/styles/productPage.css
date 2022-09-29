@@ -7,7 +7,7 @@
   
   .product-page h1 {
     font-size: 50px;
-    color: #9b0048;
+    color: var(--dark-purple);
     margin-left: 0;
     font-family: 'Babylonica';
     font-weight: 100;
@@ -28,10 +28,8 @@
   }
   
   .product-page .details-container .details {
-    /* padding-right: 150px; */
     width: 450px;
   }
-  
   
   .product-page .image-container{
     width: 350px;
@@ -56,6 +54,5 @@
     transform: scale(2);
     cursor: zoom-out;
     left: 40%;
-    /* position: absolute; */
   }
   
