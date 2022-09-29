@@ -8,8 +8,13 @@ export const useLogin = ()=> {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const emailValidate = (string) => {
-    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string)
+  const emailValidate = (string) => 
+    /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string)
+  
+  const swalError = (e, message) => {
+    e.classList.add("swal2-inputerror")
+    e.focus();
+    Swal.showValidationMessage(message)
   }
 
   const login = () => {
@@ -38,22 +43,22 @@ export const useLogin = ()=> {
     email.classList.remove("swal2-inputerror");
     password.classList.remove("swal2-inputerror");
 
-    if (!email.value){email.classList.add("swal2-inputerror")}
-    if (!password.value){password.classList.add("swal2-inputerror");}
+    if(!email.value)
+      swalError(email, 'please fill in your email address')  
+
+    else if (!emailValidate(email.value))
+      swalError(email, 'email is invalid')   
+
+    else if(!password.value)
+      swalError(password, 'insert your password')
   
-    return dispatch(
+    else return dispatch(
       userLogin({email: email.value, password: password.value}))
       .then(res=> {
         if(res.error){
           Swal.showValidationMessage(res.error.message)
-          if (/email/i.test(res.error.message)) {
-            email.classList.add("swal2-inputerror");
-            email.focus()
-          }
-          else if (/password/i.test(res.error.message)) {
-            password.classList.add("swal2-inputerror");
-            password.focus()
-          }
+          email.classList.add("swal2-inputerror");          
+          password.classList.add("swal2-inputerror");
         }
         else return res.payload
       })
@@ -61,19 +66,16 @@ export const useLogin = ()=> {
   }
 
   const forgotPasswordHandler = async ()=>{
+
     const email = document.getElementById('email')
     const link = document.getElementById('forgot-password')
+
     link.addEventListener('click', async event => { 
-        if(!email.value){
-          email.classList.add("swal2-inputerror")
-          email.focus()
-          Swal.showValidationMessage('please fill in your email address')
-        }
-        else if (!emailValidate(email.value)){
-          email.classList.add("swal2-inputerror")
-          email.focus();
-          Swal.showValidationMessage('email is invalid')
-        }
+        if(!email.value)
+          swalError(email, 'please fill in your email address')
+        else if (!emailValidate(email.value))
+          swalError(email, 'email is invalid')   
+    
         else {
           //  TODO: function that sends an email to reset password  
           Swal.fire({
@@ -82,7 +84,7 @@ export const useLogin = ()=> {
           })   
         }
     })
-}
+  }
 
   const logout = ()=>{
     Swal.fire({
@@ -97,6 +99,6 @@ export const useLogin = ()=> {
     })
   }
     
-  return {login, logout}
+  return {login, logout, swalError, emailValidate}
 
 }

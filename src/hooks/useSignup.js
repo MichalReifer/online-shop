@@ -6,16 +6,10 @@ import { useLogin } from './useLogin'
 export const useSignup = ()=> {
 
   const dispatch = useDispatch()
-  const {login} = useLogin()
+  const {login, emailValidate, swalError} = useLogin()
 
-  const emailValidate = (string) => {
-    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string)
-  }
-
-  const passwordValidate = (string) => {
-    return /^[a-zA-Z0-9.+_-]{5,24}$/.test(string)
-  }
-
+  const passwordValidate = string => /^[a-zA-Z0-9.+_-]{5,24}$/.test(string)
+  
   const signup = async () => {
     return Swal.fire({
       title: 'Enter Your Details',
@@ -60,22 +54,20 @@ export const useSignup = ()=> {
     address.classList.remove("swal2-inputerror")
     password.classList.remove("swal2-inputerror")
     
-    if (!name.value||!email.value||!address.value||!password.value){
+    if (email.value && !emailValidate(email.value)) 
+      swalError(email, 'email is invalid')   
+
+    else if (password.value && !passwordValidate(password.value)) 
+      swalError(password, 'password should have at least 5 characters of english letters, digits and/or meta characters.')
+
+    else if (!name.value||!email.value||!address.value||!password.value){
         Swal.showValidationMessage('please fill in all fields')
-        if (!name.value){name.classList.add("swal2-inputerror")}
-        if (!email.value){email.classList.add("swal2-inputerror")}
-        if (!address.value){address.classList.add("swal2-inputerror")}
-        if (!password.value){password.classList.add("swal2-inputerror")}
+        if (!name.value) name.classList.add("swal2-inputerror")
+        if (!email.value) email.classList.add("swal2-inputerror")
+        if (!address.value) address.classList.add("swal2-inputerror")
+        if (!password.value) password.classList.add("swal2-inputerror")
     }
-    else if (email.value && !emailValidate(email.value)) {
-        Swal.showValidationMessage('email address is invalid')
-        email.classList.add("swal2-inputerror")
-        email.focus()
-    } else if (password.value && !passwordValidate(password.value)) {
-        Swal.showValidationMessage('password should have at least 5 characters of english letters, digits and/or meta characters.')
-        password.classList.add("swal2-inputerror")
-        password.focus()
-    } else {
+    else {
         const user = {'name': name.value, 'email': email.value, 'address': address.value, password: password.value}
         return dispatch(userSignup(user))
           .then(res=> {
