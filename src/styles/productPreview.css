@@ -1,50 +1,50 @@
 
 .products {
-    display: flex;
-    flex-flow: row wrap;
-  }
-  
-  .product-preview {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-  }
+  display: flex;
+  flex-flow: row wrap;
+}
 
-  .product-preview .link {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+.product-preview {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
 
-  .product-preview img {
-    width: 150px;
-    height: 220px;
-  }
-  
-  .product-preview h2 {
-    margin-bottom: 8px;
-    text-align: center;
-    max-width: 150px;
-    /* font-family: 'Babylonica'; */
-    font-family: 'Indie Flower';
-    /* font-family: 'Beau Rivage'; */
-    /* font-family: 'Ingrid Darling'; */
-    /* font-family: 'Quicksand'; */
-    /* font-family: 'Lavishly Yours'; */
-    /* font-weight: bold; */
-    font-size:larger;
-  }
-  
-  .product-preview .price {
-    text-align: center;
-  }
-  
-  .product-preview a {
-    text-decoration: none;
-    padding: 10px 16px;
-    margin: 10px;
-  }
-  
-  .product-preview a:hover {
-    box-shadow: 1px 3px 5px var(--dark-brown-trans);
-  }
+.product-preview .link {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-preview img {
+  width: 150px;
+  height: 220px;
+}
+
+.product-preview h2 {
+  margin-bottom: 8px;
+  text-align: center;
+  max-width: 150px;
+  /* font-family: 'Babylonica'; */
+  font-family: 'Indie Flower';
+  /* font-family: 'Beau Rivage'; */
+  /* font-family: 'Ingrid Darling'; */
+  /* font-family: 'Quicksand'; */
+  /* font-family: 'Lavishly Yours'; */
+  /* font-weight: bold; */
+  font-size:larger;
+}
+
+.product-preview .price {
+  text-align: center;
+}
+
+.product-preview a {
+  text-decoration: none;
+  padding: 10px 16px;
+  margin: 10px;
+}
+
+.product-preview a:hover {
+  box-shadow: 1px 3px 5px var(--dark-brown-trans);
+}

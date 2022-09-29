@@ -1,46 +1,46 @@
 /* Navbar */
 .navbar {
-    background: rgba(255, 255, 255, 0.5);
-    padding: 10px 20px;
-    display: flex;
-    align-items: flex-end;
-    max-width: 1010px;
-    margin: 0 auto;
-    position: sticky;
-    top: 0;
-  }
+  background: var(--white-trans);
+  padding: 10px 20px;
+  display: flex;
+  align-items: flex-end;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  position: sticky;
+  top: 0;
+}
   
 .navbar img {
-width: 130px;
-height: 75px;
+  width: 130px;
+  height: 75px;
 }
 
 .navbar .links, .sign-out {
-margin-left: auto;
-display: flex;
+  margin-left: auto;
+  display: flex;
 }
 
 .navbar .links a {
-margin-left: 30px;
-text-decoration: none;
-padding: 6px;
-font-size: 22px;
+  margin-left: 30px;
+  text-decoration: none;
+  padding: 6px;
+  font-size: 22px;
 }
 
 .navbar a:hover {
-color: #f1356d;
+  color: #f1356d;
 }
 
 .navbar .links .sign-out * {
-align-self: center;
+  align-self: center;
 }
 
 .navbar .links .sign-out #name {
-margin-left: 5px;
+  margin-left: 5px;
 }
 
 .navbar .links .sign-out #admin {
-font-size: 15px;
-margin-bottom: 8px;
-align-self: flex-end;
+  font-size: 15px;
+  margin-bottom: 8px;
+  align-self: flex-end;
 }

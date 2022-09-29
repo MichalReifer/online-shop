@@ -1,78 +1,76 @@
-/* cart */
 
 .cart h1{
-    margin: 26px 0 16px 16px;
-    font-family: 'Babylonica';
-    font-weight: 100;
-  }
-  
-  .cart-empty{
-    text-align: center;
-  }
-  
-  .cart-bottom {
-    display: flex;
-    margin-top: 44px;
-    margin-bottom: 20px;
-  }
-  
-  .cart-bottom *{
-    align-self: center;
-  }
-  
-  .cart-bottom button {
-    margin: 0 30px;
-  }
-  
-  .cart-products {
-    overflow: auto;
-    max-height: 480px;
-  }
-  
-  /* cart-previews / list */
-  .cart-preview {
-    padding: 10px 16px;
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .cart-preview:hover {
-    box-shadow: 0 0 20px var(--dark-brown-trans);
-  }
-  
-  .cart-preview *{
-    align-self: center;
-  }
-  
-  .cart-preview h2 {
-    font-size: 30px;
-    color: var(--dark-brown);
-    width: 150px;
-    text-align: center;
-    font-family: 'Babylonica';
-    font-weight: 100;
-  }
-  
-  .cart-preview p {
-    width: 50px;
-    text-align: center;
-  }
-  
-  .cart-preview img {
-    width: 68px;
-    height: 100px;
-  }
-  
-  .cart-preview a {
-    height: 100px;
-  }
+  margin: 26px 0 16px 16px;
+  font-family: 'Babylonica';
+  font-weight: 100;
+}
 
-  input[type=number] {
-    border: 0;
-  }
-  
-  input[type=number]::-webkit-inner-spin-button {
-    opacity: 1;
-  }
-  
+.cart-empty{
+  text-align: center;
+}
+
+.cart-bottom {
+  display: flex;
+  margin-top: 44px;
+  margin-bottom: 20px;
+}
+
+.cart-bottom *{
+  align-self: center;
+}
+
+.cart-bottom button {
+  margin: 0 30px;
+}
+
+.cart-products {
+  overflow: auto;
+  max-height: 480px;
+}
+
+/* cart-previews / list */
+.cart-preview {
+  padding: 10px 16px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-preview:hover {
+  box-shadow: 0 0 20px var(--dark-brown-trans);
+}
+
+.cart-preview *{
+  align-self: center;
+}
+
+.cart-preview h2 {
+  font-size: 30px;
+  color: var(--dark-brown);
+  width: 150px;
+  text-align: center;
+  font-family: 'Babylonica';
+  font-weight: 100;
+}
+
+.cart-preview p {
+  width: 50px;
+  text-align: center;
+}
+
+.cart-preview img {
+  width: 68px;
+  height: 100px;
+}
+
+.cart-preview a {
+  height: 100px;
+}
+
+input[type=number] {
+  border: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1;
+}

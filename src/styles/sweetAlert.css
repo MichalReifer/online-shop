@@ -1,0 +1,39 @@
+/* Swal2: sign up buttons */
+
+.swal2-title{
+  font-family: "Quicksand";
+}
+
+.swal2-actions {
+  /* height: 150px; */
+  display: flex;
+}
+
+.swal2-actions *:not(.footer-div) {
+  align-self: flex-start;
+  margin-bottom: 15px;
+}
+
+.swal2-actions .footer-div{
+  /* position: absolute; */
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f2f2f2;
+}
+
+.swal2-actions .footer-div * {
+  align-self: center;
+  margin: 8px;
+}
+
+#forgot-password {
+  color: #2196f3;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#forgot-password:hover {
+  color: #2c82c9;
+}

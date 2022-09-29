@@ -1,0 +1,43 @@
+/********* user orders component *********/
+
+.user-orders{
+  overflow: auto;
+  height: 550px;
+}
+
+.order-preview{
+  padding: 10px 0;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.order-preview *{
+  text-align: center;
+}
+
+.order-preview .order-products{
+  max-height: 0;
+  overflow: auto;
+  transition: max-height 2s ease-out;
+}
+
+.order-preview .each-order {
+  display: flex;
+}
+
+.order-preview .each-order *{
+  margin: 10px;
+}
+
+.order-preview:hover {
+  box-shadow: 0 0 10px var(--dark-brown-trans);
+}
+
+.order-preview *{
+  align-self: center;
+}
+
+.order-preview img {
+  width: 42px;
+  height: 62px;
+}
