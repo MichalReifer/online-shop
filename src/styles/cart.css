@@ -67,10 +67,10 @@
   height: 100px;
 }
 
-input[type=number] {
+.cart-preview input[type=number] {
   border: 0;
 }
 
-input[type=number]::-webkit-inner-spin-button {
+.cart-preview input[type=number]::-webkit-inner-spin-button {
   opacity: 1;
 }

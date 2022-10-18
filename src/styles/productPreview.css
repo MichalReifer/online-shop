@@ -1,3 +1,29 @@
+.home .home-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 26px;
+  min-height: 45px;
+}
+
+.home .icon {
+  text-align: center;
+  font-size: 30px;
+  transition: all 0.3s ease;
+}
+
+.home .icon:hover {
+  margin-right: -5px;
+  font-size: 40px;
+}
+
+.home .icon *{
+  color: var(--light-brown);
+}
+
+.home .icon:hover *{
+  color: var(--dark-brown);
+}
 
 .products {
   display: flex;

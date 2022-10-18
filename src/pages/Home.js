@@ -5,6 +5,9 @@ import { fetchCakes, deleteCakes, CAKES_IN_LINE, LINES_ON_START, previousSearch 
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCakeModule from "../components/AddCakeModule";
+
 
 const Home = () => {
 
@@ -13,7 +16,8 @@ const Home = () => {
     const [isInitialMount, setIsInitialMount] = useState(true)
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
-    
+    const currentUser = useSelector(state => state.currentUser)
+
     useEffect(()=>{
         if(!cakes.cakes.length || previousSearch) {
             dispatch(deleteCakes())
@@ -42,12 +46,29 @@ const Home = () => {
         dispatch(fetchCakes({page: cakes.page, limit: CAKES_IN_LINE , searchValue}))
     }
 
+    
+  const openPopup = () => {
+    const popUp = document.getElementById('add-cake-popup')
+    popUp?.classList.remove('hidden')
+    popUp?.firstChild.classList.add("module-show")
+    popUp?.firstChild.classList.remove("module-hide")
+    popUp.getElementsByTagName('form')[0].firstChild.focus()
+  }
+
     return (
         <div className="home">
+            <AddCakeModule />
 
-            <form className="search-form">
-                <input type="text" name="term" placeholder="search cakes" />
-            </form>
+            <div className="home-top">
+                <form className="search-form">
+                    <input type="text" name="term" placeholder="search cakes" />
+                </form>
+                { currentUser?.userInfo?.admin && 
+                    <Link to="#" onClick={()=>openPopup()} title="add cake">
+                        <AddCircleIcon className="icon"/>
+                    </Link>
+                }
+            </div>
 
             { !!cakes.cakes.length && 
                 <InfiniteScroll

@@ -8,6 +8,8 @@
   --white-trans: rgba(255, 255, 255, 0.5);
   --white-trans-less: rgba(255, 255, 255, 0.7); 
 
+  --light-gray: #ccc;
+
   --light-brown: rgb(177, 122, 51);
   --dark-brown: rgb(151, 104, 41);
   --darker-brown: rgb(131, 89, 35);
@@ -34,8 +36,11 @@ body {
   text-align: justify;
 }
 
-*:focus-visible:not(.swal2-styled, .search-form *) {
+*:focus-visible {
   outline: none;
+}
+
+*:focus-visible:not(input,.swal2-styled, .search-form *, .popup-module *) {
   border: 2px solid var(--dark-brown-trans);
 }
 
@@ -70,14 +75,12 @@ button {
   text-align: center;
 }
 
-button:hover:not(.swal-button, .swal2-styled, .search-submit){
-  background: var(--darker-purple);
+ button:hover, select *:hover {
+  background-image: linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1));
 }
 
-button:active:not(.swal-button, .swal2-styled, .search-submit) {
-  background: var(--light-purple-trans);
-  color: var(--light-purple);
-  border: solid 1px var(--light-purple);
+ button:active {
+  background-image: linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2));
 }
 
 img {
