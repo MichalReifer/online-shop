@@ -49,6 +49,7 @@ const Home = () => {
     
   const openPopup = () => {
     const popUp = document.getElementById('add-cake-popup')
+    popUp?.classList.add('popup-container-color')
     popUp?.classList.remove('hidden')
     popUp?.firstChild.classList.add("module-show")
     popUp?.firstChild.classList.remove("module-hide")

@@ -11,7 +11,7 @@ import './styles/userOrders.css'
 import './styles/sweetAlert.css'
 import './styles/scrollBar.css'
 import './styles/popup.css'
-import './styles/UploadImage.css'
+import './styles/uploadImage.css'
 import App from './App';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'

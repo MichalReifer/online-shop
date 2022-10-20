@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 1em 2em;
+  margin: 1em 2em 0;
 }
 
 .upload-image .image {

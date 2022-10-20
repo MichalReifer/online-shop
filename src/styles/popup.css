@@ -1,6 +1,5 @@
 
 .popup-module-container {
-  background: rgba(0,0,0,.4);
   -webkit-tap-highlight-color: transparent;
   display: grid;
   position: fixed;
@@ -19,8 +18,12 @@
   height: 100%;
   padding: 0.625em 0.625em 0;
   overflow-x: hidden;
-  transition: background-color .1s;
+  transition: background-color .2s;
   -webkit-overflow-scrolling: touch;
+}
+
+.popup-container-color {
+  background-color: rgba(0,0,0,.4);
 }
 
 .popup-module {
@@ -129,6 +132,7 @@ select option:checked {
 .popup-module .actions {
   display: flex;
   justify-content: center;
+  margin: 1.25em auto 0;
 }
 
 .popup-module button {
@@ -140,8 +144,8 @@ select option:checked {
   font-size: 1em;
   cursor: pointer;
   align-self: flex-start;
+  margin: 5px;
   margin-bottom: 15px;
-  margin: 0.3125em;
   padding: 0.625em 1.1em;
   transition: box-shadow .1s;
   box-shadow: 0 0 0 3px transparent;
@@ -174,4 +178,37 @@ select option:checked {
   min-width: 220px;
   max-width: 350px;
   padding-top: 10px;
+}
+
+.popup-form .inputerror {
+  border-color: #f27474!important;
+  box-shadow: 0 0 2px #f27474!important;
+}
+
+.popup-validation-message {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 0 0;
+  padding: 0.625em;
+  overflow: hidden;
+  background: #f0f0f0;
+  color: #666;
+  font-size: 1em;
+  font-weight: 300;
+}
+
+.popup-validation-message::before {
+  content: "!";
+  display: inline-block;
+  width: 1.5em;
+  min-width: 1.5em;
+  height: 1.5em;
+  margin: 0 0.625em;
+  border-radius: 50%;
+  background-color: #f27474;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.5em;
+  text-align: center;
 }
