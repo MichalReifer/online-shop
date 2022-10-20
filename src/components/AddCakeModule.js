@@ -7,6 +7,7 @@ const AddCakeModule = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isRejectedFile, setIsRejectedFile] = useState(false)
   const [imageData, setImageData] = useState(null)
+
   const [validationMessage, setValidationMessage] = useState('please fill in all fields')
   const [displayMessage, setDisplayMessage] = useState('none')
   const currentUser = useSelector(state => state.currentUser)
@@ -113,11 +114,11 @@ const AddCakeModule = () => {
           <input className="popup-input" id="title" placeholder="Title" autoFocus></input>
           <select className="popup-input" id="category" required>
             <option value="" className="unselect">Category</option>
-            <option value="Cookie">Cookie Cakes</option>
-            <option value="Cream">Cream Cakes</option>
-            <option value="Chocolate">Chocolate Cakes</option>
-            <option value="Classic">Classic Cakes</option>
-            <option value="Crazy">Crazy Cakes</option>
+            <option value="Cookie Cakes">Cookie Cakes</option>
+            <option value="Cream Cakes">Cream Cakes</option>
+            <option value="Chocolate Cakes">Chocolate Cakes</option>
+            <option value="Classic Cakes">Classic Cakes</option>
+            <option value="Crazy Cakes">Crazy Cakes</option>
             <option value="Other">Other</option>
           </select>
           <input className="popup-input" type="number" id="price" placeholder="Price" min="0" ></input>

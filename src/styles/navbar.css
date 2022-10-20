@@ -46,12 +46,10 @@
 
 .navbar .icon *{
   transition: transform 0.3s ease;
-  color: var(--light-brown);
 }
 
 .navbar .icon:hover *{
   transform: translate(0, -3px);
-  color: var(--dark-brown);
 }
 
 .dropdown {

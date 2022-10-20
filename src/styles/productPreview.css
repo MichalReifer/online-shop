@@ -17,14 +17,6 @@
   font-size: 40px;
 }
 
-.home .icon *{
-  color: var(--light-brown);
-}
-
-.home .icon:hover *{
-  color: var(--dark-brown);
-}
-
 .products {
   display: flex;
   flex-flow: row wrap;

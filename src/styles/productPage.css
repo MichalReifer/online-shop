@@ -31,6 +31,18 @@
   width: 450px;
 }
 
+.product-page .icon {
+  text-align: center;
+  font-size: 30px;
+  transition: all 0.3s ease;
+}
+
+.product-page .icon:hover {
+  margin-top: -10px;
+  margin-left: -5px;
+  font-size: 40px;
+}
+
 .product-page .image-container{
   width: 350px;
   height: 500px;

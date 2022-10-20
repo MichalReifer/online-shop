@@ -87,6 +87,15 @@ button {
   background-image: linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2));
 }
 
+
+.icon *{
+  color: var(--light-brown);
+}
+
+.icon:hover *{
+  color: var(--dark-brown);
+}
+
 img {
   border-radius: 10px;
 }

@@ -1,10 +1,13 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import PageNotFound from "../pages/PageNotFound";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Loading from "../components/Loading";
 import { useCart } from "../hooks/useCart";
 import { useProductPage } from "../hooks/useProductPage";
+import EditIcon from '@mui/icons-material/Edit';
+import { Link } from "react-router-dom";
+import EditCakeModule from "../components/EditCakeModule";
 
 const ProductPage = () => {
       
@@ -12,9 +15,19 @@ const ProductPage = () => {
     const dispatch = useDispatch()
     const [cake, setCake] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const currentUser = useSelector(state => state.currentUser)
 
     const { addToCart } = useCart()
     const { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } = useProductPage()
+
+    const openPopup = () => {
+        const popUp = document.getElementById('edit-cake-popup')
+        popUp?.classList.add('popup-container-color')
+        popUp?.classList.remove('hidden')
+        popUp?.firstChild.classList.add("module-show")
+        popUp?.firstChild.classList.remove("module-hide")
+        popUp.getElementsByTagName('form')[0].firstChild.focus()
+      }
 
     useEffect(() => {
         fetch(`/cakes/by-cakeid/${cakeId}`)
@@ -37,6 +50,14 @@ const ProductPage = () => {
             { cake && (
                 <div className="product-content">
                     <h1>{cake.title}</h1>
+
+                    <EditCakeModule {...{cake, setCake}} />
+                    { currentUser?.userInfo?.admin && 
+                        <Link to="#" onClick={()=>openPopup()} title="edit cake">
+                            <EditIcon className="icon"/>
+                        </Link>
+                    }
+
                     <div className='details-container'>
                         <div className="details">
                             <p>{cake.description}</p>
