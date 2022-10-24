@@ -1,5 +1,13 @@
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import swal from 'sweetalert'
+import { deleteCakeById } from '../redux/slices/cakesSlice';
+
 
 export const useProductPage = () => {
+
+  const history = useHistory()
+  const dispatch = useDispatch()
 
   const zoomInOrOut = (e) => {
     e.target.classList.toggle('zoom-in-image');
@@ -29,5 +37,35 @@ export const useProductPage = () => {
     e.target.style.transformOrigin = xPercent+'% ' + yPercent+ '%';
   }
 
-  return {zoomInOrOut, zoomOutWhenClickOutOfImage, moveImageWithMouse}
+  const deleteCake = (id, userToken) => {
+    swal({
+      title: "Are you sure?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,})
+    .then(toDelete => {
+      if (toDelete) {
+        fetch('/cakes/'+id, {
+          method: 'DELETE',
+          headers: {'Authorization': 'Bearer ' + userToken },
+        })
+        .then(res=>res.json())
+        .then(cake => {
+          if (cake.error) swal({
+            title: "Can't delete Cake",
+            text: cake.error,
+            icon: "error"
+          })
+          else {
+            swal("Poof!", { icon: "success",})
+            .then(()=>dispatch(deleteCakeById(id)))
+            .then(()=>history.push('/'))
+          }
+      })
+      }
+    })
+    .catch(e=> console.log('error occured: ', e))
+  }
+
+  return {deleteCake, zoomInOrOut, zoomOutWhenClickOutOfImage, moveImageWithMouse}
 }

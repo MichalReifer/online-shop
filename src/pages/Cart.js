@@ -4,6 +4,7 @@ import { fetchCakesByList } from "../redux/slices/cartSlice"
 import { useCart } from "../hooks/useCart";
 import Loading from "../components/Loading";
 import { Link } from "react-router-dom";
+import useConvert from "../hooks/useConvert";
 
 
 const Cart = () => {
@@ -15,7 +16,7 @@ const Cart = () => {
     const [ order, setOrder ]  = useState(JSON.parse(localStorage.getItem('order')));
     const { removeFromCart, checkout } = useCart()
     const dispatch = useDispatch()
-
+    const { arrayBufferToBase64 } = useConvert()
 
     useEffect(async ()=>{
         const cakeList = order? Object.keys(order) : []
@@ -54,9 +55,9 @@ const Cart = () => {
 
                     <div className='cart-products'>
                         { products.map( product => (
-                            <div className="cart-preview" key={product.id} >
+                            <div className="cart-preview" key={product.cakeId} >
                                 <Link to={ `/products/${product.cakeId}`}>
-                                    <img src={'data:image/png;base64,'+product.image} alt="" />
+                                    <img src={arrayBufferToBase64(product.image?.data.data)} alt="" />
                                 </Link>
                                 <h2>{product.title}</h2>
                                 <p>{product.price} ₪</p>

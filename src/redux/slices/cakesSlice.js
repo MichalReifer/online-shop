@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 
 export const CAKES_IN_LINE = 5
 export const LINES_ON_START = 3
@@ -33,6 +33,17 @@ export const cakesSlice = createSlice({
       state.page = LINES_ON_START-1
       state.hasMore = true
       state.cakes = []
+    },
+    deleteCakeById: (state, action) => {
+      let order = JSON.parse(localStorage.getItem('order'))
+      state.cakes = current(state.cakes).filter(cake=>{
+        if (cake._id!==action.payload) return true
+        else {
+          if (order) delete order[cake.cakeId]
+          localStorage.setItem('order', JSON.stringify(order))
+          return false
+        }
+      })
     }
   },
   extraReducers: (builder) => {
@@ -54,5 +65,5 @@ export const cakesSlice = createSlice({
   },
 })
 
-export const {deleteCakes} = cakesSlice.actions
+export const {deleteCakes, deleteCakeById} = cakesSlice.actions
 export const cakesReducer = cakesSlice.reducer

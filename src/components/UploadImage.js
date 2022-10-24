@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {useDropzone} from 'react-dropzone';
 
 
-const UploadImage = ({selectedImage, setSelectedImage, setImageData, setIsRejectedFile}) => {
+const UploadImage = ({selectedImage, setSelectedImage, setIsRejectedFile}) => {
 
   const {
     acceptedFiles,
@@ -16,28 +16,14 @@ const UploadImage = ({selectedImage, setSelectedImage, setImageData, setIsReject
     }
   })
 
-  const getBase64 = selectedImage => {
-    let reader = new FileReader()
-    reader.readAsDataURL(selectedImage)
-    reader.onload = () => {
-      setImageData(reader.result.split(',')[1])
-    };
-  };
-
   useEffect(()=> {
     setSelectedImage(acceptedFiles[0])
   }, [acceptedFiles])
 
   useEffect(()=> {
-    if (selectedImage) {
-      getBase64(selectedImage)
-      setIsRejectedFile(false)
-    } else {
-      setImageData(null)
-      if(fileRejections[0]) setIsRejectedFile(true)
-    }
+    if (selectedImage) setIsRejectedFile(false)
+    else if(fileRejections[0]) setIsRejectedFile(true)
   }, [selectedImage, fileRejections])
-
 
   return (
     <div className="upload-image"> 

@@ -160,6 +160,10 @@ select option:checked {
   background-color: #7e02c5d5;
 }
 
+.popup-module .delete-button {
+  background-color: #dc3741;
+}
+
 .popup-module button:focus {
   box-shadow: 0 0 0 3px rgb(115 103 240 / 50%);
 }
@@ -170,6 +174,10 @@ select option:checked {
 
 .popup-module .cancel-button:focus {
   box-shadow: 0 0 0 3px rgb(110 125 136 / 50%);
+}
+
+.popup-module .delete-button:focus {
+  box-shadow: 0 0 0 3px rgb(220 55 65 / 50%);
 }
 
 .popup-form textarea {

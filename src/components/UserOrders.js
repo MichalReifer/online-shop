@@ -5,6 +5,7 @@ import Loading from './Loading';
 import { fetchOrdersByUserId } from '../redux/slices/ordersSlice';
 import { formatDistance } from 'date-fns';
 import { useUserPage } from '../hooks/useUserPage';
+import useConvert from '../hooks/useConvert';
 
 
 const UserOrders = ({userId}) => {
@@ -15,12 +16,13 @@ const UserOrders = ({userId}) => {
     const cakes = useSelector(state => state.cakes)
     const currentUser = useSelector(state => state.currentUser)
     const { showOrHideProducts } = useUserPage()
+    const { arrayBufferToBase64 } = useConvert()
 
     useEffect(()=>{
         dispatch(fetchOrdersByUserId({userId, token: currentUser.userToken}))
             .then(data=>{
                 if(data.payload?.length)
-                    return dispatch(fetchCakes({limit:0}))
+                    return dispatch(fetchCakes({limit:0})) // TODO: find a way to fetch order cakes without fetching all cakes. maybe infinite scroll
                 else if (data.error) 
                     console.error(data.error)
             })
@@ -45,7 +47,7 @@ const UserOrders = ({userId}) => {
                                 if (cake) 
                                     return (
                                         <div className="each-order" key={product}>
-                                            <img src={'data:image/png;base64,'+cake?.image} width='100px'></img>
+                                            <img src={arrayBufferToBase64(cake.image?.data?.data)} width='100px'></img>
                                             <p>{cake?.title} : {order.products[product]}</p>
                                         </div>
                                     )

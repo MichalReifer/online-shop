@@ -7,6 +7,7 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddCakeModule from "../components/AddCakeModule";
+import useConvert from "../hooks/useConvert";
 
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
     const searchForm = document.querySelector('.search-form')
     const [searchValue, setSearchValue] = useState('')
     const [isInitialMount, setIsInitialMount] = useState(true)
+    const { arrayBufferToBase64 } = useConvert()
     const dispatch = useDispatch()
     const cakes = useSelector(state => state.cakes)
     const currentUser = useSelector(state => state.currentUser)
@@ -45,16 +47,15 @@ const Home = () => {
         console.log('reached end of page')
         dispatch(fetchCakes({page: cakes.page, limit: CAKES_IN_LINE , searchValue}))
     }
-
     
-  const openPopup = () => {
-    const popUp = document.getElementById('add-cake-popup')
-    popUp?.classList.add('popup-container-color')
-    popUp?.classList.remove('hidden')
-    popUp?.firstChild.classList.add("module-show")
-    popUp?.firstChild.classList.remove("module-hide")
-    popUp.getElementsByTagName('form')[0].firstChild.focus()
-  }
+    const openPopup = () => {
+        const popUp = document.getElementById('add-cake-popup')
+        popUp?.classList.add('popup-container-color')
+        popUp?.classList.remove('hidden')
+        popUp?.firstChild.classList.add("module-show")
+        popUp?.firstChild.classList.remove("module-hide")
+        popUp.getElementsByTagName('form')[0].firstChild.focus()
+    }
 
     return (
         <div className="home">
@@ -81,7 +82,7 @@ const Home = () => {
                         {cakes.cakes.map(cake => (
                             <div className="product-preview" key={cake.cakeId}>
                                 <Link className='link' to={{pathname:`/products/${cake.cakeId}`, state:{ gotFrom: 'home'}}}>
-                                    <img src={'data:image/png;base64,'+cake.image} width='100px'></img>
+                                    <img src={arrayBufferToBase64(cake.image?.data?.data)} width='100px'></img>
                                     <h2>{cake.title}</h2>
                                     <p className="price">{cake.price} ₪</p>
                                 </Link>

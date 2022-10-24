@@ -8,6 +8,7 @@ import { useProductPage } from "../hooks/useProductPage";
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from "react-router-dom";
 import EditCakeModule from "../components/EditCakeModule";
+import useConvert from "../hooks/useConvert";
 
 const ProductPage = () => {
       
@@ -19,6 +20,7 @@ const ProductPage = () => {
 
     const { addToCart } = useCart()
     const { zoomInOrOut, moveImageWithMouse, zoomOutWhenClickOutOfImage } = useProductPage()
+    const { arrayBufferToBase64 } = useConvert()
 
     const openPopup = () => {
         const popUp = document.getElementById('edit-cake-popup')
@@ -67,7 +69,7 @@ const ProductPage = () => {
                         </div>
                         <div className="image-container">
                         <img className="product-image zoom-out-image"  alt="cake" 
-                            src={'data:image/png;base64,'+cake.image}
+                            src={arrayBufferToBase64(cake.image?.data?.data)}
                             onClick={(e)=>zoomInOrOut(e)}
                         />
                         </div>

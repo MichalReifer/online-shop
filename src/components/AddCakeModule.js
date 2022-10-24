@@ -6,7 +6,6 @@ const AddCakeModule = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [isRejectedFile, setIsRejectedFile] = useState(false)
-  const [imageData, setImageData] = useState(null)
 
   const [validationMessage, setValidationMessage] = useState('please fill in all fields')
   const [displayMessage, setDisplayMessage] = useState('none')
@@ -49,21 +48,22 @@ const AddCakeModule = () => {
     if(isRejectedFile){
       setDisplayMessage('flex')
       setValidationMessage('File type must be of type JPEG or PNG')
-      imageDropzone.classList.add('inputerror')
+      imageDropzone?.classList.add('inputerror')
     }
   }, [isRejectedFile])
 
   const preConfirmAddCake = () => {
     setIsRejectedFile(false)
     removeInputError()
-    if(!title.value||!category.value || !price.value || !description.value || imageDropzone){
+    if(!title.value||!category.value || !price.value || !description.value || !selectedImage){
+      const imageDropzone = document.getElementById('dropzone')
       setDisplayMessage('flex')
       setValidationMessage('please fill in all fields')
       if(!title.value) title.classList.add('inputerror')
       if(!category.value) category.classList.add('inputerror')
       if(!price.value) price.classList.add('inputerror')
       if(!description.value) description.classList.add('inputerror')
-      if(imageDropzone) imageDropzone.classList.add('inputerror')
+      if(!selectedImage) imageDropzone?.classList.add('inputerror')
     }
     else addCake() 
   }
@@ -76,16 +76,16 @@ const AddCakeModule = () => {
       price: price.value,
       description: description.value,
       cakeId: title.value.toLowerCase().replaceAll(" ", "_").replaceAll("_cake", ""),
-      image: imageData
+      image: selectedImage
     }
+
+    const formData = new FormData() 
+    Object.keys(cakeDetails).forEach(key => formData.append(key, cakeDetails[key]));
 
     fetch('cakes', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + currentUser.userToken
-      },
-      body: JSON.stringify(cakeDetails)
+      headers: { 'Authorization': 'Bearer ' + currentUser.userToken },
+      body: formData
     })
     .then(res =>res.json())
     .then(res=>{
@@ -123,7 +123,7 @@ const AddCakeModule = () => {
           </select>
           <input className="popup-input" type="number" id="price" placeholder="Price" min="0" ></input>
           <textarea className="popup-input" placeholder="Description" id="description"></textarea>
-          <UploadImage {...{selectedImage, setSelectedImage, setImageData, setIsRejectedFile}} />
+          <UploadImage {...{selectedImage, setSelectedImage, setIsRejectedFile}} />
         </form>
 
         <div id="add-cake-message" className="popup-validation-message" style={{display:displayMessage}}>

@@ -2,19 +2,20 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import UploadImage from "./UploadImage"
 import { useHistory } from "react-router-dom"
+import { useProductPage } from "../hooks/useProductPage"
 
 
 const EditCakeModule = ({cake, setCake}) => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [isRejectedFile, setIsRejectedFile] = useState(false)
-  const [imageData, setImageData] = useState(null)
 
   const [displayMessage, setDisplayMessage] = useState('none')
   const [validationMessage, setValidationMessage] = useState('please fill in all fields')
 
   const currentUser = useSelector(state => state.currentUser)
   const history = useHistory()
+  const { deleteCake } = useProductPage()
 
   const popUp = document.getElementById('edit-cake-popup')
   const title = document.getElementById('title')
@@ -60,27 +61,26 @@ const EditCakeModule = ({cake, setCake}) => {
   const editCake = () => {
     setDisplayMessage('none')
     let cakeDetails = {}
-
+    
     if (category.value && category.value !== cake.category) cakeDetails.category = category.value
     if (price.value && price.value !== cake.price) cakeDetails.price = price.value
     if (description.value && description.value !== cake.description) cakeDetails.description = description.value
-    if (imageData) cakeDetails.image = imageData
+    if (selectedImage) cakeDetails.image = selectedImage
     if (title.value && title.value !== cake.title) {
       cakeDetails.title = title.value
-      cakeDetails.cakeId = title.value.toLowerCase().replaceAll(" ", "_").replaceAll("_cake", "")
+      const cakeId = title.value.toLowerCase().replaceAll(" ", "_").replaceAll("_cake", "")
+      cakeDetails.cakeId = cakeId
     }
-    
-    // console.log(cakeDetails)
+
+    const formData = new FormData() 
+    Object.keys(cakeDetails).forEach(key => formData.append(key, cakeDetails[key]));
 
     if (!Object.keys(cakeDetails).length) closePopup()
     else
       fetch('/cakes/'+cake._id, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + currentUser.userToken
-        },
-        body: JSON.stringify(cakeDetails)
+        headers: {'Authorization': 'Bearer ' + currentUser.userToken },
+        body: formData
       })
       .then(res =>res.json())
       .then(res=>{
@@ -121,7 +121,7 @@ const EditCakeModule = ({cake, setCake}) => {
         </select>
         <input className="popup-input" type="number" id="price" placeholder="Price" min="0" ></input>
         <textarea className="popup-input" placeholder="Description" id="description"></textarea>
-        <UploadImage {...{selectedImage, setSelectedImage, setImageData, setIsRejectedFile}} />
+        <UploadImage {...{selectedImage, setSelectedImage, setIsRejectedFile}} />
       </form>
   
       <div id="add-cake-message" className="popup-validation-message" 
@@ -132,6 +132,7 @@ const EditCakeModule = ({cake, setCake}) => {
   
       <div className="actions">
         <button onClick={editCake}>OK</button>
+        <button className="delete-button" onClick={()=>deleteCake(cake._id, currentUser.userToken)}>Delete</button>
         <button className="cancel-button" onClick={closePopup}>Cancel</button>
       </div>
   
